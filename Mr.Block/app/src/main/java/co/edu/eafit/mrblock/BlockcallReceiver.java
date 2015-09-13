@@ -18,7 +18,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
         //TODO Auto-generated method stub
         Bundle myBundle = intent.getExtras();
         System.out.println("I'm fine, thanks");
-        if (myBundle != null){
+        if (myBundle != null && MainActivity.check){
             System.out.println("--------Not null-----");
             try{
                 if (intent.getAction().equals("android.intent.action.PHONE_STATE")){

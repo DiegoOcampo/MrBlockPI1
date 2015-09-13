@@ -2,15 +2,27 @@ package co.edu.eafit.mrblock;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static boolean check = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Switch onOffSwitch = (Switch)  findViewById(R.id.switch1);
+        onOffSwitch.setChecked(false);
+        onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                check = isChecked;
+                Log.v("Switch State=", ""+isChecked);
+            }
+        });
     }
 
     @Override
