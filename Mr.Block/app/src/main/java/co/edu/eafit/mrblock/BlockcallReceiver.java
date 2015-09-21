@@ -19,6 +19,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
         //TODO Auto-generated method stub
         Bundle myBundle = intent.getExtras();
         System.out.println("I'm fine, thanks");
+
         if (myBundle != null ){//&& MainActivity.check){
             System.out.println("--------Not null-----");
             try{
@@ -28,9 +29,12 @@ public class BlockcallReceiver extends BroadcastReceiver {
                     if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                         // Incoming call
                         String incomingNumber =intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                        System.out.println("--------------my number---------"+incomingNumber);
-                        for (String bloqueo:MainActivity.Bloqueados) {
-                            if(incomingNumber.equals(bloqueo)) {
+                        System.out.println("--------------my number---------" + incomingNumber);
+
+                        SinContacto sin = SinContacto.getInstance();
+
+                        for (Contacto cc : sin.contactos) {
+                            if (cc.number.equalsIgnoreCase(incomingNumber.replaceAll(" ", ""))) {
                                 // this is main section of the code,. could also be use for particular number.
                                 // Get the boring old TelephonyManager.
                                 TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -52,6 +56,30 @@ public class BlockcallReceiver extends BroadcastReceiver {
                                 methodEndCall.invoke(telephonyInterface);
                             }
                         }
+
+                        //for (String bloqueo:MainActivity.Bloqueados) {
+                          /*  if (MainActivity.Bloqueados.contains(incomingNumber)) {
+                                // this is main section of the code,. could also be use for particular number.
+                                // Get the boring old TelephonyManager.
+                                TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                                // Get the getITelephony() method
+                                Class<?> classTelephony = Class.forName(telephonyManager.getClass().getName());
+                                Method methodGetITelephony = classTelephony.getDeclaredMethod("getITelephony");
+
+                                // Ignore that the method is supposed to be private
+                                methodGetITelephony.setAccessible(true);
+
+                                // Invoke getITelephony() to get the ITelephony interface
+                                Object telephonyInterface = methodGetITelephony.invoke(telephonyManager);
+
+                                // Get the endCall method from ITelephony
+                                Class<?> telephonyInterfaceClass = Class.forName(telephonyInterface.getClass().getName());
+                                Method methodEndCall = telephonyInterfaceClass.getDeclaredMethod("endCall");
+
+                                // Invoke endCall()
+                                methodEndCall.invoke(telephonyInterface);
+                            }*/
+                        //}
 
                     }
 

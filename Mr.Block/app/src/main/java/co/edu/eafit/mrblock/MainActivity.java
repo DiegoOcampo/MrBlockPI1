@@ -25,11 +25,14 @@ import android.widget.Toast;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+//parse
+//
+
 
 public class MainActivity extends AppCompatActivity {
     public static final int PICK_CONTACT    = 1;
     private Button btnContacts;
-    public static ArrayList<String> Bloqueados;
+    public static ArrayList<String> Bloqueados= new ArrayList<String>();
     public static ArrayAdapter<String> adapter;
     public static boolean check = false;
     //TextView textDetail;
@@ -37,10 +40,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Bloqueados= new ArrayList<String>();
-
         adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Bloqueados);
         adapter.notifyDataSetChanged();
+
+        //Bloqueados.add("3004839486");
+
         btnContacts = (Button) findViewById(R.id.btn_contacts);
         btnContacts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 // user BoD suggests using Intent.ACTION_PICK instead of .ACTION_GET_CONTENT to avoid the chooser
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 // BoD con't: CONTENT_TYPE instead of CONTENT_ITEM_TYPE
+                //Bloqueados.add("3004839486");
                 intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
                 startActivityForResult(intent, 1);
             }
@@ -71,25 +76,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
             Uri uri = data.getData();
-
             if (uri != null) {
                 Cursor c = null;
                 try {
                     c = getContentResolver().query(uri, new String[]{
                                     ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                                    ContactsContract.CommonDataKinds.Phone.NUMBER,
-                                    ContactsContract.CommonDataKinds.Phone.TYPE },
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER,},
                             null, null, null);
 
                     if (c != null && c.moveToFirst()) {
                         String name=c.getString(0);
-                        String number = c.getString(1);
-                        Bloqueados.add(number);
+                        String number = c.getString(1).replaceAll(" ", "");
+                        // Bloqueados.add(number);
+
+                        Contacto ee = new Contacto();
+                        ee.name = name;
+                        ee.number = number;
+
+                        SinContacto s = SinContacto.getInstance();
+                        s.addContact(ee);
+
                         adapter.notifyDataSetChanged();
-                        int type = c.getInt(2);
-                        showSelectedNumber(type, Bloqueados.get(0), name);
+                        showSelectedNumber(number, name);
                         for (String bloqueo:Bloqueados) {
-                            System.out.print(bloqueo);
+                            Toast.makeText(this, bloqueo, Toast.LENGTH_LONG).show();
                         }
                     }
                 } finally {
@@ -101,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showSelectedNumber(int type, String number, String name) {
-        Toast.makeText(this, type + ": " + number + "-" + name, Toast.LENGTH_LONG).show();
+    public void showSelectedNumber( String number, String name) {
+        Toast.makeText(this,number + "-" + name, Toast.LENGTH_LONG).show();
 
     }
 
