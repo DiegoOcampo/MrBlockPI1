@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int PICK_CONTACT    = 1;
     private Button btnContacts;
     public static ArrayList<String> Bloqueados= new ArrayList<String>();
-
     ArrayAdapter<String> adapter;
     public static boolean check = false;
     //TextView textDetail;
@@ -56,19 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
-
-
-
-
-              /*Switch onOffSwitch = (Switch)  findViewById(R.id.switch1);
-        onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                check = isChecked;
-                Log.v("Switch State=", ""+isChecked);
-
-            }
-        });*/
     }
 
     @Override

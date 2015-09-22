@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,6 +23,12 @@
         <receiver android:name=".BlockcallReceiver" >
             <intent-filter android:priority="100" >
                 <action android:name="android.intent.action.PHONE_STATE" >
+                </action>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".BlockOutgoingCallReceiver" >
+            <intent-filter android:priority="1" >
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" >
                 </action>
             </intent-filter>
         </receiver>
