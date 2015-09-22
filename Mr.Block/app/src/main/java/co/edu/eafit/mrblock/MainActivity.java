@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int PICK_CONTACT    = 1;
     private Button btnContacts;
     public static ArrayList<String> Bloqueados= new ArrayList<String>();
-
+    ArrayAdapter<String> adapter;
     public static boolean check = false;
     //TextView textDetail;
     @Override
@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         Bloqueados.add("world");
         Bloqueados.add("!!!");
         Bloqueados.add("(Y)");
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Bloqueados);
-        //listView.setAdapter(adapter);
-        //Bloqueados.add("3004839486");
         listView = (ListView) findViewById(R.id.listView);
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Bloqueados);
+        listView.setAdapter(adapter);
+        //Bloqueados.add("3004839486");
         btnContacts = (Button) findViewById(R.id.btn_contacts);
         btnContacts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
                     if (c != null && c.moveToFirst()) {
                         String name=c.getString(0);
                         String number = c.getString(1).replaceAll(" ", "");
-                        // Bloqueados.add(number);
+                         Bloqueados.add(number);
                         Contact contact = new Contact();
                         contact.setName(name);
                         contact.setNumber(number);
                         SingletonContact sincontact = SingletonContact.getInstance();
                         sincontact.addContact(contact);
-                        Bloqueados.add(number);
-                        //adapter.notifyDataSetChanged();
+                        //Bloqueados.add(number);
+                        adapter.notifyDataSetChanged();
                         showSelectedNumber(number, name);
                         for (String bloqueo:Bloqueados) {
                             Toast.makeText(this, bloqueo, Toast.LENGTH_LONG).show();
