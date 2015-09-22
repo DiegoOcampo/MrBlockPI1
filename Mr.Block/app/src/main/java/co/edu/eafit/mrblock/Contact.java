@@ -23,4 +23,8 @@ public class Contact {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getContact(){
+        return name + "\n" + number ;
+    }
 }

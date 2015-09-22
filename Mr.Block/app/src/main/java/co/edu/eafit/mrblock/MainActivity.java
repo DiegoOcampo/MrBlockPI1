@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int PICK_CONTACT    = 1;
     private Button btnContacts;
     public static ArrayList<String> Bloqueados= new ArrayList<String>();
+
     ArrayAdapter<String> adapter;
     public static boolean check = false;
     //TextView textDetail;
@@ -31,14 +33,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Bloqueados.add("hello");
-        Bloqueados.add("world");
-        Bloqueados.add("!!!");
-        Bloqueados.add("(Y)");
         listView = (ListView) findViewById(R.id.listView);
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Bloqueados);
         listView.setAdapter(adapter);
-        //Bloqueados.add("3004839486");
         btnContacts = (Button) findViewById(R.id.btn_contacts);
         btnContacts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,9 +43,17 @@ public class MainActivity extends AppCompatActivity {
                 // user BoD suggests using Intent.ACTION_PICK instead of .ACTION_GET_CONTENT to avoid the chooser
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 // BoD con't: CONTENT_TYPE instead of CONTENT_ITEM_TYPE
-                //Bloqueados.add("3004839486");
                 intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
                 startActivityForResult(intent, 1);
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bloqueados.remove(position);
+                SingletonContact singletonContact = SingletonContact.getInstance();
+                singletonContact.deleteContact(position);
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -81,18 +86,13 @@ public class MainActivity extends AppCompatActivity {
                     if (c != null && c.moveToFirst()) {
                         String name=c.getString(0);
                         String number = c.getString(1).replaceAll(" ", "");
-                         Bloqueados.add(number);
                         Contact contact = new Contact();
                         contact.setName(name);
                         contact.setNumber(number);
                         SingletonContact sincontact = SingletonContact.getInstance();
                         sincontact.addContact(contact);
-                        //Bloqueados.add(number);
+                        Bloqueados.add(contact.getContact());
                         adapter.notifyDataSetChanged();
-                        showSelectedNumber(number, name);
-                        for (String bloqueo:Bloqueados) {
-                            Toast.makeText(this, bloqueo, Toast.LENGTH_LONG).show();
-                        }
                     }
                 } finally {
                     if (c != null) {
@@ -101,11 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    public void showSelectedNumber( String number, String name) {
-        Toast.makeText(this,number + "-" + name, Toast.LENGTH_LONG).show();
-
     }
 
 

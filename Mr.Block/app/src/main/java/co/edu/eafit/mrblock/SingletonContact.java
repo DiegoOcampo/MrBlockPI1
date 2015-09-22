@@ -24,4 +24,6 @@ public class SingletonContact {
     public void addContact(Contact c) {
         contacts.add(c);
     }
+
+    public void deleteContact(int position){contacts.remove(position);}
 }
