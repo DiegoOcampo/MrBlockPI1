@@ -6,13 +6,16 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnContacts;
     public static ArrayList<String> Bloqueados= new ArrayList<String>();
     ArrayAdapter<String> adapter;
-    public static boolean check = false;
+    public static boolean check = false, check2=false;
     //TextView textDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,25 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+        Switch onOffSwitch = (Switch)  findViewById(R.id.switch1);
+        onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                check = isChecked;
+                Log.v("Switch State=", "" + isChecked);
+
+            }
+        });
+
+        Switch onOffSwitchI = (Switch)  findViewById(R.id.switch2);
+        onOffSwitchI.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                check2 = isChecked;
+                Log.v("Switch State=", "" + isChecked);
+
+            }
+        });
     }
 
     @Override
@@ -70,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                             null, null, null);
 
                     if (c != null && c.moveToFirst()) {
-                        String name=c.getString(0);
+                        String name = c.getString(0);
                         String number = c.getString(1).replaceAll(" ", "");
                         Contact contact = new Contact();
                         contact.setName(name);
@@ -108,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -12,7 +12,7 @@ public class BlockOutgoingCallReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
-            if (getResultData()!=null) {
+            if (getResultData()!=null && MainActivity.check2) {
                 String number = "123456";
                 setResultData(number);
             }
