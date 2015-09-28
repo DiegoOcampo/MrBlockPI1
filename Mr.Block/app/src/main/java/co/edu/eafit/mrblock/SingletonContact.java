@@ -2,6 +2,8 @@ package co.edu.eafit.mrblock;
 
 import java.util.ArrayList;
 
+import co.edu.eafit.mrblock.Entidades.Contact;
+
 /**
  * Created by juan on 19/09/15.
  */

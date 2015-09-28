@@ -1,4 +1,4 @@
-package co.edu.eafit.mrblock;
+package co.edu.eafit.mrblock.Controladores;
 
 /**
  * Created by juan on 13/09/15.
@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+
+import co.edu.eafit.mrblock.Entidades.Contact;
+import co.edu.eafit.mrblock.SingletonContact;
 
 public class BlockcallReceiver extends BroadcastReceiver {
 

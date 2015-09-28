@@ -2,4 +2,6 @@
     <string name="app_name">Mr.Block</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Bloqueo de usuarios</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 </resources>

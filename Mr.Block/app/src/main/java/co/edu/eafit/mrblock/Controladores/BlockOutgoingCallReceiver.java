@@ -1,4 +1,4 @@
-package co.edu.eafit.mrblock;
+package co.edu.eafit.mrblock.Controladores;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
