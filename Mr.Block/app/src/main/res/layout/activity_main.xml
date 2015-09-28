@@ -13,13 +13,6 @@
     android:id="@+id/text"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_contacts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8px"
-        android:text="importar" />
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,26 +30,6 @@
         android:layout_alignLeft="@+id/btn_contacts"
         android:layout_alignStart="@+id/btn_contacts" />
 
-
-
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Entrantes"
-        android:id="@+id/switch1"
-        android:checked="false"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/switch2"
-        android:layout_alignStart="@+id/switch2"
-        android:layout_marginBottom="47dp" />
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Salientes"
-        android:id="@+id/switch2"
-        android:checked="false"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
 
 </LinearLayout>
     <ListView android:id="@+id/left_drawer"
