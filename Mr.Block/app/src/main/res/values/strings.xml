@@ -4,4 +4,8 @@
     <string name="action_settings">Bloqueo de usuarios</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
+        AIzaSyA2c_dCWcv1X5cq-5etNQ-Wz20BHHWeTRk
+    </string>
 </resources>
