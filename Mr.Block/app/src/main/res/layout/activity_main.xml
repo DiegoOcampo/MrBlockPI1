@@ -21,15 +21,6 @@
         android:layout_below="@+id/btn_contacts"
         android:layout_above="@+id/switch1" />
 
-    <Button
-        android:id="@+id/startAlaram"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Fecha"
-        android:layout_alignTop="@+id/listView"
-        android:layout_alignLeft="@+id/btn_contacts"
-        android:layout_alignStart="@+id/btn_contacts" />
-
 
 </LinearLayout>
     <ListView android:id="@+id/left_drawer"

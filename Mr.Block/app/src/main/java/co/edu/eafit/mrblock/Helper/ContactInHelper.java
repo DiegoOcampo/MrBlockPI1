@@ -1,28 +1,30 @@
-package co.edu.eafit.mrblock;
+package co.edu.eafit.mrblock.Helper;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
+import co.edu.eafit.mrblock.Contracts.Contract;
 import co.edu.eafit.mrblock.Entidades.Contact;
 
 /**
  * Created by juan on 25/09/15.
  */
-public class ContactDbHelper extends SQLiteOpenHelper {
+public class ContactInHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "Bloqueados";
-    private static final int DATABASE_VERSION = 1;
-    private static final String SQL_CREATE = " CREATE TABLE " + BlockContract.BlockEntry.TABLE_NAME
-            + "(" + BlockContract.BlockEntry.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
-            + BlockContract.BlockEntry.COLUMN_NAME + " TEXT)";
-    public static final String SQL_DELETE = "DROP TABLE IF EXISTS " + BlockContract.BlockEntry.TABLE_NAME;
+    private static final String DATABASE_NAME = "Block";
+    private static final int DATABASE_VERSION = 2;
+    private static final String SQL_CREATE = " CREATE TABLE " + Contract.ContactInContract.TABLE_NAME
+            + "(" + Contract.ContactInContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
+            + Contract.ContactInContract.COLUMN_NAME + " TEXT)";
+    public static final String SQL_DELETE = "DROP TABLE IF EXISTS " + Contract.ContactInContract.TABLE_NAME;
 
-    public ContactDbHelper(Context context) {
+    public ContactInHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -41,9 +43,9 @@ public class ContactDbHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(BlockContract.BlockEntry.COLUMN_NUMBER, contact.getNumber());
-        values.put(BlockContract.BlockEntry.COLUMN_NAME, contact.getName());
-        db.insert(BlockContract.BlockEntry.TABLE_NAME, null, values);
+        values.put(Contract.ContactInContract.COLUMN_NUMBER, contact.getNumber());
+        values.put(Contract.ContactInContract.COLUMN_NAME, contact.getName());
+        db.insert(Contract.ContactInContract.TABLE_NAME, null, values);
         db.close();
 
     }
@@ -51,9 +53,9 @@ public class ContactDbHelper extends SQLiteOpenHelper {
     public Contact getContact(int number){
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(BlockContract.BlockEntry.TABLE_NAME,new String[]{
-                BlockContract.BlockEntry.COLUMN_NUMBER, BlockContract.BlockEntry.COLUMN_NAME},
-                BlockContract.BlockEntry.COLUMN_NUMBER + "=?", new String[]{String.valueOf(number)},
+        Cursor cursor = db.query(Contract.ContactInContract.TABLE_NAME,new String[]{
+                Contract.ContactInContract.COLUMN_NUMBER, Contract.ContactInContract.COLUMN_NAME},
+                Contract.ContactInContract.COLUMN_NUMBER + "=?", new String[]{String.valueOf(number)},
                 null,null,null,null);
         if(cursor!=null){
             cursor.moveToFirst();
@@ -62,9 +64,9 @@ public class ContactDbHelper extends SQLiteOpenHelper {
         return contact;
     }
 
-    public ArrayList<String> getAllContact(){
-        ArrayList<String> block= new ArrayList<String>();
-        String selectQuery = "SELECT  * FROM " + BlockContract.BlockEntry.TABLE_NAME;
+    public ArrayList<Contact> getAllContact(){
+        ArrayList<Contact> block= new ArrayList<Contact>();
+        String selectQuery = "SELECT  * FROM " + Contract.ContactInContract.TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
@@ -72,21 +74,27 @@ public class ContactDbHelper extends SQLiteOpenHelper {
                 Contact contact = new Contact();
                 contact.setNumber(cursor.getString(0));
                 contact.setName(cursor.getString(1));
-                block.add(contact.getContact());
+                block.add(contact);
             }while (cursor.moveToNext());
         }
         return block;
     }
 
-    public void delete(Contact contact){
+    public long delete(Contact contact){
         SQLiteDatabase db = this.getWritableDatabase();
-        /*db.execSQL("DELETE FROM " + BlockContract.BlockEntry.TABLE_NAME +
-        "WHERE " + BlockContract.BlockEntry.COLUMN_NUMBER + "='"+
+        /*db.execSQL("DELETE FROM " + Contract.ContactInContract.TABLE_NAME +
+        "WHERE " + Contract.ContactInContract.COLUMN_NUMBER + "='"+
         contact.getNumber() + "'");
         */
-        db.delete(BlockContract.BlockEntry.TABLE_NAME, BlockContract.BlockEntry.COLUMN_NUMBER + "=?",
-                new String [] {contact.getNumber()});
-        db.close();
+        try {
+            return db.delete(Contract.ContactInContract.TABLE_NAME, Contract.ContactInContract.COLUMN_NUMBER + "  =?",
+                    new String[]{contact.getNumber()});
+            //db.close();
+        }catch (Exception e){
+            Log.e("DB ERROR", e.toString());
+            e.printStackTrace();
+            return -1;
+        }
     }
 }
 

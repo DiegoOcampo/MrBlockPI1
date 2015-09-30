@@ -8,6 +8,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+
+
 import co.edu.eafit.mrblock.R;
 
 public class MapsActivity extends FragmentActivity {
