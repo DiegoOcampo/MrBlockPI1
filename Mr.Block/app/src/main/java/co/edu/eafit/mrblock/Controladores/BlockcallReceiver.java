@@ -4,19 +4,42 @@ package co.edu.eafit.mrblock.Controladores;
  * Created by juan on 13/09/15.
  */
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.text.format.DateFormat;
+import android.widget.Toast;
 
+import co.edu.eafit.mrblock.Entidades.Call;
 import co.edu.eafit.mrblock.Entidades.Contact;
+import co.edu.eafit.mrblock.Helper.CallInHelper;
+import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.SingletonContact;
 
 public class BlockcallReceiver extends BroadcastReceiver {
-
+    ContactInHelper contactInHelper;
+    CallInHelper callInHelper;
+    ArrayList<Contact> con = new ArrayList<Contact>();
     @Override
     public void onReceive(Context context, Intent intent) {
+        java.text.DateFormat f = DateFormat.getDateFormat(context);
+
+        f.setCalendar(Calendar.getInstance());
+        try {
+            Toast.makeText(context, f.parse("23/07/1994 20:00").toString(),Toast.LENGTH_LONG).show();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        contactInHelper = new ContactInHelper(context);
+        callInHelper = new CallInHelper(context);
+        con = contactInHelper.getAllContact();
         //TODO Auto-generated method stub
         Bundle myBundle = intent.getExtras();
         System.out.println("I'm fine, thanks");
@@ -76,8 +99,10 @@ public class BlockcallReceiver extends BroadcastReceiver {
 
                         SingletonContact sin = SingletonContact.getInstance();
 
-                        for (Contact cc : sin.contacts) {
+                        for (Contact cc : con) {
                             if (cc.getNumber().equalsIgnoreCase(incomingNumber.replaceAll(" ", ""))) {
+                                Call call = new Call(cc.getNumber(),cc.getName());
+                                callInHelper.addCall(call);
                                 // this is main section of the code,. could also be use for particular number.
                                 // Get the boring old TelephonyManager.
                                 TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);

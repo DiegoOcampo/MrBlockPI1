@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import co.edu.eafit.mrblock.Entidades.Call;
-import co.edu.eafit.mrblock.Helper.DBHelper;
+import co.edu.eafit.mrblock.Entidades.Contact;
+import co.edu.eafit.mrblock.Helper.CallInHelper;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.R;
 
@@ -21,21 +23,28 @@ public class CallsInListActivity extends AppCompatActivity {
     ArrayList<Call> calls = new ArrayList<Call>();
     ArrayList<String> callsString = new ArrayList<String>();
     ArrayAdapter<String> adapter;
-    DBHelper DBHelper;
+    CallInHelper callInHelper;
     ContactInHelper contactInHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_in_list);
-        DBHelper = new DBHelper(getApplicationContext());
         contactInHelper = new ContactInHelper(getApplicationContext());
+
+        callInHelper = new CallInHelper(getApplicationContext());
+        try {
+            calls = callInHelper.getAllCall();
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"hola" + e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+
         //calls = contactInHelper.getAllContact();
-        calls = DBHelper.getAllCall();
         /*for(int i=0;i<contacts.size();i++){
             adapter1list.add(contacts.get(i).getContact());
         }*/
-        for (Call contact: calls){
-            callsString.add(contact.getContact());
+        for (Call callContact: calls){
+            callsString.add(callContact.getContact());
         }
         callInList = (ListView)findViewById(R.id.callslist);
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, callsString);

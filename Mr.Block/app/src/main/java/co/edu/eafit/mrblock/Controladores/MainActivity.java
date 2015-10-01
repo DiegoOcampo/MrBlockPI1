@@ -1,5 +1,6 @@
 package co.edu.eafit.mrblock.Controladores;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.provider.ContactsContract;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +16,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.zip.DataFormatException;
 
 import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
@@ -37,15 +44,32 @@ public class MainActivity extends AppCompatActivity {
     ContactInHelper contactInHelper;
     //ContactDbHelper contactDbHelper;
     private DrawerLayout mDrawerLayout;
-
-
-
+    String s;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        java.text.DateFormat f = DateFormat.getDateFormat(getApplicationContext());
+     /*
+        f.setCalendar(Calendar.getInstance());
+        try {
+            s = f.parse("Tue 23 20:00:54 2015").toString();
+            Toast.makeText(getApplicationContext(), f.parse("Tue 23 20:00:54 2015").toString(),Toast.LENGTH_LONG).show();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        date.setSeconds(54);
+        date.setMinutes(42);
+        date.setHours(20);
+        date.setMonth(8);
+        date.setYear(2014);
+        date.setDate(12);
+        Toast.makeText(getApplicationContext(),"fecha: " + date.toString(),Toast.LENGTH_LONG).show();
+
+*/
+
         listDrawer = (ListView) findViewById(R.id.left_drawer);
         listView = (ListView) findViewById(R.id.listView);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -172,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(getBaseContext(), Alarm.class);
             startActivity(i);
         }else if(items[position].equals(items[7])){
-            Intent intent = new Intent(getBaseContext(),CallsInListActivity.class);
+            Intent intent = new Intent(getApplicationContext(), CallsInListActivity.class);
             startActivity(intent);
         }
         mDrawerLayout.closeDrawer(listDrawer);

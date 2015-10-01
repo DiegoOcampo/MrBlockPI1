@@ -1,6 +1,5 @@
 package co.edu.eafit.mrblock.Controladores;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
@@ -8,7 +7,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -49,17 +47,16 @@ public class Alarm extends AppCompatActivity {
             public void onClick(View v) {
                 textAlarmPrompt.setText("");
                 openTimePickerDialog(false);
-            //    Toast.makeText(getApplicationContext(),"hola", Toast.LENGTH_LONG).show();
             }
         });
 
         buttonfecha = (Button) findViewById(R.id.startAlaram2);
+        buttonfecha.setEnabled(false);
         buttonfecha.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textAlarmPrompt.setText("");
                 openDatePickerDialog();
-                //    Toast.makeText(getApplicationContext(),"hola", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -70,7 +67,6 @@ public class Alarm extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(Alarm.this,date,calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.setTitle("Set Date Time");
-
         datePickerDialog.show();
 
     }
@@ -83,8 +79,8 @@ public class Alarm extends AppCompatActivity {
         //         onTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY),
         //         calendar.get(Calendar.MINUTE), is24r);
         timePickerDialog.setTitle("Set Alarm Time");
-
         timePickerDialog.show();
+
 
     }
 
@@ -100,12 +96,6 @@ public class Alarm extends AppCompatActivity {
             year1=year;
             monthOfaYear1=monthOfYear;
             dayOfMonth1=dayOfMonth;
-            calendar.add(calendar.HOUR_OF_DAY,hourOfDay1);
-            calendar.add(calendar.MINUTE,minute1);
-            //calendar.add(calendar.HOUR_OF_DAY,calendar.get(calendar.HOUR_OF_DAY));
-            //calendar.add(calendar.MINUTE,calendar.get(calendar.MINUTE));
-            //calendar.add(Calendar.HOUR_OF_DAY, Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
-            //calendar.add(Calendar.MINUTE, Calendar.getInstance().get(Calendar.MINUTE));
             setDate(calendar);
 
         }
@@ -130,17 +120,6 @@ public class Alarm extends AppCompatActivity {
             calSet.set(Calendar.MILLISECOND, 0);
             hourOfDay1 = hourOfDay;
             minute1 = minute;
-            calSet.add(calSet.YEAR,year1);
-            calSet.add(calSet.MONTH,monthOfaYear1);
-            calSet.add(calSet.DAY_OF_MONTH,dayOfMonth1);
-            //calSet.add(calSet.YEAR, calSet.get(calSet.YEAR));
-            //calSet.add(calSet.MONTH,calSet.get(calSet.MONTH));
-            //calSet.add(calSet.DAY_OF_MONTH,calSet.get(calSet.DAY_OF_MONTH));
-            //if (calSet.compareTo(calNow) <= 0) {
-                // Today Set time passed, count to tomorrow
-             //   calSet.add(Calendar.DATE, 0);
-            //}
-
             setAlarm(calSet);
         }
     };
@@ -149,13 +128,19 @@ public class Alarm extends AppCompatActivity {
 
         textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
                 + targetCal.getTime() + "\n" + "***\n");
+        buttonfecha.setEnabled(true);
 
         Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getBaseContext(), RQS_1, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),10,
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),
                 pendingIntent);
+
+
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),10,
+        //        pendingIntent);
       //  alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
       //          SystemClock.elapsedRealtime() +
       //                  60 * 1000, pendingIntent);
@@ -166,7 +151,7 @@ public class Alarm extends AppCompatActivity {
 
         textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
                 + targetCal.getTime() + "\n" + "***\n");
-
+        Toast.makeText(getApplicationContext(),"fecha:"+ year1+"-"+monthOfaYear1+"-"+dayOfMonth1+"-"+hourOfDay1+"-"+minute1,Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getBaseContext(), RQS_1, intent, 0);

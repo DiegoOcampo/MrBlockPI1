@@ -17,8 +17,22 @@ public class Contract {
 
     public static abstract class CallInContract implements BaseColumns{
         public static final String TABLE_NAME = "CallsIn";
-        public static final String COLUMN_NAME = "Name1";
-        public static final String COLUMN_NUMBER = "Number1";
+        public static final String COLUMN_NAME = "Name";
+        public static final String COLUMN_NUMBER = "Number";
     }
+
+    public static abstract class DateContract implements BaseColumns{
+        public static final String TABLE_NAME = "DateIn";
+        public static final String COLUMN_YEAR = "Year";
+        public static final String COLUMN_MONTH = "Month";
+        public static final String COLUMN_DAY = "Day";
+        public static final String COLUMN_HOUR = "Hour";
+        public static final String COLUMN_MINUTE = "Minute";
+        public static final String COLUMN_SECOND = "Second";
+        public static final String COLUMN_NUMBER = "Number";
+
+    }
+
+
 
 }

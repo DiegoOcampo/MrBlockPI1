@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
+import co.edu.eafit.mrblock.ServiceClass;
 import co.edu.eafit.mrblock.SingletonContact;
 
 /**
@@ -20,5 +21,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
             Toast.makeText(context, "Alarm received!", Toast.LENGTH_LONG).show();
+            Intent service = new Intent(context, ServiceClass.class);
+            context.startService(service);
     }
 }

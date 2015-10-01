@@ -1,27 +1,42 @@
 package co.edu.eafit.mrblock.Helper;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-
 import co.edu.eafit.mrblock.Contracts.Contract;
-import co.edu.eafit.mrblock.Entidades.Call;
-import co.edu.eafit.mrblock.Entidades.Contact;
 
 /**
- * Created by juan on 29/09/15.
+ * Created by juan on 30/09/15.
  */
 public class DBHelper extends SQLiteOpenHelper {
+
     private static final String DATABASE_NAME = "Block";
-    private static final int DATABASE_VERSION = 1;
-    private static final String SQL_CREATE = " CREATE TABLE " + Contract.CallInContract.TABLE_NAME
+    private static final int DATABASE_VERSION = 3;
+
+    private static final String  TABLE_CONTACTS= " CREATE TABLE " + Contract.ContactInContract.TABLE_NAME
+            + "(" + Contract.ContactInContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
+            + Contract.ContactInContract.COLUMN_NAME + " TEXT)";
+    public static final String DELETE_CONTACTS = "DROP TABLE IF EXISTS " + Contract.ContactInContract.TABLE_NAME;
+
+
+    private static final String TABLE_CALLS = " CREATE TABLE " + Contract.CallInContract.TABLE_NAME
             + "(" + Contract.CallInContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
             + Contract.CallInContract.COLUMN_NAME + " TEXT)";
-    public static final String SQL_DELETE = "DROP TABLE IF EXISTS " + Contract.CallInContract.TABLE_NAME;
+    public static final String DELETE_CALLS = "DROP TABLE IF EXISTS " + Contract.CallInContract.TABLE_NAME;
+
+
+    private static final String TABLE_DATE = " CREATE TABLE " + Contract.DateContract.TABLE_NAME+ "("
+            + Contract.DateContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
+            + Contract.DateContract.COLUMN_YEAR + " INTEGER"
+            + Contract.DateContract.COLUMN_MONTH + " INTEGER"
+            + Contract.DateContract.COLUMN_DAY + " INTEGER"
+            + Contract.DateContract.COLUMN_HOUR + " INTEGER"
+            + Contract.DateContract.COLUMN_MINUTE + " INTEGER"
+            + Contract.DateContract.COLUMN_SECOND + " INTEGER"
+            + ")";
+    public static final String DELETE_DATE = "DROP TABLE IF EXISTS " + Contract.DateContract.TABLE_NAME;
+
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,38 +44,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE);
+        db.execSQL(TABLE_CONTACTS);
+        db.execSQL(TABLE_CALLS);
+        db.execSQL(TABLE_DATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(SQL_DELETE);
+        db.execSQL(DELETE_CONTACTS);
+        db.execSQL(DELETE_CALLS);
+        db.execSQL(DELETE_DATE);
         onCreate(db);
     }
-
-    public void addCall(Call call){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(Contract.CallInContract.COLUMN_NUMBER, call.getNumber());
-        values.put(Contract.CallInContract.COLUMN_NAME, call.getName());
-        db.insert(Contract.CallInContract.TABLE_NAME, null, values);
-        db.close();
-    }
-
-    public ArrayList<Call> getAllCall(){
-        ArrayList<Call> block= new ArrayList<Call>();
-        String selectQuery = "SELECT  * FROM " + Contract.CallInContract.TABLE_NAME;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if(cursor.moveToFirst()){
-            do{
-                Call call = new Call();
-                call.setNumber(cursor.getString(0));
-                call.setName(cursor.getString(1));
-                block.add(call);
-            }while (cursor.moveToNext());
-        }
-        return block;
-    }
-
 }
