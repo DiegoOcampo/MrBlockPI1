@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -34,12 +35,12 @@ public class ContactInHelper  {
 
     }
 
-    public Contact getContact(int number){
+    public Contact getContact(String number){
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(Contract.ContactInContract.TABLE_NAME,new String[]{
                 Contract.ContactInContract.COLUMN_NUMBER, Contract.ContactInContract.COLUMN_NAME},
-                Contract.ContactInContract.COLUMN_NUMBER + "=?", new String[]{String.valueOf(number)},
+                Contract.ContactInContract.COLUMN_NUMBER + "='" + number+"'",null,
                 null,null,null,null);
         if(cursor!=null){
             cursor.moveToFirst();

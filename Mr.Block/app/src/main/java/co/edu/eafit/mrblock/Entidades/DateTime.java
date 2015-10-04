@@ -7,6 +7,7 @@ public class DateTime {
     int year, month, day, hour, minute, second;
     String number;
 
+    public DateTime(){}
 
     public DateTime(String number,int year, int month, int day, int hour, int minute, int second) {
         this.year = year;

@@ -6,7 +6,10 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -15,23 +18,28 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import co.edu.eafit.mrblock.Entidades.Contact;
+import co.edu.eafit.mrblock.Entidades.DateTime;
+import co.edu.eafit.mrblock.Helper.DateHelper;
 import co.edu.eafit.mrblock.R;
+import co.edu.eafit.mrblock.SingletonContact;
 
 /**
  * Created by juan on 26/09/15.
  */
 public class Alarm extends AppCompatActivity {
-    TimePicker myTimePicker;
-    Button buttonstartSetDialog, buttonfecha;
-    TextView textAlarmPrompt, textView2;
-    TimePickerDialog timePickerDialog;
-    DatePickerDialog datePickerDialog;
-    public int year1, monthOfaYear1, dayOfMonth1, hourOfDay1,minute1;
-
-    final static int RQS_1 = 1;
-
+    private Button buttonTime1, buttonDate;
+    private TextView textAlarmPrompt;
+    private TimePickerDialog timePickerDialog;
+    private DatePickerDialog datePickerDialog;
+    private int year1, monthOfaYear1, dayOfMonth1, hourOfDay1,minute1;
+    private DateHelper dateHelper;
+    private final static int RQS_1 = 1;
+    private Calendar calendar1;
+    ArrayList<DateTime> ddd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +47,22 @@ public class Alarm extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+        dateHelper = new DateHelper(getApplicationContext());
+        ddd = new ArrayList<DateTime>();
+        ddd = dateHelper.getAllDate();
         textAlarmPrompt = (TextView) findViewById(R.id.alarm);
-        textView2 =(TextView)findViewById(R.id.alarm2);
-        buttonstartSetDialog = (Button) findViewById(R.id.startAlaram1);
-        buttonstartSetDialog.setOnClickListener( new View.OnClickListener() {
+        buttonTime1 = (Button) findViewById(R.id.startAlaram1);
+        buttonTime1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textAlarmPrompt.setText("");
-                openTimePickerDialog(false);
+                openTimePickerDialog(true);
             }
         });
 
-        buttonfecha = (Button) findViewById(R.id.startAlaram2);
-        buttonfecha.setEnabled(false);
-        buttonfecha.setOnClickListener( new View.OnClickListener() {
+        buttonDate = (Button) findViewById(R.id.startAlaram2);
+        buttonDate.setEnabled(false);
+        buttonDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textAlarmPrompt.setText("");
@@ -80,6 +90,7 @@ public class Alarm extends AppCompatActivity {
         //         calendar.get(Calendar.MINUTE), is24r);
         timePickerDialog.setTitle("Set Alarm Time");
         timePickerDialog.show();
+
 
 
     }
@@ -128,15 +139,15 @@ public class Alarm extends AppCompatActivity {
 
         textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
                 + targetCal.getTime() + "\n" + "***\n");
-        buttonfecha.setEnabled(true);
+        buttonDate.setEnabled(true);
 
-        Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getBaseContext(), RQS_1, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
+        //PendingIntent pendingIntent = PendingIntent.getBroadcast(
+        //        getBaseContext(), RQS_1, intent, 0);
+        //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),
-                pendingIntent);
+        //alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),
+        //        pendingIntent);
 
 
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),10,
@@ -151,15 +162,57 @@ public class Alarm extends AppCompatActivity {
 
         textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
                 + targetCal.getTime() + "\n" + "***\n");
+        // user BoD suggests using Intent.ACTION_PICK instead of .ACTION_GET_CONTENT to avoid the chooser
+        //Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        // BoD con't: CONTENT_TYPE instead of CONTENT_ITEM_TYPE
+        //intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+        //startActivityForResult(intent, 1);
         Toast.makeText(getApplicationContext(),"fecha:"+ year1+"-"+monthOfaYear1+"-"+dayOfMonth1+"-"+hourOfDay1+"-"+minute1,Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
+
+        for(DateTime d:ddd){
+            Toast.makeText(getApplicationContext(),"min1 " + d.getMinute(),Toast.LENGTH_LONG).show();
+            dateHelper.delete(d);
+        }
+        DateTime dateTime= new DateTime("2",year1,monthOfaYear1,dayOfMonth1,hourOfDay1,minute1,0);
+        dateHelper.addDate(dateTime);
+        Toast.makeText(getApplicationContext(),dateHelper.getDate("2").getNumber() + "-" + dateHelper.getDate("2").getMinute(),Toast.LENGTH_LONG).show();
+
+        /*Date dates = new Date();
+        dates.setYear(dateTime.getYear() - 1900);
+        dates.setMonth(dateTime.getMonth());
+        dates.setDate(dateTime.getDay());
+        dates.setHours(dateTime.getHour());
+        dates.setMinutes(dateTime.getMinute());
+        dates.setSeconds(dateTime.getSecond());
+        Date dates1 = new Date();
+        Toast.makeText(getApplicationContext(),"entrada: "+dates.toString(),Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"actual: "+dates1.toString(),Toast.LENGTH_LONG).show();
+        if (dates1.before(dates)){
+            Toast.makeText(getApplicationContext(),"estoy antes",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(getApplicationContext(),"estoy despues",Toast.LENGTH_LONG).show();
+        }*/
+        /* try {
+            calendar1.set(Calendar.YEAR, year1);
+
+            calendar1.set(Calendar.MONTH, monthOfaYear1);
+            calendar1.set(Calendar.DAY_OF_MONTH, dayOfMonth1);
+            calendar1.set(Calendar.HOUR_OF_DAY, hourOfDay1);
+            calendar1.set(Calendar.MINUTE, minute1);
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        }*/
+        /*calendar1.set(Calendar.SECOND,0);
+        Toast.makeText(getBaseContext(),"cal "+calendar1.toString(),Toast.LENGTH_LONG).show();
+        Intent intent1 = new Intent(getBaseContext(), AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getBaseContext(), RQS_1, intent, 0);
+                getBaseContext(), RQS_1, intent1, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(),
                 pendingIntent);
 
-    }
+    */}
+
 
 
 }

@@ -26,7 +26,9 @@ import java.util.Date;
 import java.util.zip.DataFormatException;
 
 import co.edu.eafit.mrblock.Entidades.Contact;
+            import co.edu.eafit.mrblock.Entidades.DateTime;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
+import co.edu.eafit.mrblock.Helper.DateHelper;
 import co.edu.eafit.mrblock.R;
 import co.edu.eafit.mrblock.SingletonContact;
 //parse
@@ -42,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean check = false, check2=false;
     ArrayList<Contact> contacts = new ArrayList<Contact>();
     ContactInHelper contactInHelper;
-    //ContactDbHelper contactDbHelper;
     private DrawerLayout mDrawerLayout;
-    String s;
 
 
     @Override
@@ -52,31 +52,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         java.text.DateFormat f = DateFormat.getDateFormat(getApplicationContext());
-     /*
+
+
+     /*String s;
         f.setCalendar(Calendar.getInstance());
         try {
             s = f.parse("Tue 23 20:00:54 2015").toString();
             Toast.makeText(getApplicationContext(), f.parse("Tue 23 20:00:54 2015").toString(),Toast.LENGTH_LONG).show();
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
+/*
+        Date date = new Date();
         date.setSeconds(54);
         date.setMinutes(42);
         date.setHours(20);
         date.setMonth(8);
-        date.setYear(2014);
+        date.setYear(2014 -1900);
         date.setDate(12);
         Toast.makeText(getApplicationContext(),"fecha: " + date.toString(),Toast.LENGTH_LONG).show();
-
 */
+
 
         listDrawer = (ListView) findViewById(R.id.left_drawer);
         listView = (ListView) findViewById(R.id.listView);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         contactInHelper = new ContactInHelper(getApplicationContext());
         contacts = contactInHelper.getAllContact();
-        //contactDbHelper = new ContactDbHelper(getApplicationContext());
-        //contacts = contactDbHelper.getAllContact();
         for(int i = 0;i < contacts.size();i++){
             Bloqueados.add(contacts.get(i).getContact());
         }
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //contactDbHelper.delete(contact);
                 //singletonContact.deleteContact(position);
+                Toast.makeText(getApplicationContext(),"Contacto eliminado:" + contact.getContact(),Toast.LENGTH_LONG).show();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -128,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
                         Contact contact = new Contact(number,name);
 
                         if(!Bloqueados.contains(contact.getContact())){
-                            Toast.makeText(getApplicationContext(),"ya estoy",Toast.LENGTH_LONG).show();
                             SingletonContact sincontact = SingletonContact.getInstance();
                             sincontact.addContact(contact);
                             contactInHelper.addContact(contact);
@@ -136,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
                             contacts.add(contact);
                             Bloqueados.add(contact.getContact());
                             adapter.notifyDataSetChanged();
+                            Toast.makeText(getApplicationContext(),"Contacto agregado: "+contactInHelper.getContact(contact.getNumber()).getContact(),Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"El contacto ya fue agregado.",Toast.LENGTH_LONG).show();
                         }
 
 
