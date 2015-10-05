@@ -163,10 +163,46 @@ public class MainActivity extends AppCompatActivity {
 
         }else if(items[position].equals(items[3])){
             check=true;
+            try {
+                Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+                while (phones.moveToNext()) {
+
+                    String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                    String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    Contact contact = new Contact(phoneNumber,name);
+                    if(!Bloqueados.contains(contact.getContact())) {
+                        contactInHelper.addContact(contact);
+                        contacts.add(contact);
+                        Bloqueados.add(contact.getContact());
+                        adapter.notifyDataSetChanged();
+                    }
+
+                }
+                phones.close();
+            }catch (Exception e){
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }else if(items[position].equals(items[4])){
 
         }else if(items[position].equals(items[5])){
             check=false;
+            int length = contacts.size();
+            try {
+                for (int index = length - 1; index >= 0; index--) {
+                    Contact contact = new Contact();
+                    contact = contacts.get(index);
+                    long row = contactInHelper.delete(contact);
+                    if (row > 0) {
+                        contacts.remove(index);
+                        Bloqueados.remove(index);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                }
+            }catch (Exception e){
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
         }else if(items[position].equals(items[6])){
             Intent i = new Intent(getBaseContext(), Alarm.class);
             startActivity(i);
