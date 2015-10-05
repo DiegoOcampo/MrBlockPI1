@@ -32,7 +32,7 @@ public class Contact {
     }
 
     public String getContact(){
-        return name + "\n" + number ;
+        return name + " " + number ;
     }
 
     public Contact contact(){

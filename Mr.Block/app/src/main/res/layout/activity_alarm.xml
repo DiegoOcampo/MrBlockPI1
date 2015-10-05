@@ -4,16 +4,28 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/startAlaram1"
+        android:id="@+id/startTime1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Hora" />
+        android:text="Hora desde" />
 
     <Button
-        android:id="@+id/startAlaram2"
+        android:id="@+id/startDate1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Fecha" />
+        android:text="Fecha desde" />
+
+    <Button
+        android:id="@+id/startTime2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Hora hasta" />
+
+    <Button
+        android:id="@+id/startDate2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Fecha hasta" />
 
     <TextView
         android:id="@+id/alarm"

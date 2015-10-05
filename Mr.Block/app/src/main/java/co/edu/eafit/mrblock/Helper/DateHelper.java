@@ -27,12 +27,18 @@ public class DateHelper {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Contract.DateContract.COLUMN_NUMBER,dateTime.getNumber());
-        values.put(Contract.DateContract.COLUMN_YEAR,dateTime.getYear());
-        values.put(Contract.DateContract.COLUMN_MONTH,dateTime.getMonth());
-        values.put(Contract.DateContract.COLUMN_DAY,dateTime.getDay());
-        values.put(Contract.DateContract.COLUMN_HOUR,dateTime.getHour());
-        values.put(Contract.DateContract.COLUMN_MINUTE,dateTime.getMinute());
-        values.put(Contract.DateContract.COLUMN_SECOND,dateTime.getSecond());
+        values.put(Contract.DateContract.COLUMN_YEAR_1,dateTime.getYear1());
+        values.put(Contract.DateContract.COLUMN_MONTH_1,dateTime.getMonth1());
+        values.put(Contract.DateContract.COLUMN_DAY_1,dateTime.getDay1());
+        values.put(Contract.DateContract.COLUMN_HOUR_1,dateTime.getHour1());
+        values.put(Contract.DateContract.COLUMN_MINUTE_1,dateTime.getMinute1());
+        values.put(Contract.DateContract.COLUMN_SECOND_1,dateTime.getSecond1());
+        values.put(Contract.DateContract.COLUMN_YEAR_2,dateTime.getYear2());
+        values.put(Contract.DateContract.COLUMN_MONTH_2,dateTime.getMonth2());
+        values.put(Contract.DateContract.COLUMN_DAY_2,dateTime.getDay2());
+        values.put(Contract.DateContract.COLUMN_HOUR_2,dateTime.getHour2());
+        values.put(Contract.DateContract.COLUMN_MINUTE_2,dateTime.getMinute2());
+        values.put(Contract.DateContract.COLUMN_SECOND_2,dateTime.getSecond2());
         db.insert(Contract.DateContract.TABLE_NAME, null, values);
         db.close();
     }
@@ -46,12 +52,18 @@ public class DateHelper {
             do{
                 DateTime dateTime = new DateTime();
                 dateTime.setNumber(cursor.getString(0));
-                dateTime.setYear(cursor.getInt(1));
-                dateTime.setMonth(cursor.getInt(2));
-                dateTime.setDay(cursor.getInt(3));
-                dateTime.setHour(cursor.getInt(4));
-                dateTime.setMinute(cursor.getInt(5));
-                dateTime.setSecond(cursor.getInt(6));
+                dateTime.setYear1(cursor.getInt(1));
+                dateTime.setMonth1(cursor.getInt(2));
+                dateTime.setDay1(cursor.getInt(3));
+                dateTime.setHour1(cursor.getInt(4));
+                dateTime.setMinute1(cursor.getInt(5));
+                dateTime.setSecond1(cursor.getInt(6));
+                dateTime.setYear2(cursor.getInt(7));
+                dateTime.setMonth2(cursor.getInt(8));
+                dateTime.setDay2(cursor.getInt(9));
+                dateTime.setHour2(cursor.getInt(10));
+                dateTime.setMinute2(cursor.getInt(11));
+                dateTime.setSecond2(cursor.getInt(12));
                 block.add(dateTime);
             }while (cursor.moveToNext());
         }
@@ -63,19 +75,26 @@ public class DateHelper {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(Contract.DateContract.TABLE_NAME, new String[]{
                 Contract.DateContract.COLUMN_NUMBER,
-                Contract.DateContract.COLUMN_YEAR,
-                Contract.DateContract.COLUMN_MONTH,
-                Contract.DateContract.COLUMN_DAY,
-                Contract.DateContract.COLUMN_HOUR,
-                Contract.DateContract.COLUMN_MINUTE,
-                Contract.DateContract.COLUMN_SECOND
+                Contract.DateContract.COLUMN_YEAR_1,
+                Contract.DateContract.COLUMN_MONTH_1,
+                Contract.DateContract.COLUMN_DAY_1,
+                Contract.DateContract.COLUMN_HOUR_1,
+                Contract.DateContract.COLUMN_MINUTE_1,
+                Contract.DateContract.COLUMN_SECOND_1,
+                Contract.DateContract.COLUMN_YEAR_2,
+                Contract.DateContract.COLUMN_MONTH_2,
+                Contract.DateContract.COLUMN_DAY_2,
+                Contract.DateContract.COLUMN_HOUR_2,
+                Contract.DateContract.COLUMN_MINUTE_2,
+                Contract.DateContract.COLUMN_SECOND_2
         }, Contract.DateContract.COLUMN_NUMBER + "= '" + number + "'", null
                 , null, null, null, null);
         if(cursor!=null){
             cursor.moveToFirst();
         }
         DateTime dateTime = new DateTime(cursor.getString(0),cursor.getInt(1),cursor.getInt(2),
-                cursor.getInt(3),cursor.getInt(4),cursor.getInt(5),cursor.getInt(6));
+                cursor.getInt(3),cursor.getInt(4),cursor.getInt(5),cursor.getInt(6),cursor.getInt(7)
+                ,cursor.getInt(8),cursor.getInt(9),cursor.getInt(10),cursor.getInt(11),cursor.getInt(12));
         return dateTime;
     }
 

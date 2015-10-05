@@ -30,41 +30,44 @@ public class BlockcallReceiver extends BroadcastReceiver {
     CallInHelper callInHelper;
     ArrayList<Contact> con = new ArrayList<Contact>();
     DateHelper dateHelper;
-    Date date;
+    Date date1,date2;
     DateTime dateTime;
     @Override
     public void onReceive(Context context, Intent intent) {
         dateHelper = new DateHelper(context);
-        date = new Date();
+        date1 = new Date();
+        date2 = new Date();
         contactInHelper = new ContactInHelper(context);
         callInHelper = new CallInHelper(context);
         con = contactInHelper.getAllContact();
         Bundle myBundle = intent.getExtras();
         try {
             dateTime = dateHelper.getDate("2");
-            date.setYear(dateTime.getYear() - 1900);
-            date.setMonth(dateTime.getMonth());
-            date.setDate(dateTime.getDay());
-            date.setHours(dateTime.getHour());
-            date.setMinutes(dateTime.getMinute());
-            date.setSeconds(dateTime.getSecond());
+            date1.setYear(dateTime.getYear1() - 1900);
+            date1.setMonth(dateTime.getMonth1());
+            date1.setDate(dateTime.getDay1());
+            date1.setHours(dateTime.getHour1());
+            date1.setMinutes(dateTime.getMinute1());
+            date1.setSeconds(dateTime.getSecond1());
+            date2.setYear(dateTime.getYear2() - 1900);
+            date2.setMonth(dateTime.getMonth2());
+            date2.setDate(dateTime.getDay2());
+            date2.setHours(dateTime.getHour2());
+            date2.setMinutes(dateTime.getMinute2());
+            date2.setSeconds(dateTime.getSecond2());
             Date da = new Date();
 
-            Toast.makeText(context,"1: " + date.toString(),Toast.LENGTH_LONG).show();
-            Toast.makeText(context,"2" + da.toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"1: " + date1.toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"2: " + date2.toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"3: " + da.toString(),Toast.LENGTH_LONG).show();
             //TODO Auto-generated method stub
-            if (da.before(date)) {
-                Toast.makeText(context,"1"+ dateHelper.getDate("2").getNumber() + "en el año" + dateHelper.getDate("2").getYear(), Toast.LENGTH_LONG).show();
+            if (da.before(date1)) {
                 if (myBundle != null) {
                     try {
-                        Toast.makeText(context,"2"+ dateHelper.getDate("2").getNumber() + "en el año" + dateHelper.getDate("2").getYear(), Toast.LENGTH_LONG).show();
                         if (intent.getAction().equals("android.intent.action.PHONE_STATE")) {
-                            Toast.makeText(context,"3"+ dateHelper.getDate("2").getNumber() + "en el año" + dateHelper.getDate("2").getYear(), Toast.LENGTH_LONG).show();
-
                             String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
                             System.out.println("--------in state-----");
                             if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-                                Toast.makeText(context, "4"+dateHelper.getDate("2").getNumber() + "en el año" + dateHelper.getDate("2").getYear(), Toast.LENGTH_LONG).show();
                                 // Incoming call
                                 String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
                                 System.out.println("--------------my number---------" + incomingNumber);

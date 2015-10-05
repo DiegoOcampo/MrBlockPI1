@@ -26,7 +26,6 @@ import java.util.Date;
 import java.util.zip.DataFormatException;
 
 import co.edu.eafit.mrblock.Entidades.Contact;
-            import co.edu.eafit.mrblock.Entidades.DateTime;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.Helper.DateHelper;
 import co.edu.eafit.mrblock.R;
@@ -36,14 +35,14 @@ import co.edu.eafit.mrblock.SingletonContact;
 
 
 public class MainActivity extends AppCompatActivity {
-    ListView listView, listDrawer;
-    String [] items = {"Bloqueados S", "Bloqueados E","Bloquear TS", "Bloquear TE", "Desbloquear TS", "Desbloquear TE", "Fecha", "Llamadas"};
-    public static ArrayList<String> Bloqueados= new ArrayList<String>();
-    ArrayAdapter<String> adapter;
-    ArrayAdapter<String> adapterItems;
+    private ListView listView, listDrawer;
+    private String [] items = {"Bloqueados S", "Bloqueados E","Bloquear TS", "Bloquear TE", "Desbloquear TS", "Desbloquear TE", "Fecha", "Llamadas"};
+    private ArrayList<String> Bloqueados= new ArrayList<String>();
+    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapterItems;
     public static boolean check = false, check2=false;
-    ArrayList<Contact> contacts = new ArrayList<Contact>();
-    ContactInHelper contactInHelper;
+    private ArrayList<Contact> contacts = new ArrayList<Contact>();
+    private ContactInHelper contactInHelper;
     private DrawerLayout mDrawerLayout;
 
 
@@ -51,37 +50,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        java.text.DateFormat f = DateFormat.getDateFormat(getApplicationContext());
-
-
-     /*String s;
-        f.setCalendar(Calendar.getInstance());
-        try {
-            s = f.parse("Tue 23 20:00:54 2015").toString();
-            Toast.makeText(getApplicationContext(), f.parse("Tue 23 20:00:54 2015").toString(),Toast.LENGTH_LONG).show();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-/*
-        Date date = new Date();
-        date.setSeconds(54);
-        date.setMinutes(42);
-        date.setHours(20);
-        date.setMonth(8);
-        date.setYear(2014 -1900);
-        date.setDate(12);
-        Toast.makeText(getApplicationContext(),"fecha: " + date.toString(),Toast.LENGTH_LONG).show();
-*/
-
 
         listDrawer = (ListView) findViewById(R.id.left_drawer);
         listView = (ListView) findViewById(R.id.listView);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         contactInHelper = new ContactInHelper(getApplicationContext());
         contacts = contactInHelper.getAllContact();
+
         for(int i = 0;i < contacts.size();i++){
             Bloqueados.add(contacts.get(i).getContact());
         }
+
         adapterItems = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,items);
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Bloqueados);
 
@@ -89,9 +68,6 @@ public class MainActivity extends AppCompatActivity {
         listDrawer.setAdapter(adapterItems);
 
         listDrawer.setOnItemClickListener(new DrawerItemClickListener());
-
-
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -106,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //contactDbHelper.delete(contact);
                 //singletonContact.deleteContact(position);
-                Toast.makeText(getApplicationContext(),"Contacto eliminado:" + contact.getContact(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Contacto eliminado: \n" + contact.getContact(),Toast.LENGTH_LONG).show();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -138,16 +114,10 @@ public class MainActivity extends AppCompatActivity {
                             contacts.add(contact);
                             Bloqueados.add(contact.getContact());
                             adapter.notifyDataSetChanged();
-                            Toast.makeText(getApplicationContext(),"Contacto agregado: "+contactInHelper.getContact(contact.getNumber()).getContact(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"Contacto agregado: \n"+contactInHelper.getContact(contact.getNumber()).getContact(),Toast.LENGTH_LONG).show();
                         }else{
-                            Toast.makeText(getApplicationContext(),"El contacto ya fue agregado.",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"El contacto ya existe.",Toast.LENGTH_LONG).show();
                         }
-
-
-
-
-
-
                     }
                 } finally {
                     if (c != null) {

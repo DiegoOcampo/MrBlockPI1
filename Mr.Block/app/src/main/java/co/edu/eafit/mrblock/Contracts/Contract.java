@@ -23,13 +23,19 @@ public class Contract {
 
     public static abstract class DateContract implements BaseColumns{
         public static final String TABLE_NAME = "DateIn";
-        public static final String COLUMN_YEAR = "Year";
-        public static final String COLUMN_MONTH = "Month";
-        public static final String COLUMN_DAY = "Day";
-        public static final String COLUMN_HOUR = "Hour";
-        public static final String COLUMN_MINUTE = "Minute";
-        public static final String COLUMN_SECOND = "Second";
         public static final String COLUMN_NUMBER = "Number";
+        public static final String COLUMN_YEAR_1 = "Year1";
+        public static final String COLUMN_MONTH_1 = "Month1";
+        public static final String COLUMN_DAY_1 = "Day1";
+        public static final String COLUMN_HOUR_1 = "Hour1";
+        public static final String COLUMN_MINUTE_1 = "Minute1";
+        public static final String COLUMN_SECOND_1 = "Second1";
+        public static final String COLUMN_YEAR_2 = "Year2";
+        public static final String COLUMN_MONTH_2 = "Month2";
+        public static final String COLUMN_DAY_2 = "Day2";
+        public static final String COLUMN_HOUR_2 = "Hour2";
+        public static final String COLUMN_MINUTE_2 = "Minute2";
+        public static final String COLUMN_SECOND_2 = "Second2";
 
     }
 

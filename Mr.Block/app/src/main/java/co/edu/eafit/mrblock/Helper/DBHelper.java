@@ -12,7 +12,7 @@ import co.edu.eafit.mrblock.Contracts.Contract;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Block";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     private static final String  TABLE_CONTACTS= " CREATE TABLE " + Contract.ContactInContract.TABLE_NAME
             + "(" + Contract.ContactInContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
@@ -28,12 +28,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_DATE = " CREATE TABLE " + Contract.DateContract.TABLE_NAME+ "("
             + Contract.DateContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
-            + Contract.DateContract.COLUMN_YEAR + " INTEGER,"
-            + Contract.DateContract.COLUMN_MONTH + " INTEGER,"
-            + Contract.DateContract.COLUMN_DAY + " INTEGER,"
-            + Contract.DateContract.COLUMN_HOUR + " INTEGER,"
-            + Contract.DateContract.COLUMN_MINUTE + " INTEGER,"
-            + Contract.DateContract.COLUMN_SECOND + " INTEGER"
+            + Contract.DateContract.COLUMN_YEAR_1 + " INTEGER,"
+            + Contract.DateContract.COLUMN_MONTH_1 + " INTEGER,"
+            + Contract.DateContract.COLUMN_DAY_1 + " INTEGER,"
+            + Contract.DateContract.COLUMN_HOUR_1 + " INTEGER,"
+            + Contract.DateContract.COLUMN_MINUTE_1 + " INTEGER,"
+            + Contract.DateContract.COLUMN_SECOND_1 + " INTEGER,"
+            + Contract.DateContract.COLUMN_YEAR_2 + " INTEGER,"
+            + Contract.DateContract.COLUMN_MONTH_2 + " INTEGER,"
+            + Contract.DateContract.COLUMN_DAY_2 + " INTEGER,"
+            + Contract.DateContract.COLUMN_HOUR_2 + " INTEGER,"
+            + Contract.DateContract.COLUMN_MINUTE_2 + " INTEGER,"
+            + Contract.DateContract.COLUMN_SECOND_2 + " INTEGER"
             + ")";
     public static final String DELETE_DATE = "DROP TABLE IF EXISTS " + Contract.DateContract.TABLE_NAME;
 
