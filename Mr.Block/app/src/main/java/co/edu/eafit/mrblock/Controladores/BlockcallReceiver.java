@@ -42,7 +42,8 @@ public class BlockcallReceiver extends BroadcastReceiver {
         con = contactInHelper.getAllContact();
         Bundle myBundle = intent.getExtras();
         try {
-            dateTime = dateHelper.getDate("2");
+            String incoming = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+            dateTime = dateHelper.getDate(incoming.replaceAll(" ",""));
             date1.setYear(dateTime.getYear1() - 1900);
             date1.setMonth(dateTime.getMonth1());
             date1.setDate(dateTime.getDay1());
@@ -107,7 +108,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
         }
 
 
-        if (myBundle != null && MainActivity.check){
+        /*if (myBundle != null && MainActivity.check){
             System.out.println("--------Not null-----");
             try{
                 if (intent.getAction().equals("android.intent.action.PHONE_STATE")) {
@@ -151,7 +152,8 @@ public class BlockcallReceiver extends BroadcastReceiver {
             { // Many things can go wrong with reflection calls
                 ex.printStackTrace();
             }
-        }else if (myBundle != null ){//&& MainActivity.check){
+        }else*/
+        if (myBundle != null ){//&& MainActivity.check){
             System.out.println("--------Not null-----");
             try{
                 if (intent.getAction().equals("android.intent.action.PHONE_STATE")){
@@ -161,11 +163,12 @@ public class BlockcallReceiver extends BroadcastReceiver {
                         // Incoming call
                         String incomingNumber =intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
                         System.out.println("--------------my number---------" + incomingNumber);
-
-                       for (Contact cc : con) {
+                        Contact contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
+                        Block(contact,context);
+                      // for (Contact cc : con) {
                             //if(contactInHelper.getContact(incomingNumber.replaceAll(" ","")).equals(cc.)){
-                            if (cc.getNumber().equalsIgnoreCase(incomingNumber.replaceAll(" ", ""))) {
-                                Block(cc,context);
+                        //    if (cc.getNumber().equalsIgnoreCase(incomingNumber.replaceAll(" ", ""))) {
+                          //      Block(cc,context);
                            /*     Call call = new Call(cc.getNumber(),cc.getName());
                                 callInHelper.addCall(call);
                                 // this is main section of the code,. could also be use for particular number.
@@ -187,8 +190,8 @@ public class BlockcallReceiver extends BroadcastReceiver {
 
                                 // Invoke endCall()
                                 methodEndCall.invoke(telephonyInterface);
-                            */}
-                        }
+                            *///}
+                        //}
 
 
 

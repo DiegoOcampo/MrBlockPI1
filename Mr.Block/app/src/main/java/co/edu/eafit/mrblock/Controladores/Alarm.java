@@ -1,12 +1,18 @@
 package co.edu.eafit.mrblock.Controladores;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -14,7 +20,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Entidades.DateTime;
+import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.Helper.DateHelper;
 import co.edu.eafit.mrblock.R;
 
@@ -31,6 +39,9 @@ public class Alarm extends AppCompatActivity {
     private final static int RQS_1 = 1;
     private Calendar calendar1;
     ArrayList<DateTime> ddd;
+    private ContactInHelper contactInHelper;
+    private ArrayList<Contact> contacts = new ArrayList<Contact>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,9 @@ public class Alarm extends AppCompatActivity {
         dateHelper = new DateHelper(getApplicationContext());
         ddd = new ArrayList<DateTime>();
         ddd = dateHelper.getAllDate();
+
+        contactInHelper = new ContactInHelper(getApplicationContext());
+        contacts = contactInHelper.getAllContact();
 
         textAlarmPrompt = (TextView) findViewById(R.id.alarm);
         buttonTime1 = (Button) findViewById(R.id.startTime1);
@@ -288,16 +302,44 @@ public class Alarm extends AppCompatActivity {
                 + targetCal.getTime() + "\n" + "***\n");
         buttonTime1.setEnabled(true);
         buttonDate2.setEnabled(false);
-        Toast.makeText(getApplicationContext(),"fecha1: "+ year1+"-"+monthOfaYear1+"-"+dayOfMonth1+"-"+hourOfDay1+"-"+minute1,Toast.LENGTH_LONG).show();
-        Toast.makeText(getApplicationContext(),"fecha2: "+ year2+"-"+monthOfaYear2+"-"+dayOfMonth2+"-"+hourOfDay2+"-"+minute2,Toast.LENGTH_LONG).show();
+
+
         for(DateTime d:ddd){
-            //Toast.makeText(getApplicationContext(),"min1: " + d.getMinute1(),Toast.LENGTH_LONG).show();
             dateHelper.delete(d);
         }
-        DateTime dateTime= new DateTime("2",year1,monthOfaYear1,dayOfMonth1,hourOfDay1,minute1,0,
-                year2,monthOfaYear2,dayOfMonth2,hourOfDay2,minute2,0);
-        dateHelper.addDate(dateTime);
-        Toast.makeText(getApplicationContext(),"num: "+dateHelper.getDate("2").getNumber() + "min1: " + dateHelper.getDate("2").getMinute1()+"min2: "+dateHelper.getDate("2").getMinute2(),Toast.LENGTH_LONG).show();
+
+        Toast.makeText(getApplicationContext(),"fecha1: "+ year1+"-"+monthOfaYear1+"-"+dayOfMonth1+"-"+hourOfDay1+"-"+minute1,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"fecha2: "+ year2+"-"+monthOfaYear2+"-"+dayOfMonth2+"-"+hourOfDay2+"-"+minute2,Toast.LENGTH_LONG).show();
+        Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+        while (phones.moveToNext()) {
+            String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)).replace(" ","");
+            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replace(" ","");
+            Contact contact = new Contact(phoneNumber, name);
+            if (!contacts.contains(contact)) {
+                contactInHelper.addContact(contact);
+                contacts.add(contact);
+                DateTime dateTime= new DateTime(phoneNumber,year1,monthOfaYear1,dayOfMonth1,hourOfDay1,minute1,0,
+                        year2,monthOfaYear2,dayOfMonth2,hourOfDay2,minute2,0);
+                dateHelper.addDate(dateTime);
+            }
+        }
+        int length = contacts.size();
+        try {
+            for (int index = length - 1; index >= 0; index--) {
+                Contact contact = contacts.get(index);
+                long row = contactInHelper.delete(contact);
+                if (row > 0) {
+                    contacts.remove(index);
+                }
+
+            }
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        phones.close();
+
+        //Toast.makeText(getApplicationContext(),"num: "+dateHelper.getDate("2").getNumber() + "min1: " + dateHelper.getDate("2").getMinute1()+"min2: "+dateHelper.getDate("2").getMinute2(),Toast.LENGTH_LONG).show();
 
 
     }

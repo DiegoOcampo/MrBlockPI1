@@ -1,5 +1,6 @@
 package co.edu.eafit.mrblock.Controladores;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
     private ContactInHelper contactInHelper;
     private DrawerLayout mDrawerLayout;
-
-
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,26 +163,24 @@ public class MainActivity extends AppCompatActivity {
         }else if(items[position].equals(items[2])){
 
         }else if(items[position].equals(items[3])){
-            check=true;
-            try {
-                Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-                while (phones.moveToNext()) {
+            //check=true;
 
-                    String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                    String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    Contact contact = new Contact(phoneNumber,name);
-                    if(!Bloqueados.contains(contact.getContact())) {
-                        contactInHelper.addContact(contact);
-                        contacts.add(contact);
-                        Bloqueados.add(contact.getContact());
-                        adapter.notifyDataSetChanged();
-                    }
+                            Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+                            while (phones.moveToNext()) {
 
-                }
-                phones.close();
-            }catch (Exception e){
-                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+                                String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)).replace(" ","");
+                                String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replace(" ","");
+                                Contact contact = new Contact(phoneNumber, name);
+                                if (!Bloqueados.contains(contact.getContact())) {
+                                    contactInHelper.addContact(contact);
+                                    contacts.add(contact);
+                                    Bloqueados.add(contact.getContact());
+                                }
+
+                                adapter.notifyDataSetChanged();
+                            }
+                            phones.close();
+
         }else if(items[position].equals(items[4])){
 
         }else if(items[position].equals(items[5])){
@@ -189,8 +188,7 @@ public class MainActivity extends AppCompatActivity {
             int length = contacts.size();
             try {
                 for (int index = length - 1; index >= 0; index--) {
-                    Contact contact = new Contact();
-                    contact = contacts.get(index);
+                    Contact contact = contacts.get(index);
                     long row = contactInHelper.delete(contact);
                     if (row > 0) {
                         contacts.remove(index);
@@ -219,6 +217,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
 }
 
 
