@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Entidades.DateTime;
@@ -290,56 +291,55 @@ public class Alarm extends AppCompatActivity {
 
     private void setTime2(Calendar targetCal) {
 
-        textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
-                + targetCal.getTime() + "\n" + "***\n");
         buttonDate2.setEnabled(true);
         buttonTime2.setEnabled(false);
     }
 
     private void setDate2(Calendar targetCal) {
 
-        textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
-                + targetCal.getTime() + "\n" + "***\n");
         buttonTime1.setEnabled(true);
         buttonDate2.setEnabled(false);
-
-
-        for(DateTime d:ddd){
-            dateHelper.delete(d);
-        }
-
-        Toast.makeText(getApplicationContext(),"fecha1: "+ year1+"-"+monthOfaYear1+"-"+dayOfMonth1+"-"+hourOfDay1+"-"+minute1,Toast.LENGTH_LONG).show();
-        Toast.makeText(getApplicationContext(),"fecha2: "+ year2+"-"+monthOfaYear2+"-"+dayOfMonth2+"-"+hourOfDay2+"-"+minute2,Toast.LENGTH_LONG).show();
-        Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-        while (phones.moveToNext()) {
-            String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)).replace(" ","");
-            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replace(" ","");
-            Contact contact = new Contact(phoneNumber, name);
-            if (!contacts.contains(contact)) {
-                contactInHelper.addContact(contact);
-                contacts.add(contact);
-                DateTime dateTime= new DateTime(phoneNumber,year1,monthOfaYear1,dayOfMonth1,hourOfDay1,minute1,0,
-                        year2,monthOfaYear2,dayOfMonth2,hourOfDay2,minute2,0);
-                dateHelper.addDate(dateTime);
+        Date date_1 = new Date();
+        Date date_2 = new Date();
+        Date date_3 = new Date();
+        date_1.setYear(year1 - 1900);
+        date_1.setMonth(monthOfaYear1);
+        date_1.setDate(dayOfMonth1);
+        date_1.setHours(hourOfDay1);
+        date_1.setMinutes(minute1);
+        date_1.setSeconds(0);
+        date_2.setYear(year2 - 1900);
+        date_2.setMonth(monthOfaYear2);
+        date_2.setDate(dayOfMonth2);
+        date_2.setHours(hourOfDay2);
+        date_2.setMinutes(minute2);
+        date_2.setSeconds(0);
+        if(date_1.before(date_2) && !date_1.before(date_3)){
+            for(DateTime d:ddd){
+                dateHelper.delete(d);
             }
-        }
-        int length = contacts.size();
-        try {
-            for (int index = length - 1; index >= 0; index--) {
-                Contact contact = contacts.get(index);
-                long row = contactInHelper.delete(contact);
-                if (row > 0) {
-                    contacts.remove(index);
+
+            Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+            while (phones.moveToNext()) {
+                String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)).replace(" ","");
+                String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replace(" ","");
+                Contact contact = new Contact(phoneNumber, name);
+                if (!contacts.contains(contact)) {
+                    contacts.add(contact);
+                    DateTime dateTime= new DateTime(phoneNumber,year1,monthOfaYear1,dayOfMonth1,hourOfDay1,minute1,0,
+                            year2,monthOfaYear2,dayOfMonth2,hourOfDay2,minute2,0);
+                    dateHelper.addDate(dateTime);
                 }
-
             }
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            phones.close();
+
+            Toast.makeText(getApplicationContext(),"Fecha agregada",Toast.LENGTH_LONG).show();
+        }else{
+
+            Toast.makeText(getApplicationContext(),"Por favor ingrese una fecha valida",Toast.LENGTH_LONG).show();
         }
 
-        phones.close();
-
-        //Toast.makeText(getApplicationContext(),"num: "+dateHelper.getDate("2").getNumber() + "min1: " + dateHelper.getDate("2").getMinute1()+"min2: "+dateHelper.getDate("2").getMinute2(),Toast.LENGTH_LONG).show();
 
 
     }

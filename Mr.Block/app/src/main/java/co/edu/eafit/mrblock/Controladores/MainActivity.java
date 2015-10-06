@@ -185,6 +185,11 @@ public class MainActivity extends AppCompatActivity {
 
         }else if(items[position].equals(items[5])){
             check=false;
+            contactInHelper.deleteAll();
+            Bloqueados.clear();
+            contacts.clear();
+            adapter.notifyDataSetChanged();
+            /*
             int length = contacts.size();
             try {
                 for (int index = length - 1; index >= 0; index--) {
@@ -199,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }catch (Exception e){
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+            }*/
 
         }else if(items[position].equals(items[6])){
             Intent i = new Intent(getBaseContext(), Alarm.class);

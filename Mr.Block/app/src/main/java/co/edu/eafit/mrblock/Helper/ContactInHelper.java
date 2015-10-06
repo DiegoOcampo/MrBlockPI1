@@ -81,6 +81,22 @@ public class ContactInHelper  {
             return -1;
         }
     }
+
+    public long deleteAll(){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        /*db.execSQL("DELETE FROM " + Contract.ContactInContract.TABLE_NAME +
+        "WHERE " + Contract.ContactInContract.COLUMN_NUMBER + "='"+
+        contact.getNumber() + "'");
+        */
+        try {
+            return db.delete(Contract.ContactInContract.TABLE_NAME, null,null);
+            //db.close();
+        }catch (Exception e){
+            Log.e("DB ERROR", e.toString());
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }
 
 
