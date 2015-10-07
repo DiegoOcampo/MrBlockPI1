@@ -38,7 +38,7 @@ import co.edu.eafit.mrblock.SingletonContact;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView, listDrawer;
-    private String [] items = {"Bloqueados S", "Bloqueados E","Bloquear TS", "Bloquear TE", "Desbloquear TS", "Desbloquear TE", "Fecha", "Llamadas", "Mapa"};
+    private String [] items = {"Bloqueados S", "Bloqueados E","Bloquear TS", "Bloquear TE", "Desbloquear TS", "Desbloquear TE", "Fecha", "Llamadas", "Bloquear Posicion"};
     private ArrayList<String> Bloqueados= new ArrayList<String>();
     private ArrayAdapter<String> adapter;
     private ArrayAdapter<String> adapterItems;
@@ -212,6 +212,9 @@ public class MainActivity extends AppCompatActivity {
         }else if(items[position].equals(items[7])){
             Intent intent = new Intent(getApplicationContext(), CallsInListActivity.class);
             startActivity(intent);
+        }else if(items[position].equals(items[8])){
+            Intent i = new Intent(getApplicationContext(),MapsActivity.class);
+            startActivity(i);
         }
         mDrawerLayout.closeDrawer(listDrawer);
     }

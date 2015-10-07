@@ -20,22 +20,19 @@ public class MapsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        SupportMapFragment spmap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapa = spmap.getMap();
-        mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mapa.setMyLocationEnabled(true);
+        setUpMapIfNeeded();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //setUpMapIfNeeded();
+        setUpMapIfNeeded();
     }
 
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mapa} is not null.
+     * call  once when {@link #mapa} is not null.
      * <p/>
      * If it isn't installed {@link SupportMapFragment} (and
      * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
@@ -53,20 +50,14 @@ public class MapsActivity extends FragmentActivity {
             // Try to obtain the map from the SupportMapFragment.
             mapa = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-            // Check if we were successful in obtaining the map.
-            if (mapa != null) {
-                setUpMap();
-            }
         }
-    }
-
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mapa} is not null.
-     */
-    private void setUpMap() {
-        mapa.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        if (mapa != null) {
+            // El objeto GoogleMap ha sido referenciado correctamente
+            //ahora podemos manipular sus propiedades
+            //Seteamos el tipo de mapa
+            mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            //Activamos la capa o layer MyLocation
+            mapa.setMyLocationEnabled(true);
+        }
     }
 }
