@@ -38,11 +38,11 @@ import co.edu.eafit.mrblock.SingletonContact;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView, listDrawer;
-    private String [] items = {"Bloqueados S", "Bloqueados E","Bloquear TS", "Bloquear TE", "Desbloquear TS", "Desbloquear TE", "Fecha", "Llamadas", "Bloquear Posicion"};
+    private String [] items = {"Bloqueados S", "Bloqueados E","Bloquear TS", "Bloquear TE", "Desbloquear TS", "Desbloquear TE", "Fecha", "Llamadas", "Bloquear Posicion","mensajes"};
     private ArrayList<String> Bloqueados= new ArrayList<String>();
     private ArrayAdapter<String> adapter;
     private ArrayAdapter<String> adapterItems;
-    public static boolean check = false, check2=false;
+    public static boolean check = false, check2=false, check3=false;
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
     private ContactInHelper contactInHelper;
     private DrawerLayout mDrawerLayout;
@@ -215,6 +215,14 @@ public class MainActivity extends AppCompatActivity {
         }else if(items[position].equals(items[8])){
             Intent i = new Intent(getApplicationContext(),MapsActivity.class);
             startActivity(i);
+        }else if(items[position].equals(items[9])){
+            if(check3){
+                check3 = false;
+                Toast.makeText(getApplicationContext(),""+check3,Toast.LENGTH_LONG).show();
+            }else{
+                check3 = true;
+                Toast.makeText(getApplicationContext(),""+check3,Toast.LENGTH_LONG).show();
+            }
         }
         mDrawerLayout.closeDrawer(listDrawer);
     }
