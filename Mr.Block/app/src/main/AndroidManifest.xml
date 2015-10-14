@@ -38,12 +38,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controladores.CallsInListActivity"
+        <activity
+            android:name=".Controladores.CallsInListActivity"
             android:label="@string/app_name"/>
         <activity
             android:name=".Controladores.Alarm"
             android:label="@string/app_name" />
-
+        <activity
+            android:name=".Controladores.LockBlockActivity"
+            android:label="@string/app_name" />
         <receiver
             android:name=".Controladores.AlarmReceiver"
             android:process=":remote" />
@@ -73,6 +76,7 @@
         <activity
             android:name=".Controladores.MapsActivity"
             android:label="@string/app_name" >
+            <service android:name=".GeofenceTransitionsIntentService"/>
             <!--
             Fragmento de codigo para selccionar la clase launcher
             -->

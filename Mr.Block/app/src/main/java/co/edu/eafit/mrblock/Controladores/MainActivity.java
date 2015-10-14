@@ -28,8 +28,10 @@ import java.util.Date;
 import java.util.zip.DataFormatException;
 
 import co.edu.eafit.mrblock.Entidades.Contact;
+import co.edu.eafit.mrblock.Entidades.Ubicacion;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.Helper.DateHelper;
+import co.edu.eafit.mrblock.Helper.UbicationHelper;
 import co.edu.eafit.mrblock.R;
 import co.edu.eafit.mrblock.SingletonContact;
 //parse
@@ -49,6 +51,17 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+    /**
+        UbicationHelper ubic = new UbicationHelper(getApplicationContext());
+        ArrayList<Ubicacion> list = new ArrayList<>();
+        list = ubic.getAllUbication();
+        for(int i = 0;i<list.size();i++){
+            Toast.makeText(getApplicationContext(),"Borrados = "+i,Toast.LENGTH_LONG).show();
+        }
+        ubic.deleteAll();
+    */
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

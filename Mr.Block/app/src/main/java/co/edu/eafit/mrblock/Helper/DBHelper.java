@@ -12,13 +12,18 @@ import co.edu.eafit.mrblock.Contracts.Contract;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Block";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     private static final String  TABLE_CONTACTS= " CREATE TABLE " + Contract.ContactInContract.TABLE_NAME
             + "(" + Contract.ContactInContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
             + Contract.ContactInContract.COLUMN_NAME + " TEXT)";
     public static final String DELETE_CONTACTS = "DROP TABLE IF EXISTS " + Contract.ContactInContract.TABLE_NAME;
 
+    public static final String TABLE_UBICATION = " CREATE TABLE " + Contract.UbicationContract.TABLE_NAME
+            + "(" + Contract.UbicationContract.COLUMN_PLACE + " TEXT PRIMARY KEY, "
+            + Contract.UbicationContract.COLUMN_LATITUDE + " REAL, "
+            + Contract.UbicationContract.COLUMN_LONGITUDE + " REAL)";
+    public static final String DELETE_UBICATION = " DROP TABLE IF EXISTS " + Contract.UbicationContract.TABLE_NAME;
 
     private static final String TABLE_CALLS = " CREATE TABLE " + Contract.CallInContract.TABLE_NAME
             + "(" + Contract.CallInContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
@@ -53,6 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(TABLE_CONTACTS);
         db.execSQL(TABLE_CALLS);
         db.execSQL(TABLE_DATE);
+        db.execSQL(TABLE_UBICATION);
     }
 
     @Override
@@ -60,6 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(DELETE_CONTACTS);
         db.execSQL(DELETE_CALLS);
         db.execSQL(DELETE_DATE);
+        db.execSQL(DELETE_UBICATION);
         onCreate(db);
     }
 }

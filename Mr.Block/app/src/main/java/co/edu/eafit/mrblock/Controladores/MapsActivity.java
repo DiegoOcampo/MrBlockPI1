@@ -1,26 +1,65 @@
 package co.edu.eafit.mrblock.Controladores;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingEvent;
+import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 
+import java.util.ArrayList;
 
+import co.edu.eafit.mrblock.Entidades.Ubicacion;
+import co.edu.eafit.mrblock.Helper.UbicationHelper;
 import co.edu.eafit.mrblock.R;
 
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mapa; // Might be null if Google Play services APK is not available.
+    public GeofencingEvent EVENT ;
+    private ArrayList<Ubicacion> array;
+    private UbicationHelper ubicationHelper;
+    public static LatLng storeubic;
+    private Geofence geobuild;
+    private ArrayList<Geofence> mGeofenceList;
+    private PendingIntent mGeofencePendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+        mapa.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                Ubicacion locstore = new Ubicacion();
+                locstore.setLatlng(latLng);
+                storeubic = latLng;
+                Intent i = new Intent(getApplicationContext(), LockBlockActivity.class);
+                startActivity(i);
+            }
+        });
+        ubicationHelper = new UbicationHelper(getApplicationContext());
+        array = ubicationHelper.getAllUbication();
+        if(!array.isEmpty()){
+            for(int i = 0 ; i< array.size();i++){
+                Ubicacion ubicacion = new Ubicacion();
+                ubicacion = array.get(i);
+                Toast.makeText(getApplicationContext(),"Latitud = "+ubicacion.getLatitud()+"  Longitud = "+ubicacion.getLongitud(),Toast.LENGTH_SHORT).show();
+        //        mGeofenceList.add(i, new Geofence.Builder()
+        //                .setRequestId(ubicacion.getName())
+        //                .setCircularRegion(ubicacion.getLatitud(), ubicacion.getLongitud(), 100000000).setExpirationDuration(9999999)
+        //                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
+            }
+        }
     }
 
     @Override

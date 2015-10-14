@@ -21,6 +21,13 @@ public class Contract {
         public static final String COLUMN_NUMBER = "Number";
     }
 
+    public static abstract class UbicationContract implements BaseColumns{
+        public static final String TABLE_NAME = "Ubication";
+        public static final String COLUMN_PLACE = "Place";
+        public static final String COLUMN_LATITUDE = "Latitud";
+        public static final String COLUMN_LONGITUDE = "Longitud";
+    }
+
     public static abstract class DateContract implements BaseColumns{
         public static final String TABLE_NAME = "DateIn";
         public static final String COLUMN_NUMBER = "Number";
