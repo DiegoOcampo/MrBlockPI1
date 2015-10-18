@@ -1,7 +1,6 @@
 package co.edu.eafit.mrblock.Controladores;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,8 +21,10 @@ import java.util.ArrayList;
 
 import co.edu.eafit.mrblock.Entidades.Complete;
 import co.edu.eafit.mrblock.Entidades.Contact;
+import co.edu.eafit.mrblock.Entidades.DateTime;
 import co.edu.eafit.mrblock.Helper.CompleteHelper;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
+import co.edu.eafit.mrblock.Helper.DateHelper;
 import co.edu.eafit.mrblock.R;
 //parse
 //
@@ -32,15 +32,20 @@ import co.edu.eafit.mrblock.R;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView, listDrawer;
-    private String [] items = {"Bloqueados S", "Bloquear contacto","Bloquear TS", "Bloquear todos", "Desbloquear TS", "Desbloquear todos", "Bloquear fecha", "Llamadas", "Bloquear posicion","Bloquear mensajes", "Bloquear app"};
-    private ArrayList<String> Bloqueados= new ArrayList<String>();
+    private DrawerLayout mDrawerLayout;
+    private String [] items = {"Bloqueados S", "Bloquear contacto","Bloquear TS", "Bloquear todo", "Desbloquear TS", "Desbloquear todo", "Bloquear fecha", "Llamadas", "Bloquear posicion", "Bloquear app"};
+
+    private ArrayList<Contact> contacts = new ArrayList<Contact>();
+    private ArrayList<String> Blocks = new ArrayList<String>();
+    private ArrayList<String> typesBlock = new ArrayList<String>();
+
     private ArrayAdapter<String> adapter;
     private ArrayAdapter<String> adapterItems;
-    public static boolean check = false, check2=false, check3=false;
-    private ArrayList<Contact> contacts = new ArrayList<Contact>();
-    private ContactInHelper contactInHelper;
-    private DrawerLayout mDrawerLayout;
+
+
     private CompleteHelper completeHelper;
+    private ContactInHelper contactInHelper;
+    private DateHelper dateHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -52,15 +57,21 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         contactInHelper = new ContactInHelper(getApplicationContext());
+        completeHelper = new CompleteHelper(getApplicationContext());
+        dateHelper = new DateHelper(getApplicationContext());
+
+
         contacts = contactInHelper.getAllContact();
 
+
+
         for(int i = 0;i < contacts.size();i++){
-            Bloqueados.add(contacts.get(i).getContact());
+            Blocks.add(contacts.get(i).getContact());
         }
 
-        completeHelper = new CompleteHelper(getApplicationContext());
+
         adapterItems = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,items);
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Bloqueados);
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Blocks);
 
         listView.setAdapter(adapter);
         listDrawer.setAdapter(adapterItems);
@@ -69,17 +80,13 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //SingletonContact singletonContact = SingletonContact.getInstance();
-                //Contact contact = singletonContact.getAtIndex(position);
                 Contact contact = contacts.get(position);
 
                 long row = contactInHelper.delete(contact);
                 if(row>0){
                     contacts.remove(position);
-                    Bloqueados.remove(position);
+                    Blocks.remove(position);
                 }
-                //contactDbHelper.delete(contact);
-                //singletonContact.deleteContact(position);
                 Toast.makeText(getApplicationContext(),"Contacto eliminado: \n" + contact.getContact(),Toast.LENGTH_LONG).show();
                 adapter.notifyDataSetChanged();
             }
@@ -104,11 +111,11 @@ public class MainActivity extends AppCompatActivity {
                         String number = c.getString(1).replaceAll(" ", "");
                         Contact contact = new Contact(number,name);
 
-                        if(!Bloqueados.contains(contact.getContact())){
+                        if(!Blocks.contains(contact.getContact())){
                             contactInHelper.addContact(contact);
                             //contactDbHelper.addContact(contact);
                             contacts.add(contact);
-                            Bloqueados.add(contact.getContact());
+                            Blocks.add(contact.getContact());
                             adapter.notifyDataSetChanged();
                             Toast.makeText(getApplicationContext(),"Contacto agregado: \n"+contactInHelper.getContact(contact.getNumber()).getContact(),Toast.LENGTH_LONG).show();
                         }else{
@@ -158,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         }else if(items[position].equals(items[2])){
 
         }else if(items[position].equals(items[3])){
-            openAlert();
+            openAlertBlock();
             //check=true;
                     /*
                             Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
@@ -167,10 +174,10 @@ public class MainActivity extends AppCompatActivity {
                                 String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)).replace(" ","");
                                 String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replace(" ","");
                                 Contact contact = new Contact(phoneNumber, name);
-                                if (!Bloqueados.contains(contact.getContact())) {
+                                if (!Blocks.contains(contact.getContact())) {
                                     contactInHelper.addContact(contact);
                                     contacts.add(contact);
-                                    Bloqueados.add(contact.getContact());
+                                    Blocks.add(contact.getContact());
                                 }
 
                                 adapter.notifyDataSetChanged();
@@ -181,12 +188,11 @@ public class MainActivity extends AppCompatActivity {
         }else if(items[position].equals(items[4])){
 
         }else if(items[position].equals(items[5])){
-            Complete complete = new Complete("Complete block",0,0,0,0,"Complete block");
-            completeHelper.delete(complete);
+            completeHelper.delete("Complete block");
             Toast.makeText(getApplicationContext(),"Todos los contactos han sido desbloqueados",Toast.LENGTH_LONG).show();
             /*check=false;
             contactInHelper.deleteAll();
-            Bloqueados.clear();
+            Blocks.clear();
             contacts.clear();
             adapter.notifyDataSetChanged();
             */
@@ -198,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     long row = contactInHelper.delete(contact);
                     if (row > 0) {
                         contacts.remove(index);
-                        Bloqueados.remove(index);
+                        Blocks.remove(index);
                         adapter.notifyDataSetChanged();
                     }
 
@@ -217,28 +223,20 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(),MapsActivity.class);
             startActivity(i);
         }else if(items[position].equals(items[9])){
-            if(check3){
-                check3 = false;
-                Toast.makeText(getApplicationContext(),"Mensajes desbloqueados",Toast.LENGTH_LONG).show();
-            }else{
-                check3 = true;
-                Toast.makeText(getApplicationContext(),"Mensajes bloqueados",Toast.LENGTH_LONG).show();
-            }
-        }else if(items[position].equals(items[10])){
 
         }
         mDrawerLayout.closeDrawer(listDrawer);
     }
-    private void openAlert(){
+    private void openAlertBlock(){
 
         final AlertDialog.Builder alertName = new AlertDialog.Builder(MainActivity.this);
-        alertName.setTitle("Name");
-        alertName.setMessage("Enter name");
-        final EditText dateName = new EditText(MainActivity.this);
-        alertName.setView(dateName);
+        alertName.setTitle("Advertencia");
+        alertName.setMessage("Esta seguro de bloquear todos los contactos?");
+        //final EditText dateName = new EditText(MainActivity.this);
+        //alertName.setView(dateName);
         alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                String editTextName = dateName.getText().toString();
+                //String editTextName = dateName.getText().toString();
                 Complete complete = new Complete("Complete block",1,0,0,0,"Complete block");
                 completeHelper.addComplete(complete);
                 Toast.makeText(getApplicationContext(),"Todos los contactos han sido bloqueados",Toast.LENGTH_LONG).show();
@@ -247,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
 
         alertName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
+                Toast.makeText(getApplicationContext(),"Bloqueo cancelado",Toast.LENGTH_LONG).show();
             }
         });
         alertName.show();

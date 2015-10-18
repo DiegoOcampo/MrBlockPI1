@@ -51,7 +51,18 @@ public class CompleteHelper {
         return complete;
     }
 
-    public long delete(Complete complete){
+    public long delete(String blockName){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        try {
+            return db.delete(Contract.CompleteContract.TABLE_NAME, Contract.CompleteContract.COLUMN_BLOCKNAME + "  =?",
+                    new String[]{blockName});
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    /*public long delete(Complete complete){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         try {
             return db.delete(Contract.CompleteContract.TABLE_NAME, Contract.CompleteContract.COLUMN_BLOCKNAME + "  =?",
@@ -60,7 +71,7 @@ public class CompleteHelper {
             e.printStackTrace();
             return -1;
         }
-    }
+    }*/
 
     public ArrayList<Complete> getAllComplete(){
         ArrayList<Complete> block= new ArrayList<Complete>();
