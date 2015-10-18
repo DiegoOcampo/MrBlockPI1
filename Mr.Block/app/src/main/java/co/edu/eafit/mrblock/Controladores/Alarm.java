@@ -1,17 +1,21 @@
 package co.edu.eafit.mrblock.Controladores;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -43,7 +47,6 @@ public class Alarm extends AppCompatActivity {
     private ContactInHelper contactInHelper;
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +54,9 @@ public class Alarm extends AppCompatActivity {
         dateHelper = new DateHelper(getApplicationContext());
         ddd = new ArrayList<DateTime>();
         ddd = dateHelper.getAllDate();
-
         contactInHelper = new ContactInHelper(getApplicationContext());
         contacts = contactInHelper.getAllContact();
+
 
         textAlarmPrompt = (TextView) findViewById(R.id.alarm);
         buttonTime1 = (Button) findViewById(R.id.startTime1);
@@ -93,7 +96,9 @@ public class Alarm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 textAlarmPrompt.setText("");
-                openDatePickerDialog2();
+                //try {
+                    openDatePickerDialog2();
+
             }
         });
 
@@ -333,8 +338,7 @@ public class Alarm extends AppCompatActivity {
             }
 
             phones.close();
-
-            Toast.makeText(getApplicationContext(),"Fecha agregada",Toast.LENGTH_LONG).show();
+            openAlert();
         }else{
 
             Toast.makeText(getApplicationContext(),"Por favor ingrese una fecha valida",Toast.LENGTH_LONG).show();
@@ -343,6 +347,33 @@ public class Alarm extends AppCompatActivity {
 
 
     }
+    private void openAlert(){
+
+                AlertDialog.Builder alertName = new AlertDialog.Builder(Alarm.this);
+                alertName.setTitle("Name");
+                alertName.setMessage("Enter name");
+                final EditText dateName = new EditText(Alarm.this);
+                alertName.setView(dateName);
+                alertName.setPositiveButton("Yes Option", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //Editable YouEditTextValue = dateName.getText();
+
+                        Toast.makeText(getApplicationContext(),"Fecha agregada",Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                alertName.setNegativeButton("No Option", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+                        Toast.makeText(getApplicationContext(),"La fecha no fue agregada",Toast.LENGTH_LONG).show();
+                    }
+                });
+                alertName.show();
+        //}catch (Exception e){
+        //    Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        //}
+    }
+
 
 
 }

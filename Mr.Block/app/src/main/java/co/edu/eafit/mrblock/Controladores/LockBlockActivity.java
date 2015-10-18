@@ -25,7 +25,7 @@ public class LockBlockActivity extends AppCompatActivity {
     private String nombre;
     private UbicationHelper ubicationHelper;
     private ArrayList<Ubicacion> array;
-    private ArrayList<String> array2 = new ArrayList<>();
+    private ArrayList<String> array2 = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -42,12 +42,12 @@ public class LockBlockActivity extends AppCompatActivity {
             Ubicacion ubic = new Ubicacion();
             ubic=array.get(i);
             array2.add(i, ubic.getName());
-            Toast.makeText(getApplicationContext(), ubic.getName(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), ubic.getName(),Toast.LENGTH_SHORT).show();
         }
         int i =0;
         for (String s : array2) {
             i++;
-            Toast.makeText(getApplicationContext(),"Comparando "+i,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"Comparando "+i,Toast.LENGTH_LONG).show();
             if(nombre.equals(s)) {
                 exist = true;
             }

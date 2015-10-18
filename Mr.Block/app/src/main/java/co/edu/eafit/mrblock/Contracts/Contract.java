@@ -28,6 +28,17 @@ public class Contract {
         public static final String COLUMN_LONGITUDE = "Longitud";
     }
 
+    public static abstract class CompleteContract implements BaseColumns{
+        public static final String TABLE_NAME = "Complete";
+        public static final String COLUMN_BLOCKNAME = "BlockName";
+        public static final String COLUMN_INCALLS = "InCalls";
+        public static final String COLUMN_OUTCALLS = "OutCalls";
+        public static final String COlUMN_INSMS = "InSms";
+        public static final String COLUMN_OUTSMS = "OutSms";
+        public static final String COLUMN_TYPE = "Type";
+
+    }
+
     public static abstract class DateContract implements BaseColumns{
         public static final String TABLE_NAME = "DateIn";
         public static final String COLUMN_NUMBER = "Number";

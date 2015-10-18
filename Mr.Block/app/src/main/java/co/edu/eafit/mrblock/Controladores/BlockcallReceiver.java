@@ -4,9 +4,7 @@ package co.edu.eafit.mrblock.Controladores;
  * Created by juan on 13/09/15.
  */
 import java.lang.reflect.Method;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import android.content.BroadcastReceiver;
@@ -14,16 +12,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.text.format.DateFormat;
 import android.widget.Toast;
 
 import co.edu.eafit.mrblock.Entidades.Call;
+import co.edu.eafit.mrblock.Entidades.Complete;
 import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Entidades.DateTime;
 import co.edu.eafit.mrblock.Helper.CallInHelper;
+import co.edu.eafit.mrblock.Helper.CompleteHelper;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.Helper.DateHelper;
-import co.edu.eafit.mrblock.SingletonContact;
 
 public class BlockcallReceiver extends BroadcastReceiver {
     ContactInHelper contactInHelper;
@@ -32,8 +30,10 @@ public class BlockcallReceiver extends BroadcastReceiver {
     DateHelper dateHelper;
     Date date1,date2;
     DateTime dateTime;
+    CompleteHelper completeHelper;
     @Override
     public void onReceive(Context context, Intent intent) {
+        completeHelper = new CompleteHelper(context);
         dateHelper = new DateHelper(context);
         date1 = new Date();
         date2 = new Date();
@@ -57,18 +57,10 @@ public class BlockcallReceiver extends BroadcastReceiver {
             date2.setMinutes(dateTime.getMinute2());
             date2.setSeconds(dateTime.getSecond2());
             Date date = new Date();
-           Toast.makeText(context,date1.toString(),Toast.LENGTH_LONG).show();
-
-            Toast.makeText(context,date2.toString(),Toast.LENGTH_LONG).show();
-
-            Toast.makeText(context,date.toString(),Toast.LENGTH_LONG).show();
             //TODO Auto-generated method stub
             if (date1.before(date) && date.before(date2)) {
-
-                Toast.makeText(context,"1",Toast.LENGTH_LONG).show();
                 if (myBundle != null) {
 
-                    Toast.makeText(context,"2",Toast.LENGTH_LONG).show();
                     try {
                         if (intent.getAction().equals("android.intent.action.PHONE_STATE")) {
 
@@ -119,10 +111,16 @@ public class BlockcallReceiver extends BroadcastReceiver {
                     System.out.println("--------in state-----");
                     if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                         // Incoming call
+                        Complete complete = completeHelper.getComplete("Complete block");
+                        if(complete.getInCalls()==1){
+                            Block(context);
+                        }
                         String incomingNumber =intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
                         System.out.println("--------------my number---------" + incomingNumber);
                         Contact contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
-                        Block(contact,context);
+                        Call call = new Call(contact.getNumber(),contact.getName());
+                        callInHelper.addCall(call);
+                        Block(context);
                       // for (Contact cc : con) {
                             //if(contactInHelper.getContact(incomingNumber.replaceAll(" ","")).equals(cc.)){
                         //    if (cc.getNumber().equalsIgnoreCase(incomingNumber.replaceAll(" ", ""))) {
@@ -166,9 +164,8 @@ public class BlockcallReceiver extends BroadcastReceiver {
         }
     }
 
-    public void Block(Contact contact, Context context) throws Exception{
-        Call call = new Call(contact.getNumber(),contact.getName());
-        callInHelper.addCall(call);
+    public void Block(Context context) throws Exception{
+
         // this is main section of the code,. could also be use for particular number.
         // Get the boring old TelephonyManager.
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);

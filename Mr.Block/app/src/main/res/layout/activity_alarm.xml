@@ -3,6 +3,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editDateName"
+        android:layout_gravity="center_horizontal" />
+
     <Button
         android:id="@+id/startTime1"
         android:layout_width="fill_parent"

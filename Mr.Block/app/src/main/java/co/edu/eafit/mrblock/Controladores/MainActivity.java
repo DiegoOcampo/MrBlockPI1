@@ -1,7 +1,8 @@
 package co.edu.eafit.mrblock.Controladores;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -9,38 +10,29 @@ import android.provider.ContactsContract;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.zip.DataFormatException;
 
+import co.edu.eafit.mrblock.Entidades.Complete;
 import co.edu.eafit.mrblock.Entidades.Contact;
-import co.edu.eafit.mrblock.Entidades.Ubicacion;
+import co.edu.eafit.mrblock.Helper.CompleteHelper;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
-import co.edu.eafit.mrblock.Helper.DateHelper;
-import co.edu.eafit.mrblock.Helper.UbicationHelper;
 import co.edu.eafit.mrblock.R;
-import co.edu.eafit.mrblock.SingletonContact;
 //parse
 //
 
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView, listDrawer;
-    private String [] items = {"Bloqueados S", "Bloqueados E","Bloquear TS", "Bloquear TE", "Desbloquear TS", "Desbloquear TE", "Fecha", "Llamadas", "Bloquear Posicion","mensajes"};
+    private String [] items = {"Bloqueados S", "Bloquear contacto","Bloquear TS", "Bloquear todos", "Desbloquear TS", "Desbloquear todos", "Bloquear fecha", "Llamadas", "Bloquear posicion","Bloquear mensajes", "Bloquear app"};
     private ArrayList<String> Bloqueados= new ArrayList<String>();
     private ArrayAdapter<String> adapter;
     private ArrayAdapter<String> adapterItems;
@@ -48,19 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
     private ContactInHelper contactInHelper;
     private DrawerLayout mDrawerLayout;
-    ProgressDialog progressDialog;
+    private CompleteHelper completeHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-    /**
-        UbicationHelper ubic = new UbicationHelper(getApplicationContext());
-        ArrayList<Ubicacion> list = new ArrayList<>();
-        list = ubic.getAllUbication();
-        for(int i = 0;i<list.size();i++){
-            Toast.makeText(getApplicationContext(),"Borrados = "+i,Toast.LENGTH_LONG).show();
-        }
-        ubic.deleteAll();
-    */
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -68,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         listDrawer = (ListView) findViewById(R.id.left_drawer);
         listView = (ListView) findViewById(R.id.listView);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         contactInHelper = new ContactInHelper(getApplicationContext());
         contacts = contactInHelper.getAllContact();
 
@@ -75,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             Bloqueados.add(contacts.get(i).getContact());
         }
 
+        completeHelper = new CompleteHelper(getApplicationContext());
         adapterItems = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,items);
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Bloqueados);
 
@@ -121,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
                         Contact contact = new Contact(number,name);
 
                         if(!Bloqueados.contains(contact.getContact())){
-                            SingletonContact sincontact = SingletonContact.getInstance();
-                            sincontact.addContact(contact);
                             contactInHelper.addContact(contact);
                             //contactDbHelper.addContact(contact);
                             contacts.add(contact);
@@ -176,8 +158,9 @@ public class MainActivity extends AppCompatActivity {
         }else if(items[position].equals(items[2])){
 
         }else if(items[position].equals(items[3])){
+            openAlert();
             //check=true;
-
+                    /*
                             Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
                             while (phones.moveToNext()) {
 
@@ -192,16 +175,21 @@ public class MainActivity extends AppCompatActivity {
 
                                 adapter.notifyDataSetChanged();
                             }
-                            phones.close();
+                            phones.close();*/
+
 
         }else if(items[position].equals(items[4])){
 
         }else if(items[position].equals(items[5])){
-            check=false;
+            Complete complete = new Complete("Complete block",0,0,0,0,"Complete block");
+            completeHelper.delete(complete);
+            Toast.makeText(getApplicationContext(),"Todos los contactos han sido desbloqueados",Toast.LENGTH_LONG).show();
+            /*check=false;
             contactInHelper.deleteAll();
             Bloqueados.clear();
             contacts.clear();
             adapter.notifyDataSetChanged();
+            */
             /*
             int length = contacts.size();
             try {
@@ -231,13 +219,39 @@ public class MainActivity extends AppCompatActivity {
         }else if(items[position].equals(items[9])){
             if(check3){
                 check3 = false;
-                Toast.makeText(getApplicationContext(),""+check3,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Mensajes desbloqueados",Toast.LENGTH_LONG).show();
             }else{
                 check3 = true;
-                Toast.makeText(getApplicationContext(),""+check3,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Mensajes bloqueados",Toast.LENGTH_LONG).show();
             }
+        }else if(items[position].equals(items[10])){
+
         }
         mDrawerLayout.closeDrawer(listDrawer);
+    }
+    private void openAlert(){
+
+        final AlertDialog.Builder alertName = new AlertDialog.Builder(MainActivity.this);
+        alertName.setTitle("Name");
+        alertName.setMessage("Enter name");
+        final EditText dateName = new EditText(MainActivity.this);
+        alertName.setView(dateName);
+        alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String editTextName = dateName.getText().toString();
+                Complete complete = new Complete("Complete block",1,0,0,0,"Complete block");
+                completeHelper.addComplete(complete);
+                Toast.makeText(getApplicationContext(),"Todos los contactos han sido bloqueados",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        alertName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+        alertName.show();
+
     }
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override

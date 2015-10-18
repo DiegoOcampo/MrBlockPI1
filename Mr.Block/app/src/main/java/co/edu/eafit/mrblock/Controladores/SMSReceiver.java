@@ -51,7 +51,6 @@ public class SMSReceiver extends BroadcastReceiver{
         SmsMessage[] msgs = null;
         String incomingNumber = "";
 
-        Toast.makeText(context, incomingNumber + "hi", Toast.LENGTH_LONG).show();
         if (bundle != null)
         {
             if(MainActivity.check3) {
@@ -66,8 +65,6 @@ public class SMSReceiver extends BroadcastReceiver{
                 }
                 //---display the new SMS message---
                 Toast.makeText(context, incomingNumber, Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(context,"otro lado",Toast.LENGTH_LONG).show();
             }
         }
     }

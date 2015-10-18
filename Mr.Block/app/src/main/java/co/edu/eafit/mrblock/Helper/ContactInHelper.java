@@ -67,10 +67,6 @@ public class ContactInHelper  {
 
     public long delete(Contact contact){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        /*db.execSQL("DELETE FROM " + Contract.ContactInContract.TABLE_NAME +
-        "WHERE " + Contract.ContactInContract.COLUMN_NUMBER + "='"+
-        contact.getNumber() + "'");
-        */
         try {
             return db.delete(Contract.ContactInContract.TABLE_NAME, Contract.ContactInContract.COLUMN_NUMBER + "  =?",
                     new String[]{contact.getNumber()});

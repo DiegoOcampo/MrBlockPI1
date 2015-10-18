@@ -57,7 +57,6 @@ public class ServiceClass extends Service {
                         String incomingNumber =intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
                         System.out.println("--------------my number---------" + incomingNumber);
 
-                        SingletonContact sin = SingletonContact.getInstance();
 
                         // this is main section of the code,. could also be use for particular number.
                         // Get the boring old TelephonyManager.
