@@ -12,7 +12,7 @@ import co.edu.eafit.mrblock.Contracts.Contract;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Block";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     private static final String  TABLE_CONTACTS= " CREATE TABLE " + Contract.ContactInContract.TABLE_NAME
             + "(" + Contract.ContactInContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "

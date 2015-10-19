@@ -27,10 +27,12 @@ public class BlockcallReceiver extends BroadcastReceiver {
     ContactInHelper contactInHelper;
     CallInHelper callInHelper;
     ArrayList<Contact> con = new ArrayList<Contact>();
+    ArrayList<DateTime> dateTimes = new ArrayList<DateTime>();
     DateHelper dateHelper;
     Date date1,date2;
     DateTime dateTime;
     CompleteHelper completeHelper;
+    boolean isDateBlock;
     @Override
     public void onReceive(Context context, Intent intent) {
         completeHelper = new CompleteHelper(context);
@@ -41,9 +43,38 @@ public class BlockcallReceiver extends BroadcastReceiver {
         callInHelper = new CallInHelper(context);
         con = contactInHelper.getAllContact();
         Bundle myBundle = intent.getExtras();
+        Toast.makeText(context, date1.toString() + date2.toString(),Toast.LENGTH_LONG).show();
         try {
-            String incoming = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+
+            dateTimes = dateHelper.getAllDate();
+            for (int i = 0; i < dateTimes.size(); i++){
+                date1.setYear(dateTimes.get(i).getYear1() - 1900);
+                date1.setMonth(dateTimes.get(i).getMonth1());
+                date1.setDate(dateTimes.get(i).getDay1());
+                date1.setHours(dateTimes.get(i).getHour1());
+                date1.setMinutes(dateTimes.get(i).getMinute1());
+                date1.setSeconds(dateTimes.get(i).getSecond1());
+                date2.setYear(dateTimes.get(i).getYear2() - 1900);
+                date2.setMonth(dateTimes.get(i).getMonth2());
+                date2.setDate(dateTimes.get(i).getDay2());
+                date2.setHours(dateTimes.get(i).getHour2());
+                date2.setMinutes(dateTimes.get(i).getMinute2());
+                date2.setSeconds(dateTimes.get(i).getSecond2());
+                Date date = new Date();
+                if (date1.before(date) && date.before(date2)){
+                    isDateBlock = true;
+                    break;
+                }else {
+                    isDateBlock = false;
+                }
+
+            }
+/*
+
+            String incoming = "hi";
             dateTime = dateHelper.getDate(incoming.replaceAll(" ",""));
+
+            Toast.makeText(context, "hola" + dateTime.getDateName(),Toast.LENGTH_LONG).show();
             date1.setYear(dateTime.getYear1() - 1900);
             date1.setMonth(dateTime.getMonth1());
             date1.setDate(dateTime.getDay1());
@@ -56,9 +87,9 @@ public class BlockcallReceiver extends BroadcastReceiver {
             date2.setHours(dateTime.getHour2());
             date2.setMinutes(dateTime.getMinute2());
             date2.setSeconds(dateTime.getSecond2());
-            Date date = new Date();
+            Date date = new Date();*/
             //TODO Auto-generated method stub
-            if (date1.before(date) && date.before(date2)) {
+            if (isDateBlock) {
                 if (myBundle != null) {
 
                     try {

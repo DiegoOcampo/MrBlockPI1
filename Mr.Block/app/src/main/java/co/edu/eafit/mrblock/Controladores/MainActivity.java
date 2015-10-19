@@ -33,9 +33,14 @@ import co.edu.eafit.mrblock.R;
 public class MainActivity extends AppCompatActivity {
     private ListView listView, listDrawer;
     private DrawerLayout mDrawerLayout;
-    private String [] items = {"Bloqueados S", "Bloquear contacto","Bloquear TS", "Bloquear todo", "Desbloquear TS", "Desbloquear todo", "Bloquear fecha", "Llamadas", "Bloquear posicion", "Bloquear app"};
+    private String [] items = {"Bloquear contacto", "Bloquear todo", "Desbloquear todo", "Bloquear fecha", "Llamadas", "Bloquear posicion","Lista blanca", "Bloquear app"};
+
+    //private String [] items = { 0"Bloqueados S", 1"Bloquear contacto",2"Bloquear TS", 3"Bloquear tdo", 4"Desbloquear TS", 5"Desbloquear tdo", 6"Bloquear fecha", 7"Llamadas", 8"Bloquear posicion", 9"Bloquear app"};
+
 
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
+    private ArrayList<Complete> completes = new ArrayList<Complete>();
+    private ArrayList<DateTime> dateTimes = new ArrayList<DateTime>();
     private ArrayList<String> Blocks = new ArrayList<String>();
     private ArrayList<String> typesBlock = new ArrayList<String>();
 
@@ -62,16 +67,24 @@ public class MainActivity extends AppCompatActivity {
 
 
         contacts = contactInHelper.getAllContact();
-
+        completes = completeHelper.getAllComplete();
+        dateTimes = dateHelper.getAllDate();
 
 
         for(int i = 0;i < contacts.size();i++){
             Blocks.add(contacts.get(i).getContact());
+            typesBlock.add(contacts.get(i).getContact());
+        }
+        for(int i = 0;i < completes.size();i++){
+            typesBlock.add(completes.get(i).getBlockName());
+        }
+        for(int i = 0;i < dateTimes.size();i++){
+            typesBlock.add(dateTimes.get(i).getDateName());
         }
 
 
         adapterItems = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,items);
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Blocks);
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, typesBlock);
 
         listView.setAdapter(adapter);
         listDrawer.setAdapter(adapterItems);
@@ -79,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
         listDrawer.setOnItemClickListener(new DrawerItemClickListener());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
 
                 Contact contact = contacts.get(position);
 
@@ -154,9 +169,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void selectItem(int position) {
-
         listDrawer.setItemChecked(position, true);
-        if(items[position].equals(items[1])){
+        switch (position){
+            case 0:
+                Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
+                intent1.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+                startActivityForResult(intent1, 1);
+                break;
+            case 1:
+                openAlertBlock();
+                break;
+            case 2:
+                completeHelper.delete("Complete block");
+                Toast.makeText(getApplicationContext(),"Todos los contactos han sido desbloqueados",Toast.LENGTH_LONG).show();
+                break;
+            case 3:
+                Intent intent2 = new Intent(getBaseContext(), Alarm.class);
+                startActivity(intent2);
+                break;
+            case 4:
+                Intent intent3 = new Intent(getApplicationContext(), CallsInListActivity.class);
+                startActivity(intent3);
+                break;
+            case 5:
+                Intent i = new Intent(getApplicationContext(),MapsActivity.class);
+                startActivity(i);
+                break;
+
+
+
+        }
+
+
+       /* if(items[position].equals(items[0])){
             // user BoD suggests using Intent.ACTION_PICK instead of .ACTION_GET_CONTENT to avoid the chooser
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             // BoD con't: CONTENT_TYPE instead of CONTENT_ITEM_TYPE
@@ -165,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         }else if(items[position].equals(items[2])){
 
         }else if(items[position].equals(items[3])){
-            openAlertBlock();
+            openAlertBlock();*/
             //check=true;
                     /*
                             Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
@@ -183,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                                 adapter.notifyDataSetChanged();
                             }
                             phones.close();*/
-
+/*
 
         }else if(items[position].equals(items[4])){
 
@@ -211,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }catch (Exception e){
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }*/
+            }
 
         }else if(items[position].equals(items[6])){
             Intent i = new Intent(getBaseContext(), Alarm.class);
@@ -224,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }else if(items[position].equals(items[9])){
 
-        }
+        }*/
         mDrawerLayout.closeDrawer(listDrawer);
     }
     private void openAlertBlock(){

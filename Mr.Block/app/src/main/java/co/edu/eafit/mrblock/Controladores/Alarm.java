@@ -4,9 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +34,7 @@ public class Alarm extends AppCompatActivity {
     private DatePickerDialog datePickerDialog, datePickerDialog2;
     private int year1, monthOfaYear1, dayOfMonth1, hourOfDay1, minute1, year2, monthOfaYear2, dayOfMonth2, hourOfDay2, minute2;
     private DateHelper dateHelper;
-    ArrayList<DateTime> ddd;
+    ArrayList<DateTime> dateTimeArrayList;
     private ContactInHelper contactInHelper;
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
 
@@ -45,8 +43,8 @@ public class Alarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
         dateHelper = new DateHelper(getApplicationContext());
-        ddd = new ArrayList<DateTime>();
-        ddd = dateHelper.getAllDate();
+        dateTimeArrayList = new ArrayList<DateTime>();
+        dateTimeArrayList = dateHelper.getAllDate();
         contactInHelper = new ContactInHelper(getApplicationContext());
         contacts = contactInHelper.getAllContact();
 
@@ -313,26 +311,13 @@ public class Alarm extends AppCompatActivity {
         date_2.setMinutes(minute2);
         date_2.setSeconds(0);
         if(date_1.before(date_2) && !date_1.before(date_3)){
-            for(DateTime d:ddd){
+            for(DateTime d: dateTimeArrayList){
+                Toast.makeText(getApplicationContext(),d.getDateName() + d.getMinute1(),Toast.LENGTH_LONG).show();
                 dateHelper.delete(d.getDateName());
             }
-
-            Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-            while (phones.moveToNext()) {
-                String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)).replace(" ","");
-                String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replace(" ","");
-                Contact contact = new Contact(phoneNumber, name);
-                if (!contacts.contains(contact)) {
-                    contacts.add(contact);
-
-                    DateTime dateTime= new DateTime(phoneNumber,year1,monthOfaYear1,dayOfMonth1,hourOfDay1,minute1,0,
-                            year2,monthOfaYear2,dayOfMonth2,hourOfDay2,minute2,0);
-                    dateHelper.addDate(dateTime);
-                }
-            }
-
-            phones.close();
             openAlert();
+
+
         }else{
 
             Toast.makeText(getApplicationContext(),"Por favor ingrese una fecha valida",Toast.LENGTH_LONG).show();
@@ -341,27 +326,41 @@ public class Alarm extends AppCompatActivity {
 
 
     }
-    private void openAlert(){
+    public void openAlert(){
 
                 AlertDialog.Builder alertName = new AlertDialog.Builder(Alarm.this);
                 alertName.setTitle("Nombre");
                 alertName.setMessage("Ingrese un nombre de bloqueo");
-                final EditText dateName = new EditText(Alarm.this);
-                alertName.setView(dateName);
+                final EditText dateNameEditText = new EditText(Alarm.this);
+                alertName.setView(dateNameEditText);
+                String dn;
                 alertName.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //Editable YouEditTextValue = dateName.getText();
-
-                        Toast.makeText(getApplicationContext(),"Fecha agregada",Toast.LENGTH_LONG).show();
+                        final String dateName = dateNameEditText.getText().toString();
+                        if (dateName.equals("")) {
+                            Toast.makeText(getApplicationContext(), "Nombre invalido", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Fecha agregada: " + dateName, Toast.LENGTH_LONG).show();
+                            DateTime dateTime= new DateTime(dateName,year1,monthOfaYear1,dayOfMonth1,hourOfDay1,minute1,0,
+                                    year2,monthOfaYear2,dayOfMonth2,hourOfDay2,minute2,0);
+                            try {
+                                dateHelper.addDate(dateTime);
+                            }catch (Exception e){
+                                Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                            }
+//                            Toast.makeText(getApplicationContext(),dateHelper.getDate(dateName).getDateName()+"hi",Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 
                 alertName.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // what ever you want to do with No option.
-                        Toast.makeText(getApplicationContext(),"La fecha no fue agregada",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "La fecha no fue agregada", Toast.LENGTH_LONG).show();
                     }
                 });
+
                 alertName.show();
         //}catch (Exception e){
         //    Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
