@@ -73,8 +73,8 @@ public class UbicationHelper {
     public long delete(Ubicacion ubicacion){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         /*db.execSQL("DELETE FROM " + Contract.ContactInContract.TABLE_NAME +
-        "WHERE " + Contract.ContactInContract.COLUMN_NUMBER + "='"+
-        contact.getNumber() + "'");
+        "WHERE " + Contract.ContactInContract.COLUMN_DATENAME + "='"+
+        contact.getDateName() + "'");
         */
         try {
             return db.delete(Contract.UbicationContract.TABLE_NAME, Contract.UbicationContract.COLUMN_PLACE + "  =?",

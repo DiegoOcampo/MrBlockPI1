@@ -46,7 +46,7 @@ public class ServiceClass extends Service {
         super.onStart(intent, startId);
         Bundle myBundle = intent.getExtras();
         System.out.println("I'm fine, thanks");
-        if (myBundle != null && MainActivity.check){
+        if (myBundle != null){
             System.out.println("--------Not null-----");
             try{
                 if (intent.getAction().equals("android.intent.action.PHONE_STATE")){

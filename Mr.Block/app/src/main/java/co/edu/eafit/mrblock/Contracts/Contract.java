@@ -41,7 +41,7 @@ public class Contract {
 
     public static abstract class DateContract implements BaseColumns{
         public static final String TABLE_NAME = "DateIn";
-        public static final String COLUMN_NUMBER = "Number";
+        public static final String COLUMN_DATENAME = "DateName";
         public static final String COLUMN_YEAR_1 = "Year1";
         public static final String COLUMN_MONTH_1 = "Month1";
         public static final String COLUMN_DAY_1 = "Day1";

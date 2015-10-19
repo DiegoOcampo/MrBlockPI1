@@ -81,8 +81,8 @@ public class ContactInHelper  {
     public long deleteAll(){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         /*db.execSQL("DELETE FROM " + Contract.ContactInContract.TABLE_NAME +
-        "WHERE " + Contract.ContactInContract.COLUMN_NUMBER + "='"+
-        contact.getNumber() + "'");
+        "WHERE " + Contract.ContactInContract.COLUMN_DATENAME + "='"+
+        contact.getDateName() + "'");
         */
         try {
             return db.delete(Contract.ContactInContract.TABLE_NAME, null,null);

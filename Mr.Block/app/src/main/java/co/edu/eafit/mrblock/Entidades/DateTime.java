@@ -5,13 +5,13 @@ package co.edu.eafit.mrblock.Entidades;
  */
 public class DateTime {
     int year1, month1, day1, hour1, minute1, second1, year2, month2, day2, hour2, minute2, second2;
-    String number;
+    String dateName;
 
     public DateTime(){}
 
-    public DateTime(String number,int year1, int month1, int day1, int hour1, int minute1, int second1, int year2,
+    public DateTime(String dateName,int year1, int month1, int day1, int hour1, int minute1, int second1, int year2,
                     int month2, int day2, int hour2, int minute2, int second2) {
-        this.number = number;
+        this.dateName = dateName;
         this.year1 = year1;
         this.month1 = month1;
         this.day1 = day1;
@@ -122,11 +122,11 @@ public class DateTime {
         this.second2 = second2;
     }
 
-    public String getNumber() {
-        return number;
+    public String getDateName() {
+        return dateName;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setDateName(String dateName) {
+        this.dateName = dateName;
     }
 }

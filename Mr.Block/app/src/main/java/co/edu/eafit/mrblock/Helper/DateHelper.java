@@ -4,13 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import co.edu.eafit.mrblock.Contracts.Contract;
-import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Entidades.DateTime;
 
 /**
@@ -26,7 +23,7 @@ public class DateHelper {
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(Contract.DateContract.COLUMN_NUMBER,dateTime.getNumber());
+        values.put(Contract.DateContract.COLUMN_DATENAME,dateTime.getDateName());
         values.put(Contract.DateContract.COLUMN_YEAR_1,dateTime.getYear1());
         values.put(Contract.DateContract.COLUMN_MONTH_1,dateTime.getMonth1());
         values.put(Contract.DateContract.COLUMN_DAY_1,dateTime.getDay1());
@@ -51,7 +48,7 @@ public class DateHelper {
         if(cursor.moveToFirst()){
             do{
                 DateTime dateTime = new DateTime();
-                dateTime.setNumber(cursor.getString(0));
+                dateTime.setDateName(cursor.getString(0));
                 dateTime.setYear1(cursor.getInt(1));
                 dateTime.setMonth1(cursor.getInt(2));
                 dateTime.setDay1(cursor.getInt(3));
@@ -74,7 +71,7 @@ public class DateHelper {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(Contract.DateContract.TABLE_NAME, new String[]{
-                Contract.DateContract.COLUMN_NUMBER,
+                Contract.DateContract.COLUMN_DATENAME,
                 Contract.DateContract.COLUMN_YEAR_1,
                 Contract.DateContract.COLUMN_MONTH_1,
                 Contract.DateContract.COLUMN_DAY_1,
@@ -87,7 +84,7 @@ public class DateHelper {
                 Contract.DateContract.COLUMN_HOUR_2,
                 Contract.DateContract.COLUMN_MINUTE_2,
                 Contract.DateContract.COLUMN_SECOND_2
-        }, Contract.DateContract.COLUMN_NUMBER + "= '" + number + "'", null
+        }, Contract.DateContract.COLUMN_DATENAME + "= '" + number + "'", null
                 , null, null, null, null);
         if(cursor!=null){
             cursor.moveToFirst();
@@ -98,20 +95,28 @@ public class DateHelper {
         return dateTime;
     }
 
-    public long delete(DateTime dateTime){
+    public long delete(String dateName){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        /*db.execSQL("DELETE FROM " + Contract.ContactInContract.TABLE_NAME +
-        "WHERE " + Contract.ContactInContract.COLUMN_NUMBER + "='"+
-        contact.getNumber() + "'");
-        */
         try {
-            return db.delete(Contract.DateContract.TABLE_NAME, Contract.DateContract.COLUMN_NUMBER + "  =?",
-                    new String[]{dateTime.getNumber()});
+            return db.delete(Contract.DateContract.TABLE_NAME, Contract.DateContract.COLUMN_DATENAME + "  =?",
+                    new String[]{dateName});
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    /*public long delete(DateTime dateTime){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        try {
+            return db.delete(Contract.DateContract.TABLE_NAME, Contract.DateContract.COLUMN_DATENAME + "  =?",
+                    new String[]{dateTime.getDateName()});
             //db.close();
         }catch (Exception e){
             Log.e("DB ERROR", e.toString());
             e.printStackTrace();
             return -1;
         }
-    }
+    }*/
 }

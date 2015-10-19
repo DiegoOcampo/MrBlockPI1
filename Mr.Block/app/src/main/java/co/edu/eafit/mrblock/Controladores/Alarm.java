@@ -2,21 +2,16 @@ package co.edu.eafit.mrblock.Controladores;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -41,8 +36,6 @@ public class Alarm extends AppCompatActivity {
     private DatePickerDialog datePickerDialog, datePickerDialog2;
     private int year1, monthOfaYear1, dayOfMonth1, hourOfDay1, minute1, year2, monthOfaYear2, dayOfMonth2, hourOfDay2, minute2;
     private DateHelper dateHelper;
-    private final static int RQS_1 = 1;
-    private Calendar calendar1;
     ArrayList<DateTime> ddd;
     private ContactInHelper contactInHelper;
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
@@ -321,7 +314,7 @@ public class Alarm extends AppCompatActivity {
         date_2.setSeconds(0);
         if(date_1.before(date_2) && !date_1.before(date_3)){
             for(DateTime d:ddd){
-                dateHelper.delete(d);
+                dateHelper.delete(d.getDateName());
             }
 
             Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
@@ -331,6 +324,7 @@ public class Alarm extends AppCompatActivity {
                 Contact contact = new Contact(phoneNumber, name);
                 if (!contacts.contains(contact)) {
                     contacts.add(contact);
+
                     DateTime dateTime= new DateTime(phoneNumber,year1,monthOfaYear1,dayOfMonth1,hourOfDay1,minute1,0,
                             year2,monthOfaYear2,dayOfMonth2,hourOfDay2,minute2,0);
                     dateHelper.addDate(dateTime);
@@ -350,11 +344,11 @@ public class Alarm extends AppCompatActivity {
     private void openAlert(){
 
                 AlertDialog.Builder alertName = new AlertDialog.Builder(Alarm.this);
-                alertName.setTitle("Name");
-                alertName.setMessage("Enter name");
+                alertName.setTitle("Nombre");
+                alertName.setMessage("Ingrese un nombre de bloqueo");
                 final EditText dateName = new EditText(Alarm.this);
                 alertName.setView(dateName);
-                alertName.setPositiveButton("Yes Option", new DialogInterface.OnClickListener() {
+                alertName.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //Editable YouEditTextValue = dateName.getText();
 
@@ -362,7 +356,7 @@ public class Alarm extends AppCompatActivity {
                     }
                 });
 
-                alertName.setNegativeButton("No Option", new DialogInterface.OnClickListener() {
+                alertName.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // what ever you want to do with No option.
                         Toast.makeText(getApplicationContext(),"La fecha no fue agregada",Toast.LENGTH_LONG).show();

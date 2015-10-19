@@ -32,7 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     private static final String TABLE_DATE = " CREATE TABLE " + Contract.DateContract.TABLE_NAME+ "("
-            + Contract.DateContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
+            + Contract.DateContract.COLUMN_DATENAME + " TEXT PRIMARY KEY, "
             + Contract.DateContract.COLUMN_YEAR_1 + " INTEGER,"
             + Contract.DateContract.COLUMN_MONTH_1 + " INTEGER,"
             + Contract.DateContract.COLUMN_DAY_1 + " INTEGER,"

@@ -123,9 +123,9 @@ public class BlockcallReceiver extends BroadcastReceiver {
                         Block(context);
                       // for (Contact cc : con) {
                             //if(contactInHelper.getContact(incomingNumber.replaceAll(" ","")).equals(cc.)){
-                        //    if (cc.getNumber().equalsIgnoreCase(incomingNumber.replaceAll(" ", ""))) {
+                        //    if (cc.getDateName().equalsIgnoreCase(incomingNumber.replaceAll(" ", ""))) {
                           //      Block(cc,context);
-                           /*     Call call = new Call(cc.getNumber(),cc.getName());
+                           /*     Call call = new Call(cc.getDateName(),cc.getName());
                                 callInHelper.addCall(call);
                                 // this is main section of the code,. could also be use for particular number.
                                 // Get the boring old TelephonyManager.
