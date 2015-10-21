@@ -6,13 +6,23 @@ package co.edu.eafit.mrblock.Entidades;
 public class Call {
     private String number;
     private String name;
+    private String type;
 
-    public Call(String number, String name){
+    public Call(String number, String name, String type){
         this.number = number;
         this.name = name;
+        this.type = type;
     }
 
     public Call(){}
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getNumber() {
         return number;

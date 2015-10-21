@@ -1,11 +1,14 @@
 package co.edu.eafit.mrblock.Controladores;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -42,6 +45,8 @@ public class Alarm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+
+
         dateHelper = new DateHelper(getApplicationContext());
         dateTimeArrayList = new ArrayList<DateTime>();
         dateTimeArrayList = dateHelper.getAllDate();
@@ -333,7 +338,7 @@ public class Alarm extends AppCompatActivity {
                 alertName.setMessage("Ingrese un nombre de bloqueo");
                 final EditText dateNameEditText = new EditText(Alarm.this);
                 alertName.setView(dateNameEditText);
-                String dn;
+
                 alertName.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //Editable YouEditTextValue = dateName.getText();
@@ -341,14 +346,7 @@ public class Alarm extends AppCompatActivity {
                         if (dateName.equals("")) {
                             Toast.makeText(getApplicationContext(), "Nombre invalido", Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Fecha agregada: " + dateName, Toast.LENGTH_LONG).show();
-                            DateTime dateTime= new DateTime(dateName,year1,monthOfaYear1,dayOfMonth1,hourOfDay1,minute1,0,
-                                    year2,monthOfaYear2,dayOfMonth2,hourOfDay2,minute2,0);
-                            try {
-                                dateHelper.addDate(dateTime);
-                            }catch (Exception e){
-                                Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-                            }
+                            addDateTime(dateName);
 //                            Toast.makeText(getApplicationContext(),dateHelper.getDate(dateName).getDateName()+"hi",Toast.LENGTH_LONG).show();
                         }
                     }
@@ -367,6 +365,24 @@ public class Alarm extends AppCompatActivity {
         //}
     }
 
+    public DateTime addDateTime(String dateName){
+        Toast.makeText(getApplicationContext(), "Fecha agregada: " + dateName, Toast.LENGTH_LONG).show();
+        DateTime dateTime = new DateTime(dateName, year1, monthOfaYear1, dayOfMonth1, hourOfDay1, minute1, 0,
+                year2, monthOfaYear2, dayOfMonth2, hourOfDay2, minute2, 0,"date");
+        dateHelper.addDate(dateTime);
+        return dateTime;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
 
 
 }

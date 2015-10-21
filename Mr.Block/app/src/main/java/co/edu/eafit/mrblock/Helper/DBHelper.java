@@ -12,11 +12,12 @@ import co.edu.eafit.mrblock.Contracts.Contract;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Block";
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 11;
 
     private static final String  TABLE_CONTACTS= " CREATE TABLE " + Contract.ContactInContract.TABLE_NAME
             + "(" + Contract.ContactInContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
-            + Contract.ContactInContract.COLUMN_NAME + " TEXT)";
+            + Contract.ContactInContract.COLUMN_NAME + " TEXT,"
+            + Contract.ContactInContract.COLUMN_TYPE + " TEXT)";
     public static final String DELETE_CONTACTS = "DROP TABLE IF EXISTS " + Contract.ContactInContract.TABLE_NAME;
 
     public static final String TABLE_UBICATION = " CREATE TABLE " + Contract.UbicationContract.TABLE_NAME
@@ -27,7 +28,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_CALLS = " CREATE TABLE " + Contract.CallInContract.TABLE_NAME
             + "(" + Contract.CallInContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
-            + Contract.CallInContract.COLUMN_NAME + " TEXT)";
+            + Contract.CallInContract.COLUMN_NAME + " TEXT,"
+            + Contract.CallInContract.COLUMN_TYPE + " TEXT)";
     public static final String DELETE_CALLS = "DROP TABLE IF EXISTS " + Contract.CallInContract.TABLE_NAME;
 
 
@@ -44,7 +46,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + Contract.DateContract.COLUMN_DAY_2 + " INTEGER,"
             + Contract.DateContract.COLUMN_HOUR_2 + " INTEGER,"
             + Contract.DateContract.COLUMN_MINUTE_2 + " INTEGER,"
-            + Contract.DateContract.COLUMN_SECOND_2 + " INTEGER"
+            + Contract.DateContract.COLUMN_SECOND_2 + " INTEGER,"
+            + Contract.DateContract.COLUMN_TYPE + " TEXT"
             + ")";
     public static final String DELETE_DATE = "DROP TABLE IF EXISTS " + Contract.DateContract.TABLE_NAME;
 
@@ -57,6 +60,12 @@ public class DBHelper extends SQLiteOpenHelper {
             + Contract.CompleteContract.COLUMN_TYPE + " TEXT)";
 
     public static final String DELETE_COMPLETE = "DROP TABLE IF EXISTS " + Contract.CompleteContract.TABLE_NAME;
+
+    public static final String TABLE_TYPE = " CREATE TABLE " +Contract.TypeContract.TABLE_NAME
+            + "(" + Contract.TypeContract.COLUMN_ID + " TEXT PRIMARY KEY,"
+            + Contract.TypeContract.COLUMN_TYPE + " TEXT)";
+
+    public static final String DELETE_TYPE = "DROP TABLE IF EXISTS " + Contract.TypeContract.TABLE_NAME;
 
     //public static final String DELETE_COMPLETE = "DROP TABLE IF EXISTS " + Contract.CompleteContract.TABLE_NAME;
 
@@ -71,6 +80,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(TABLE_DATE);
         db.execSQL(TABLE_UBICATION);
         db.execSQL(TABLE_COMPLETE);
+        db.execSQL(TABLE_TYPE);
     }
 
     @Override
@@ -80,6 +90,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(DELETE_DATE);
         db.execSQL(DELETE_UBICATION);
         db.execSQL(DELETE_COMPLETE);
+        db.execSQL(DELETE_TYPE);
         onCreate(db);
     }
 }

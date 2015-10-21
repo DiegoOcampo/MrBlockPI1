@@ -36,6 +36,7 @@ public class DateHelper {
         values.put(Contract.DateContract.COLUMN_HOUR_2,dateTime.getHour2());
         values.put(Contract.DateContract.COLUMN_MINUTE_2,dateTime.getMinute2());
         values.put(Contract.DateContract.COLUMN_SECOND_2,dateTime.getSecond2());
+        values.put(Contract.DateContract.COLUMN_TYPE,dateTime.getType());
         db.insert(Contract.DateContract.TABLE_NAME, null, values);
         db.close();
     }
@@ -61,6 +62,7 @@ public class DateHelper {
                 dateTime.setHour2(cursor.getInt(10));
                 dateTime.setMinute2(cursor.getInt(11));
                 dateTime.setSecond2(cursor.getInt(12));
+                dateTime.setType(cursor.getString(13));
                 block.add(dateTime);
             }while (cursor.moveToNext());
         }
@@ -83,7 +85,8 @@ public class DateHelper {
                 Contract.DateContract.COLUMN_DAY_2,
                 Contract.DateContract.COLUMN_HOUR_2,
                 Contract.DateContract.COLUMN_MINUTE_2,
-                Contract.DateContract.COLUMN_SECOND_2
+                Contract.DateContract.COLUMN_SECOND_2,
+                Contract.DateContract.COLUMN_TYPE
         }, Contract.DateContract.COLUMN_DATENAME + "= '" + number + "'", null
                 , null, null, null, null);
         if(cursor!=null){
@@ -91,7 +94,8 @@ public class DateHelper {
         }
         DateTime dateTime = new DateTime(cursor.getString(0),cursor.getInt(1),cursor.getInt(2),
                 cursor.getInt(3),cursor.getInt(4),cursor.getInt(5),cursor.getInt(6),cursor.getInt(7)
-                ,cursor.getInt(8),cursor.getInt(9),cursor.getInt(10),cursor.getInt(11),cursor.getInt(12));
+                ,cursor.getInt(8),cursor.getInt(9),cursor.getInt(10),cursor.getInt(11),
+                cursor.getInt(12),cursor.getString(13));
         return dateTime;
     }
 

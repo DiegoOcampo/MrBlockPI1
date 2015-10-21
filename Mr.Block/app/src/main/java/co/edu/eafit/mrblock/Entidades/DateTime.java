@@ -3,14 +3,14 @@ package co.edu.eafit.mrblock.Entidades;
 /**
  * Created by juan on 1/10/15.
  */
-public class DateTime {
+public class DateTime{
     int year1, month1, day1, hour1, minute1, second1, year2, month2, day2, hour2, minute2, second2;
-    String dateName;
+    String dateName,type;
 
     public DateTime(){}
 
     public DateTime(String dateName,int year1, int month1, int day1, int hour1, int minute1, int second1, int year2,
-                    int month2, int day2, int hour2, int minute2, int second2) {
+                    int month2, int day2, int hour2, int minute2, int second2, String type) {
         this.dateName = dateName;
         this.year1 = year1;
         this.month1 = month1;
@@ -24,6 +24,15 @@ public class DateTime {
         this.hour2 = hour2;
         this.minute2 = minute2;
         this.second2 = second2;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getYear1() {

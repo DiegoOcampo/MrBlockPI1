@@ -149,7 +149,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
                         String incomingNumber =intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
                         System.out.println("--------------my number---------" + incomingNumber);
                         Contact contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
-                        Call call = new Call(contact.getNumber(),contact.getName());
+                        Call call = new Call(contact.getNumber(),contact.getName(),"call");
                         callInHelper.addCall(call);
                         Block(context);
                       // for (Contact cc : con) {

@@ -30,6 +30,7 @@ public class ContactInHelper  {
         ContentValues values = new ContentValues();
         values.put(Contract.ContactInContract.COLUMN_NUMBER, contact.getNumber());
         values.put(Contract.ContactInContract.COLUMN_NAME, contact.getName());
+        values.put(Contract.ContactInContract.COLUMN_TYPE, contact.getType());
         db.insert(Contract.ContactInContract.TABLE_NAME, null, values);
         db.close();
 
@@ -39,13 +40,15 @@ public class ContactInHelper  {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(Contract.ContactInContract.TABLE_NAME,new String[]{
-                Contract.ContactInContract.COLUMN_NUMBER, Contract.ContactInContract.COLUMN_NAME},
+                Contract.ContactInContract.COLUMN_NUMBER,
+                Contract.ContactInContract.COLUMN_NAME,
+                Contract.ContactInContract.COLUMN_TYPE},
                 Contract.ContactInContract.COLUMN_NUMBER + "='" + number+"'",null,
                 null,null,null,null);
         if(cursor!=null){
             cursor.moveToFirst();
         }
-        Contact contact=new Contact(cursor.getString(0),cursor.getString(1));
+        Contact contact=new Contact(cursor.getString(0),cursor.getString(1),cursor.getString(2));
         return contact;
     }
 
@@ -59,6 +62,7 @@ public class ContactInHelper  {
                 Contact contact = new Contact();
                 contact.setNumber(cursor.getString(0));
                 contact.setName(cursor.getString(1));
+                contact.setType(cursor.getString(2));
                 block.add(contact);
             }while (cursor.moveToNext());
         }
@@ -80,10 +84,6 @@ public class ContactInHelper  {
 
     public long deleteAll(){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        /*db.execSQL("DELETE FROM " + Contract.ContactInContract.TABLE_NAME +
-        "WHERE " + Contract.ContactInContract.COLUMN_DATENAME + "='"+
-        contact.getDateName() + "'");
-        */
         try {
             return db.delete(Contract.ContactInContract.TABLE_NAME, null,null);
             //db.close();

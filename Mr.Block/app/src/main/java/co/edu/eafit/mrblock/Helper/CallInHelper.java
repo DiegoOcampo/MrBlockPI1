@@ -26,6 +26,7 @@ public class CallInHelper{
         ContentValues values = new ContentValues();
         values.put(Contract.CallInContract.COLUMN_NUMBER, call.getNumber());
         values.put(Contract.CallInContract.COLUMN_NAME, call.getName());
+        values.put(Contract.CallInContract.COLUMN_TYPE, call.getType());
         db.insert(Contract.CallInContract.TABLE_NAME, null, values);
         db.close();
     }
@@ -40,6 +41,7 @@ public class CallInHelper{
                 Call call = new Call();
                 call.setNumber(cursor.getString(0));
                 call.setName(cursor.getString(1));
+                call.setType(cursor.getString(2));
                 block.add(call);
             }while (cursor.moveToNext());
         }

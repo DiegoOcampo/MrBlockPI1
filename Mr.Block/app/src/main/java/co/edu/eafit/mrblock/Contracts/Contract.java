@@ -13,12 +13,14 @@ public class Contract {
         public static final String TABLE_NAME = "ContactsIn";
         public static final String COLUMN_NAME = "Name";
         public static final String COLUMN_NUMBER = "Number";
+        public static final String COLUMN_TYPE = "Type";
     }
 
     public static abstract class CallInContract implements BaseColumns{
         public static final String TABLE_NAME = "CallsIn";
         public static final String COLUMN_NAME = "Name";
         public static final String COLUMN_NUMBER = "Number";
+        public static final String COLUMN_TYPE = "Type";
     }
 
     public static abstract class UbicationContract implements BaseColumns{
@@ -54,9 +56,11 @@ public class Contract {
         public static final String COLUMN_HOUR_2 = "Hour2";
         public static final String COLUMN_MINUTE_2 = "Minute2";
         public static final String COLUMN_SECOND_2 = "Second2";
-
+        public static final String COLUMN_TYPE = "Type";
     }
-
-
-
+    public static abstract class TypeContract implements BaseColumns{
+        public static final String TABLE_NAME = "TypeBlock";
+        public static final String COLUMN_ID = "Id";
+        public static final String COLUMN_TYPE = "Type";
+    }
 }
