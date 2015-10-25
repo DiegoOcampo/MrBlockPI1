@@ -8,4 +8,5 @@
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
         AIzaSyA2c_dCWcv1X5cq-5etNQ-Wz20BHHWeTRk
     </string>
+    <string name="blackList">Black List</string>
 </resources>

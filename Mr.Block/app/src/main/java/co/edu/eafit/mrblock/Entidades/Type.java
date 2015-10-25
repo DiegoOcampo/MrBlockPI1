@@ -10,6 +10,7 @@ public class Type {
         this.id = id;
         this.type = type;
     }
+    public Type(){}
 
     public String getId() {
         return id;

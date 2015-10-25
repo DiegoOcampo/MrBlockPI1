@@ -376,7 +376,7 @@ public class Alarm extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(),MainFragmentActivity.class);
             startActivity(intent);
             return true;
         }

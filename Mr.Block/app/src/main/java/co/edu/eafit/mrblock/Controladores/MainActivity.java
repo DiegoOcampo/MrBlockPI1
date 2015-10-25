@@ -74,25 +74,33 @@ public class MainActivity extends AppCompatActivity {
         contacts = contactInHelper.getAllContact();
         completes = completeHelper.getAllComplete();
         dateTimes = dateHelper.getAllDate();
+        typesBlock = typeHelper.getAllTypes();
 
         for(int i = 0;i < contacts.size();i++){
             Blocks.add(contacts.get(i).getContact());
-            Type type = new Type(contacts.get(i).getNumber(),contacts.get(i).getType());
-            typeHelper.addType(type);
-            typesBlock.add(type);
-            typesBlockString.add(type.getType() + ": " + contacts.get(i).getName());
+            Type type1 = typeHelper.getType(contacts.get(i).getNumber());
+                Type type = new Type(contacts.get(i).getNumber(), contacts.get(i).getType());
+                typeHelper.addType(type);
+                typesBlock.add(type);
+                typesBlockString.add(type.getType() + ": " + contacts.get(i).getName());
+
         }
         for(int i = 0;i < completes.size();i++){
             Type type = new Type(completes.get(i).getBlockName(),completes.get(i).getType());
             typeHelper.addType(type);
             typesBlock.add(type);
             typesBlockString.add(type.getType());
+
         }
         for(int i = 0;i < dateTimes.size();i++){
             Type type = new Type(dateTimes.get(i).getDateName(),dateTimes.get(i).getType());
-            typeHelper.addType(type);
-            typesBlock.add(type);
-            typesBlockString.add(type.getType() + ": " + dateTimes.get(i).getDateName());
+            try {
+                typeHelper.addType(type);
+                typesBlock.add(type);
+                typesBlockString.add(type.getType() + ": " + dateTimes.get(i).getDateName());
+            }catch (Exception e){
+                Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+            }
         }
 
 
@@ -225,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerLayout.closeDrawer(listDrawer);
     }
+
     private void openAlertBlock(){
 
         final AlertDialog.Builder alertName = new AlertDialog.Builder(MainActivity.this);
@@ -235,8 +244,9 @@ public class MainActivity extends AppCompatActivity {
         alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //String editTextName = dateName.getText().toString();
-                Type type1 = typeHelper.getType("Complete block");
-                if(!typesBlock.contains(type1)) {
+                //Type type1 = typeHelper.getType("Complete block");
+                //if(type1==null) {
+                try {
                     Complete complete = new Complete("Complete block", 1, 0, 0, 0, "Complete block");
                     Type type = new Type("Complete block", "Complete block");
                     typesBlock.add(type);
@@ -245,10 +255,10 @@ public class MainActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     completeHelper.addComplete(complete);
                     Toast.makeText(getApplicationContext(), "Todos los contactos han sido bloqueados", Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Los contactos ya fueron bloqueados anteriormente", Toast.LENGTH_LONG).show();
-
-                }
+                }catch (Exception e){}
+                //}else{
+                //    Toast.makeText(getApplicationContext(), "Los contactos ya fueron bloqueados anteriormente", Toast.LENGTH_LONG).show();
+                //}
             }
         });
 

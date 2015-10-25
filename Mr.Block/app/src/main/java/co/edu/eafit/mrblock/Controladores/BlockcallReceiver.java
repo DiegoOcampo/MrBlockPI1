@@ -43,7 +43,6 @@ public class BlockcallReceiver extends BroadcastReceiver {
         callInHelper = new CallInHelper(context);
         con = contactInHelper.getAllContact();
         Bundle myBundle = intent.getExtras();
-        Toast.makeText(context, date1.toString() + date2.toString(),Toast.LENGTH_LONG).show();
         try {
 
             dateTimes = dateHelper.getAllDate();
@@ -94,8 +93,6 @@ public class BlockcallReceiver extends BroadcastReceiver {
 
                     try {
                         if (intent.getAction().equals("android.intent.action.PHONE_STATE")) {
-
-                            Toast.makeText(context,"3",Toast.LENGTH_LONG).show();
                             String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
                             System.out.println("--------in state-----");
                             if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
@@ -136,22 +133,30 @@ public class BlockcallReceiver extends BroadcastReceiver {
         }
         if (myBundle != null ){
             System.out.println("--------Not null-----");
+
+            Toast.makeText(context,"not null",Toast.LENGTH_LONG).show();
             try{
                 if (intent.getAction().equals("android.intent.action.PHONE_STATE")){
                     String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
                     System.out.println("--------in state-----");
+
+                    Toast.makeText(context,"in state",Toast.LENGTH_LONG).show();
                     if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+
+                        Toast.makeText(context,"extra",Toast.LENGTH_LONG).show();
                         // Incoming call
-                        Complete complete = completeHelper.getComplete("Complete block");
+                        /*Complete complete = completeHelper.getComplete("Complete block");
                         if(complete.getInCalls()==1){
                             Block(context);
-                        }
-                        String incomingNumber =intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                        System.out.println("--------------my number---------" + incomingNumber);
-                        Contact contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
-                        Call call = new Call(contact.getNumber(),contact.getName(),"call");
-                        callInHelper.addCall(call);
-                        Block(context);
+                        }*/
+                            Toast.makeText(context, "else", Toast.LENGTH_LONG).show();
+                            String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                            System.out.println("--------------my number---------" + incomingNumber);
+                            Contact contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
+                            Call call = new Call(contact.getNumber(), contact.getName(), "call");
+                            callInHelper.addCall(call);
+                            Block(context);
+
                       // for (Contact cc : con) {
                             //if(contactInHelper.getContact(incomingNumber.replaceAll(" ","")).equals(cc.)){
                         //    if (cc.getDateName().equalsIgnoreCase(incomingNumber.replaceAll(" ", ""))) {
