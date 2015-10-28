@@ -134,28 +134,37 @@ public class BlockcallReceiver extends BroadcastReceiver {
         if (myBundle != null ){
             System.out.println("--------Not null-----");
 
-            Toast.makeText(context,"not null",Toast.LENGTH_LONG).show();
             try{
                 if (intent.getAction().equals("android.intent.action.PHONE_STATE")){
                     String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
                     System.out.println("--------in state-----");
 
-                    Toast.makeText(context,"in state",Toast.LENGTH_LONG).show();
                     if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
 
-                        Toast.makeText(context,"extra",Toast.LENGTH_LONG).show();
                         // Incoming call
                         Complete complete =  null;
                         try {
                             complete = completeHelper.getComplete("Complete block");
                         }catch (Exception e){
-
+                            Toast.makeText(context,"error complete"+ e.getMessage(), Toast.LENGTH_LONG).show();
                         }
+                        String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
                         if(complete!=null){
                             Toast.makeText(context, "si", Toast.LENGTH_LONG).show();
-                            Block(context);
+                            Contact contact= null;
+                            try {
+                                contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
+                            }catch (Exception e){
+                                Toast.makeText(context, "error contact"+e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                            Toast.makeText(context, "hi", Toast.LENGTH_LONG).show();
+                            if (contact!=null && contact.getType().equals("white contact")){
+
+                            }else {
+                                Block(context);
+                            }
                         }else {
-                            String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                            Toast.makeText(context, "else", Toast.LENGTH_LONG).show();
                             System.out.println("--------------my number---------" + incomingNumber);
                             Contact contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
                             Toast.makeText(context, "" + !contact.getType().equals("white contact"), Toast.LENGTH_LONG).show();
