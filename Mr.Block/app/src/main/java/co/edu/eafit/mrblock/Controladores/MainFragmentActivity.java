@@ -38,10 +38,10 @@ public class MainFragmentActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private String [] items = {"Bloquear contacto", "Bloquear todo", "Desbloquear todo", "Bloquear fecha", "Llamadas", "Bloquear posicion","Lista blanca", "Bloquear app"};
+    private String [] items = {"Bloquear contacto", "Bloquear todo",  "Bloquear fecha",  "Bloquear posicion", "Bloquear app"};
     private ListView listDrawer;
     private DrawerLayout mDrawerLayout;
-
+    private boolean isWhiteList = false;
     private ArrayAdapter<String> adapterItems;
 
     @Override
@@ -75,6 +75,7 @@ public class MainFragmentActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new BlackListFragment(), "BLACK LIST");
         adapter.addFragment(new IncomingCallsFragment(),"INCOMING CALLS");
+        adapter.addFragment(new WhiteListFragment(), "WHITE LIST");
         viewPager.setAdapter(adapter);
     }
 
@@ -123,9 +124,30 @@ public class MainFragmentActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.action_contact_block:
+                Intent intentBlocContact = new Intent(Intent.ACTION_GET_CONTENT);
+                intentBlocContact.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+                startActivityForResult(intentBlocContact, 1);
+                return true;
+            case R.id.action_all_block:
+                openAlertBlock();
+                return true;
+            case R.id.action_date_block:
+                Intent intent2 = new Intent(getBaseContext(), Alarm.class);
+                startActivity(intent2);
+                return true;
+            case R.id.action_date_location:
+                Intent i = new Intent(getApplicationContext(),MapsActivity.class);
+                startActivity(i);
+                return true;
+            case R.id.action_add_white_list:
+                isWhiteList = true;
+                Intent intent3 = new Intent(Intent.ACTION_GET_CONTENT);
+                intent3.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+                startActivityForResult(intent3, 1);
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -145,11 +167,19 @@ public class MainFragmentActivity extends AppCompatActivity {
                     if (c != null && c.moveToFirst()) {
                         String name = c.getString(0);
                         String number = c.getString(1).replaceAll(" ", "");
-                        BlackListFragment blackListFragment = new BlackListFragment();
-                        Contact contact = blackListFragment.addContactToFragment(number, name, "contact",getApplicationContext());
-                        Toast.makeText(getApplicationContext(),name + number,Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(), MainFragmentActivity.class);
-                        startActivity(intent);
+                        if(!isWhiteList) {
+                            BlackListFragment blackListFragment = new BlackListFragment();
+                            Contact contact = blackListFragment.addContactToFragment(number, name, "contact", getApplicationContext());
+                            Intent intent = new Intent(getApplicationContext(), MainFragmentActivity.class);
+                            startActivity(intent);
+                            isWhiteList = false;
+                        }else{
+                            WhiteListFragment whiteListFragment = new WhiteListFragment();
+                            Contact contact = whiteListFragment.addContactToFragment(number, name, "white contact", getApplicationContext());
+                            Intent intent = new Intent(getApplicationContext(), MainFragmentActivity.class);
+                            startActivity(intent);
+                            isWhiteList = false;
+                        }
                         }
                 } finally {
                     if (c != null) {
@@ -172,21 +202,10 @@ public class MainFragmentActivity extends AppCompatActivity {
                 openAlertBlock();
                 break;
             case 2:
-                //Type type = typeHelper.getType("Complete block");
-                //completeHelper.delete("Complete block");
-                //typesBlock.remove(type);
-                //adapter.notifyDataSetChanged();
-                //Toast.makeText(getApplicationContext(), "Todos los contactos han sido desbloqueados", Toast.LENGTH_LONG).show();
-                break;
-            case 3:
                 Intent intent2 = new Intent(getBaseContext(), Alarm.class);
                 startActivity(intent2);
                 break;
-            case 4:
-                Intent intent3 = new Intent(getApplicationContext(), CallsInListActivity.class);
-                startActivity(intent3);
-                break;
-            case 5:
+            case 3:
                 Intent i = new Intent(getApplicationContext(),MapsActivity.class);
                 startActivity(i);
                 break;
@@ -213,8 +232,12 @@ public class MainFragmentActivity extends AppCompatActivity {
                 //if(type1==null) {
                 BlackListFragment blackListFragment=new BlackListFragment();
                 blackListFragment.addCompleteToFragment(getApplicationContext());
-                Intent intent = new Intent(getApplicationContext(),MainFragmentActivity.class);
-                startActivity(intent);
+                viewPager.removeAllViews();
+                finish();
+                startActivity(new Intent(MainFragmentActivity.this, MainFragmentActivity.class));
+                //BlackListFragment.adapter.notifyDataSetChanged();
+                //Intent intent = new Intent(getApplicationContext(),MainFragmentActivity.class);
+                //startActivity(intent);
             }
         });
 

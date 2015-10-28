@@ -49,7 +49,9 @@ public class BlackListFragment extends Fragment{
     private ArrayList<Type> typesBlock = new ArrayList<Type>();
     private ArrayList<String> typesBlockString = new ArrayList<String>();
 
-    private ArrayAdapter<String> adapter;
+
+
+    public static ArrayAdapter<String> adapter;
 
     public BlackListFragment(){
 
@@ -82,25 +84,38 @@ public class BlackListFragment extends Fragment{
         completes = completeHelper.getAllComplete();
         dateTimes = dateHelper.getAllDate();
 
+        typesBlock = typeHelper.getAllTypes();
+
         for(int i = 0;i < contacts.size();i++){
-            Blocks.add(contacts.get(i).getContact());
             Type type = new Type(contacts.get(i).getNumber(),contacts.get(i).getType());
-            typeHelper.addType(type);
-            typesBlock.add(type);
-            typesBlockString.add(type.getType() + ": " + contacts.get(i).getName());
+            if(!typesBlockString.contains(type.getType() + ": " + contacts.get(i).getName())
+                    && !type.getType().equals("white contact")) {
+                Blocks.add(contacts.get(i).getContact());
+                typeHelper.addType(type);
+                typesBlock.add(type);
+                typesBlockString.add(type.getType() + ": " + contacts.get(i).getName());
+            }
         }
         for(int i = 0;i < completes.size();i++){
             Type type = new Type(completes.get(i).getBlockName(),completes.get(i).getType());
-            typeHelper.addType(type);
-            typesBlock.add(type);
-            typesBlockString.add(type.getType());
+            if(!typesBlockString.contains(type.getType())) {
+                typeHelper.addType(type);
+                typesBlock.add(type);
+                typesBlockString.add(type.getType());
+            }
         }
         for(int i = 0;i < dateTimes.size();i++){
             Type type = new Type(dateTimes.get(i).getDateName(),dateTimes.get(i).getType());
-            typeHelper.addType(type);
-            typesBlock.add(type);
-            typesBlockString.add(type.getType() + ": " + dateTimes.get(i).getDateName());
+            if(!typesBlockString.contains(type.getType() + ": " + dateTimes.get(i).getDateName())) {
+                typeHelper.addType(type);
+                typesBlock.add(type);
+                typesBlockString.add(type.getType() + ": " + dateTimes.get(i).getDateName());
+            }
         }
+
+        int numberType = typesBlock.size();
+
+
         adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
         listBlackList.setAdapter(adapter);
@@ -152,7 +167,6 @@ public class BlackListFragment extends Fragment{
 
         //adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
         if (!Blocks.contains(contact.getContact())) {
-                Toast.makeText(context,"LLEGUE",Toast.LENGTH_LONG).show();
                 contactInHelper.addContact(contact);
                 //contactDbHelper.addContact(contact);
 

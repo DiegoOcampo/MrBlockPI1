@@ -145,18 +145,27 @@ public class BlockcallReceiver extends BroadcastReceiver {
 
                         Toast.makeText(context,"extra",Toast.LENGTH_LONG).show();
                         // Incoming call
-                        /*Complete complete = completeHelper.getComplete("Complete block");
-                        if(complete.getInCalls()==1){
+                        Complete complete =  null;
+                        try {
+                            complete = completeHelper.getComplete("Complete block");
+                        }catch (Exception e){
+
+                        }
+                        if(complete!=null){
+                            Toast.makeText(context, "si", Toast.LENGTH_LONG).show();
                             Block(context);
-                        }*/
-                            Toast.makeText(context, "else", Toast.LENGTH_LONG).show();
+                        }else {
                             String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
                             System.out.println("--------------my number---------" + incomingNumber);
                             Contact contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
-                            Call call = new Call(contact.getNumber(), contact.getName(), "call");
-                            callInHelper.addCall(call);
-                            Block(context);
+                            Toast.makeText(context, "" + !contact.getType().equals("white contact"), Toast.LENGTH_LONG).show();
+                            if(!contact.getType().equals("white contact")) {
+                                Call call = new Call(contact.getNumber(), contact.getName(), "call");
+                                callInHelper.addCall(call);
+                                Block(context);
+                            }
 
+                        }
                       // for (Contact cc : con) {
                             //if(contactInHelper.getContact(incomingNumber.replaceAll(" ","")).equals(cc.)){
                         //    if (cc.getDateName().equalsIgnoreCase(incomingNumber.replaceAll(" ", ""))) {

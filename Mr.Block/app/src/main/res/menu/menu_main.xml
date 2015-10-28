@@ -1,6 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+    <item android:id="@+id/action_contact_block" android:title="@string/action_block_contacts"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_all_block" android:title="@string/action_block_all"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_date_block" android:title="@string/action_block_date"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_date_location" android:title="@string/action_block_location"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_add_white_list" android:title="@string/action_add_white_list"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_add_new_block" android:title="@string/action_add_white_list"
+        android:orderInCategory="100" app:showAsAction="always" android:icon="@drawable/ic_add" />
 </menu>

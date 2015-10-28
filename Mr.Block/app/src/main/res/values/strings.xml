@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Mr.Block</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Bloqueo de usuarios</string>
+    <string name="action_block_contacts">Block contacts</string>
+    <string name="action_block_all">Block all</string>
+    <string name="action_block_date">Block date</string>
+    <string name="action_block_location">Block location</string>
+    <string name="action_add_white_list">Add to white list</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="title_activity_maps">Map</string>
