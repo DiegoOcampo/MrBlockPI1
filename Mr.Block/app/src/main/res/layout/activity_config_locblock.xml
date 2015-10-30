@@ -8,14 +8,14 @@
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Nombre del Bloqueo"
         android:ems="10"
         android:id="@+id/edit_Name"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.10"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="60dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"
+        android:hint="Name of the Block" />
 
     <TextView
         android:layout_width="250dp"
@@ -38,35 +38,41 @@
             android:layout_height="wrap_content"
             android:text="250 Meters"
             android:id="@+id/RB_250m"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:onClick="onRadioButtonClicked"
+            android:checked="true" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="200 Meters"
             android:id="@+id/RB_200m"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="150 Meters"
             android:id="@+id/RB_150m"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="100 Meters"
-            android:id="@+id/radioButton4"
-            android:layout_gravity="center_horizontal" />
+            android:id="@+id/RB_100m"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="50 Meters"
-            android:id="@+id/radioButton5"
-            android:layout_gravity="center_horizontal" />
+            android:id="@+id/RB_50m"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onRadioButtonClicked"/>
 
     </RadioGroup>
 

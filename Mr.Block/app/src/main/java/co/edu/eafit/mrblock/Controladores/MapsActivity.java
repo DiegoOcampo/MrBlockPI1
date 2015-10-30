@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -54,7 +55,7 @@ public class MapsActivity extends FragmentActivity {
             }
         });
         buildGoogleApiClient();
-//        LocationServices.GeofencingApi.addGeofences(mGoogleApiClient,getGeofencingRequest(),getGeofencePendingIntent());
+//        LocationServices.GeofencingApi.addGeofences(mGoogleApiClient, getGeofencingRequest(), getGeofencePendingIntent());
     }
 
     @Override
@@ -157,5 +158,25 @@ public class MapsActivity extends FragmentActivity {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .build();
+        mGoogleApiClient.connect();
+        boolean conectado = mGoogleApiClient.isConnected();
+        if(conectado){
+            Toast.makeText(getApplicationContext(),"Conectado",Toast.LENGTH_LONG).show();
+        }else if(!conectado){
+            Toast.makeText(getApplicationContext(),"No Conectado",Toast.LENGTH_LONG).show();
+        }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            Intent intent = new Intent(getApplicationContext(),MainFragmentActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

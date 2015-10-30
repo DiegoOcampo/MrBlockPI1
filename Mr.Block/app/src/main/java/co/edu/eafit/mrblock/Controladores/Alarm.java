@@ -25,6 +25,7 @@ import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Entidades.DateTime;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.Helper.DateHelper;
+import co.edu.eafit.mrblock.Helper.UbicationHelper;
 import co.edu.eafit.mrblock.R;
 
 /**
@@ -40,6 +41,7 @@ public class Alarm extends AppCompatActivity {
     ArrayList<DateTime> dateTimeArrayList;
     private ContactInHelper contactInHelper;
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
+    private UbicationHelper ubicationHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class Alarm extends AppCompatActivity {
         dateTimeArrayList = dateHelper.getAllDate();
         contactInHelper = new ContactInHelper(getApplicationContext());
         contacts = contactInHelper.getAllContact();
+        ubicationHelper = new UbicationHelper(getApplicationContext());
+        ubicationHelper.deleteAll();
 
 
         textAlarmPrompt = (TextView) findViewById(R.id.alarm);
