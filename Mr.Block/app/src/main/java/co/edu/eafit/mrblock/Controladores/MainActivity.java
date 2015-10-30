@@ -23,10 +23,12 @@ import co.edu.eafit.mrblock.Entidades.Complete;
 import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Entidades.DateTime;
 import co.edu.eafit.mrblock.Entidades.Type;
+import co.edu.eafit.mrblock.Entidades.Ubicacion;
 import co.edu.eafit.mrblock.Helper.CompleteHelper;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.Helper.DateHelper;
 import co.edu.eafit.mrblock.Helper.TypeHelper;
+import co.edu.eafit.mrblock.Helper.UbicationHelper;
 import co.edu.eafit.mrblock.R;
 //parse
 //
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> Blocks = new ArrayList<String>();
     public ArrayList<Type> typesBlock = new ArrayList<Type>();
     public ArrayList<String> typesBlockString = new ArrayList<String>();
+    public ArrayList<Ubicacion> ubicacionblock = new ArrayList<Ubicacion>();
 
 
     private ArrayAdapter<String> adapter;
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private ContactInHelper contactInHelper;
     private DateHelper dateHelper;
     private TypeHelper typeHelper;
+    private UbicationHelper ubicationHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -70,11 +74,14 @@ public class MainActivity extends AppCompatActivity {
         completeHelper = new CompleteHelper(getApplicationContext());
         dateHelper = new DateHelper(getApplicationContext());
         typeHelper =new TypeHelper(getApplicationContext());
+        ubicationHelper = new UbicationHelper(getApplicationContext());
 
         contacts = contactInHelper.getAllContact();
         completes = completeHelper.getAllComplete();
         dateTimes = dateHelper.getAllDate();
         typesBlock = typeHelper.getAllTypes();
+
+
 
         for(int i = 0;i < contacts.size();i++){
             Blocks.add(contacts.get(i).getContact());

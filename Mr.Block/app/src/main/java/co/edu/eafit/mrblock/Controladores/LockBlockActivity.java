@@ -27,47 +27,48 @@ public class LockBlockActivity extends AppCompatActivity {
     private Button confirmed;
     private String nombre;
     private UbicationHelper ubicationHelper;
-    private ArrayList<Ubicacion> array;
+    private ArrayList<Ubicacion> array = new ArrayList<Ubicacion>();
     private ArrayList<String> array2 = new ArrayList<String>();
-    private SimpleGeofence geofence;
-
+    private boolean exist;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config_locblock);
-
         confirmed = (Button) findViewById(R.id.btn_Confirmed);
         name = (EditText) findViewById(R.id.edit_Name);
-        nombre = this.name.toString();
         ubicationHelper = new UbicationHelper(getApplicationContext());
         array = ubicationHelper.getAllUbication();
-        boolean exist = false;
-        for(int i = 0 ; i < array.size();i++ ){
-            Ubicacion ubic = new Ubicacion();
-            ubic=array.get(i);
-            array2.add(i, ubic.getName());
-            Toast.makeText(getApplicationContext(), ubic.getName(),Toast.LENGTH_SHORT).show();
-        }
-        int i =0;
-        for (String s : array2) {
-            i++;
-            Toast.makeText(getApplicationContext(),"Comparando "+i,Toast.LENGTH_LONG).show();
-            if(nombre.equals(s)) {
-                exist = true;
+        exist = false;
+        if(!array.isEmpty()){
+            for(int i = 0 ; i < array.size();i++ ){
+                Ubicacion ubic = new Ubicacion();
+                ubic=array.get(i);
+                array2.add(i, ubic.getName());
+                Toast.makeText(getApplicationContext(), ubic.getName(),Toast.LENGTH_SHORT).show();
             }
+        }else if(array.isEmpty()){
+            Toast.makeText(getApplicationContext(),"esta vacio",Toast.LENGTH_LONG).show();
         }
-
-        if(nombre.equals("")){
-            confirmed.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), " Porfavor Ingrese un Nombre para la Ubicacion ", Toast.LENGTH_SHORT).show();
+        confirmed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exist=false;
+                nombre = name.getText().toString();
+                if(!array.isEmpty()) {
+                    for (int i = 0; i < array2.size(); i++) {
+                        Toast.makeText(getApplicationContext(), "Comparando " + i, Toast.LENGTH_LONG).show();
+                        String s = array2.get(i);
+                        if (nombre.equals(s)) {
+                            exist = true;
+                        }
+                    }
                 }
-            });
-        }else if (!exist){
-            confirmed.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                if(nombre.equals("")){
+                    Toast.makeText(getApplicationContext(), " Porfavor Ingrese un Nombre para la Ubicacion ", Toast.LENGTH_SHORT).show();
+                }else if(exist){
+                    Toast.makeText(getApplicationContext(), "Porfavor Elija otro Nombre ", Toast.LENGTH_SHORT).show();
+                }else if (!exist && !nombre.equals("")){
+                    nombre = name.getText().toString();
                     Ubicacion ubicacion = new Ubicacion();
                     ubicacion.setName(nombre);
                     LatLng ubiclatlng = MapsActivity.storeubic;
@@ -78,14 +79,8 @@ public class LockBlockActivity extends AppCompatActivity {
                     Intent i = new Intent(getApplicationContext(), MapsActivity.class);
                     startActivity(i);
                 }
-            });
-        }else if (exist){
-            confirmed.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Porfavor Elija otro Nombre ", Toast.LENGTH_SHORT).show();
-                }
-            });
-         }
+            }
+        });
     }
 }
+

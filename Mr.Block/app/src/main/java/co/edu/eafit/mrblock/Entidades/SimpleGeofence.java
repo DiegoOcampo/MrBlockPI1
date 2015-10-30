@@ -62,13 +62,14 @@ public class SimpleGeofence {
      * @return A Geofence object.
      */
     public Geofence toGeofence() {
+        Geofence.Builder builder = new Geofence.Builder();
+        builder.setRequestId(mId);
+        builder.setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT);
+        builder.setCircularRegion(mLatitude, mLongitude, mRadius);
+        builder.setExpirationDuration(Geofence.NEVER_EXPIRE);
+        Geofence geofence = builder.build();
         // Build a new Geofence object.
-        return new Geofence.Builder()
-                .setRequestId(mId)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER|Geofence.GEOFENCE_TRANSITION_EXIT)
-                .setCircularRegion(mLatitude, mLongitude, mRadius)
-                .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                .build();
+        return geofence;
     }
 
 }

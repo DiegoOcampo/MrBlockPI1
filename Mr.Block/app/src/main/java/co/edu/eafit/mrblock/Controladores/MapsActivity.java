@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 import com.google.android.gms.location.GeofencingRequest;
@@ -33,9 +34,11 @@ public class MapsActivity extends FragmentActivity {
     private ArrayList<Ubicacion> array;
     private UbicationHelper ubicationHelper;
     public static LatLng storeubic;
-    private Geofence geobuild;
-    private ArrayList<Geofence> mGeofenceList;
+    private ArrayList<Geofence> mGeofenceList = new ArrayList<Geofence>();
     private PendingIntent mGeofencePendingIntent;
+    private GoogleApiClient mGoogleApiClient;
+    private SimpleGeofence geofence;
+    private ArrayList<Ubicacion> ubicacionblock = new ArrayList<Ubicacion>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,8 @@ public class MapsActivity extends FragmentActivity {
                 startActivity(i);
             }
         });
+        buildGoogleApiClient();
+//        LocationServices.GeofencingApi.addGeofences(mGoogleApiClient,getGeofencingRequest(),getGeofencePendingIntent());
     }
 
     @Override
@@ -93,15 +98,13 @@ public class MapsActivity extends FragmentActivity {
                 for(int i = 0 ; i< array.size();i++){
                     Ubicacion ubicacion = new Ubicacion();
                     ubicacion = array.get(i);
-                    Toast.makeText(getApplicationContext(),"Latitud = "+ubicacion.getLatitud()+"  Longitud = "+ubicacion.getLongitud()+"  Creando GeoFence",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Creando GeoFence" + ubicacion.getName(),Toast.LENGTH_LONG).show();
                     double rad = ubicacion.getRadio();
                     float radio = (float)rad;
-                    SimpleGeofence geofence =new SimpleGeofence(ubicacion.getName(),ubicacion.getLatitud(),ubicacion.getLongitud(),radio);
+                    geofence = new SimpleGeofence(ubicacion.getName(),ubicacion.getLatitud(),ubicacion.getLongitud(),radio);
                     addMarkerForFence(geofence);
-                    /**
-                     * Falta tomar las ubicaciones y crear los fence ademas de usar el metodo crearFence para hacer las zonas en el mapa
-                     * Recordatorio poner un TOAST para ver el tipo de transicion 2 = EXIT 1 = ENTER
-                     */
+                    mGeofenceList.add(i,geofence.toGeofence());
+                    Toast.makeText(getApplicationContext(),"Esperando prueba",Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -141,5 +144,18 @@ public class MapsActivity extends FragmentActivity {
         // calling addGeofences() and removeGeofences().
         return PendingIntent.getService(this, 0, intent, PendingIntent.
                 FLAG_UPDATE_CURRENT);
+    }
+
+    private GeofencingRequest getGeofencingRequest() {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofences(mGeofenceList);
+        return builder.build();
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 }
