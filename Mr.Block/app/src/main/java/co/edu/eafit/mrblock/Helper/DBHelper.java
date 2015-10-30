@@ -23,7 +23,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_UBICATION = " CREATE TABLE " + Contract.UbicationContract.TABLE_NAME
             + "(" + Contract.UbicationContract.COLUMN_PLACE + " TEXT PRIMARY KEY, "
             + Contract.UbicationContract.COLUMN_LATITUDE + " REAL, "
-            + Contract.UbicationContract.COLUMN_LONGITUDE + " REAL)";
+            + Contract.UbicationContract.COLUMN_LONGITUDE + " REAL,"
+            + Contract.UbicationContract.COLUMN_RADIUS + " REAL)";
     public static final String DELETE_UBICATION = " DROP TABLE IF EXISTS " + Contract.UbicationContract.TABLE_NAME;
 
     private static final String TABLE_CALLS = " CREATE TABLE " + Contract.CallInContract.TABLE_NAME

@@ -8,9 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.location.Geofence;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+
+import co.edu.eafit.mrblock.Entidades.SimpleGeofence;
 import co.edu.eafit.mrblock.Entidades.Ubicacion;
 import co.edu.eafit.mrblock.Helper.UbicationHelper;
 import co.edu.eafit.mrblock.R;
@@ -26,6 +29,7 @@ public class LockBlockActivity extends AppCompatActivity {
     private UbicationHelper ubicationHelper;
     private ArrayList<Ubicacion> array;
     private ArrayList<String> array2 = new ArrayList<String>();
+    private SimpleGeofence geofence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -42,12 +46,12 @@ public class LockBlockActivity extends AppCompatActivity {
             Ubicacion ubic = new Ubicacion();
             ubic=array.get(i);
             array2.add(i, ubic.getName());
-            //Toast.makeText(getApplicationContext(), ubic.getName(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), ubic.getName(),Toast.LENGTH_SHORT).show();
         }
         int i =0;
         for (String s : array2) {
             i++;
-            //Toast.makeText(getApplicationContext(),"Comparando "+i,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Comparando "+i,Toast.LENGTH_LONG).show();
             if(nombre.equals(s)) {
                 exist = true;
             }
@@ -68,7 +72,9 @@ public class LockBlockActivity extends AppCompatActivity {
                     ubicacion.setName(nombre);
                     LatLng ubiclatlng = MapsActivity.storeubic;
                     ubicacion.setLatlng(ubiclatlng);
+                    ubicacion.setRadio(100);
                     ubicationHelper.addUbication(ubicacion);
+                    Toast.makeText(getApplicationContext(),"El Geofence :" + nombre + " Ha sido guardado", Toast.LENGTH_LONG).show();
                     Intent i = new Intent(getApplicationContext(), MapsActivity.class);
                     startActivity(i);
                 }

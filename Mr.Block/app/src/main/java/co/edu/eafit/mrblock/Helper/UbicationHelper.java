@@ -30,6 +30,7 @@ public class UbicationHelper {
         values.put(Contract.UbicationContract.COLUMN_PLACE, ubicacion.getName());
         values.put(Contract.UbicationContract.COLUMN_LATITUDE, ubicacion.getLatitud());
         values.put(Contract.UbicationContract.COLUMN_LONGITUDE, ubicacion.getLongitud());
+        values.put(Contract.UbicationContract.COLUMN_RADIUS, ubicacion.getRadio());
         db.insert(Contract.UbicationContract.TABLE_NAME, null, values);
         db.close();
 
@@ -41,14 +42,15 @@ public class UbicationHelper {
         Cursor cursor = db.query(Contract.ContactInContract.TABLE_NAME,new String[]{
                         Contract.UbicationContract.COLUMN_PLACE,
                         Contract.UbicationContract.COLUMN_LATITUDE,
-                        Contract.UbicationContract.COLUMN_LONGITUDE},
+                        Contract.UbicationContract.COLUMN_LONGITUDE,
+                        Contract.UbicationContract.COLUMN_RADIUS},
                 Contract.UbicationContract.COLUMN_PLACE + "='" + place+"'",null,
                 null,null,null,null);
         if(cursor!=null){
             cursor.moveToFirst();
         }
         LatLng latlng = new LatLng(cursor.getDouble(1),cursor.getDouble(2));
-        Ubicacion ubication=new Ubicacion(latlng,cursor.getString(0),cursor.getDouble(1),cursor.getDouble(2));
+        Ubicacion ubication=new Ubicacion(latlng,cursor.getString(0),cursor.getDouble(1),cursor.getDouble(2),cursor.getDouble(3));
         return ubication;
     }
 
@@ -63,6 +65,7 @@ public class UbicationHelper {
                 ubic.setName(cursor.getString(0));
                 ubic.setLatitud(cursor.getDouble(1));
                 ubic.setLongitud(cursor.getDouble(2));
+                ubic.setRadio(cursor.getDouble(3));
                 ubic.setLatlng(new LatLng(cursor.getDouble(1),cursor.getDouble(2)));
                 block.add(ubic);
             }while (cursor.moveToNext());

@@ -2,6 +2,7 @@ package co.edu.eafit.mrblock.Controladores;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -12,11 +13,15 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 import java.util.ArrayList;
 
+import co.edu.eafit.mrblock.Entidades.SimpleGeofence;
 import co.edu.eafit.mrblock.Entidades.Ubicacion;
 import co.edu.eafit.mrblock.Helper.UbicationHelper;
 import co.edu.eafit.mrblock.R;
@@ -40,26 +45,11 @@ public class MapsActivity extends FragmentActivity {
         mapa.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                Ubicacion locstore = new Ubicacion();
-                locstore.setLatlng(latLng);
                 storeubic = latLng;
                 Intent i = new Intent(getApplicationContext(), LockBlockActivity.class);
                 startActivity(i);
             }
         });
-        ubicationHelper = new UbicationHelper(getApplicationContext());
-        array = ubicationHelper.getAllUbication();
-        if(!array.isEmpty()){
-            for(int i = 0 ; i< array.size();i++){
-                Ubicacion ubicacion = new Ubicacion();
-                ubicacion = array.get(i);
-                Toast.makeText(getApplicationContext(),"Latitud = "+ubicacion.getLatitud()+"  Longitud = "+ubicacion.getLongitud(),Toast.LENGTH_SHORT).show();
-        //        mGeofenceList.add(i, new Geofence.Builder()
-        //                .setRequestId(ubicacion.getName())
-        //                .setCircularRegion(ubicacion.getLatitud(), ubicacion.getLongitud(), 100000000).setExpirationDuration(9999999)
-        //                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
-            }
-        }
     }
 
     @Override
@@ -97,6 +87,59 @@ public class MapsActivity extends FragmentActivity {
             mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             //Activamos la capa o layer MyLocation
             mapa.setMyLocationEnabled(true);
+            ubicationHelper = new UbicationHelper(getApplicationContext());
+            array = ubicationHelper.getAllUbication();
+            if(!array.isEmpty()){
+                for(int i = 0 ; i< array.size();i++){
+                    Ubicacion ubicacion = new Ubicacion();
+                    ubicacion = array.get(i);
+                    Toast.makeText(getApplicationContext(),"Latitud = "+ubicacion.getLatitud()+"  Longitud = "+ubicacion.getLongitud()+"  Creando GeoFence",Toast.LENGTH_LONG).show();
+                    double rad = ubicacion.getRadio();
+                    float radio = (float)rad;
+                    SimpleGeofence geofence =new SimpleGeofence(ubicacion.getName(),ubicacion.getLatitud(),ubicacion.getLongitud(),radio);
+                    addMarkerForFence(geofence);
+                    /**
+                     * Falta tomar las ubicaciones y crear los fence ademas de usar el metodo crearFence para hacer las zonas en el mapa
+                     * Recordatorio poner un TOAST para ver el tipo de transicion 2 = EXIT 1 = ENTER
+                     */
+                }
+            }
         }
+    }
+
+    public void addMarkerForFence(SimpleGeofence fence){
+        if(fence == null){
+            // display en error message and return
+            return;
+        }
+        mapa.addMarker(new MarkerOptions()
+                .position(new LatLng(fence.getLatitude(), fence.getLongitude()))
+                .title("Fence " + fence.getId())
+                .snippet("Radius: " + fence.getRadius())).showInfoWindow();
+
+        //Instantiates a new CircleOptions object +  center/radius
+        CircleOptions circleOptions = new CircleOptions()
+                .center( new LatLng(fence.getLatitude(), fence.getLongitude()) )
+                .radius( fence.getRadius() )
+                .fillColor(0x40ff0000)
+                .strokeColor(Color.TRANSPARENT)
+                .strokeWidth(2);
+
+        // Get back the mutable Circle
+        Circle circle = mapa.addCircle(circleOptions);
+        // more operations on the circle...
+
+    }
+
+    private PendingIntent getGeofencePendingIntent() {
+        // Reuse the PendingIntent if we already have it.
+        if (mGeofencePendingIntent != null) {
+            return mGeofencePendingIntent;
+        }
+        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
+        // calling addGeofences() and removeGeofences().
+        return PendingIntent.getService(this, 0, intent, PendingIntent.
+                FLAG_UPDATE_CURRENT);
     }
 }

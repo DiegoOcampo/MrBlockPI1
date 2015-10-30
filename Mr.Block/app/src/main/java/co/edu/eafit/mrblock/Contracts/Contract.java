@@ -28,6 +28,7 @@ public class Contract {
         public static final String COLUMN_PLACE = "Place";
         public static final String COLUMN_LATITUDE = "Latitud";
         public static final String COLUMN_LONGITUDE = "Longitud";
+        public static final String COLUMN_RADIUS = "Radio";
     }
 
     public static abstract class CompleteContract implements BaseColumns{
