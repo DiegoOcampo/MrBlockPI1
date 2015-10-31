@@ -36,6 +36,7 @@ import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Entidades.DateTime;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.Helper.DateHelper;
+import co.edu.eafit.mrblock.Helper.UbicationHelper;
 import co.edu.eafit.mrblock.R;
 
 /**
@@ -51,7 +52,12 @@ public class Alarm extends AppCompatActivity {
     ArrayList<DateTime> dateTimeArrayList;
     private ContactInHelper contactInHelper;
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
+<<<<<<< HEAD
     private Toolbar toolbar;
+=======
+    private UbicationHelper ubicationHelper;
+
+>>>>>>> 8fecd957d07188f9743a35a6dd1f4055350fde4d
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +75,8 @@ public class Alarm extends AppCompatActivity {
         dateTimeArrayList = dateHelper.getAllDate();
         contactInHelper = new ContactInHelper(getApplicationContext());
         contacts = contactInHelper.getAllContact();
+        ubicationHelper = new UbicationHelper(getApplicationContext());
+        ubicationHelper.deleteAll();
 
 
 
