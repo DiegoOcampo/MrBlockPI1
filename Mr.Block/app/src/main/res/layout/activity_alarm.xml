@@ -1,50 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+
+
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <EditText
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editDateName"
-        android:layout_gravity="center_horizontal" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <Button
-        android:id="@+id/startTime1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Hora desde" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar1"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </android.support.design.widget.AppBarLayout>
 
-    <Button
-        android:id="@+id/startDate1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Fecha desde" />
-
-    <Button
-        android:id="@+id/startTime2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Hora hasta" />
-
-    <Button
-        android:id="@+id/startDate2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Fecha hasta" />
-
-    <TextView
-        android:id="@+id/alarm"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#000000" />
-
-    <TextView
-        android:id="@+id/alarm2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#000000" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
 
-</LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="70dp"/>
+
+        <AnalogClock
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <DigitalClock
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/startTime1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="120px"
+            android:layout_marginRight="120px"
+            android:text="Hora desde" />
+
+        <Button
+            android:id="@+id/startDate1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="120px"
+            android:layout_marginRight="120px"
+            android:text="Fecha desde" />
+
+        <Button
+            android:id="@+id/startTime2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="120px"
+            android:layout_marginRight="120px"
+            android:text="Hora hasta" >
+        </Button>
+
+
+        <Button
+            android:id="@+id/startDate2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="120px"
+            android:layout_marginRight="120px"
+            android:text="Facha hasta"
+            />
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>

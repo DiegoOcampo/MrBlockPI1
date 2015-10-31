@@ -170,12 +170,14 @@ public class MainFragmentActivity extends AppCompatActivity {
                         if(!isWhiteList) {
                             BlackListFragment blackListFragment = new BlackListFragment();
                             Contact contact = blackListFragment.addContactToFragment(number, name, "contact", getApplicationContext());
+                            finish();
                             Intent intent = new Intent(getApplicationContext(), MainFragmentActivity.class);
                             startActivity(intent);
                             isWhiteList = false;
                         }else{
                             WhiteListFragment whiteListFragment = new WhiteListFragment();
                             Contact contact = whiteListFragment.addContactToFragment(number, name, "white contact", getApplicationContext());
+                            finish();
                             Intent intent = new Intent(getApplicationContext(), MainFragmentActivity.class);
                             startActivity(intent);
                             isWhiteList = false;

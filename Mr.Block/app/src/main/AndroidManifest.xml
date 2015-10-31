@@ -48,7 +48,7 @@
             android:label="@string/app_name" >
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value=".Controladores.MainActivity" />
+            android:value=".Controladores.MainFragmentActivity" />
         </activity>
         <activity
             android:name=".Controladores.LockBlockActivity"

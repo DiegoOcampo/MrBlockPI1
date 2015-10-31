@@ -11,6 +11,6 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_add_white_list" android:title="@string/action_add_white_list"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_add_new_block" android:title="@string/action_add_white_list"
+    <item android:id="@+id/action_add_new_block"
         android:orderInCategory="100" app:showAsAction="always" android:icon="@drawable/ic_add" />
 </menu>

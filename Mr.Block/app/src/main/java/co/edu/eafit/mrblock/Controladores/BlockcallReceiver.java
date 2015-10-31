@@ -165,7 +165,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
                             }
                         }else {
                             Toast.makeText(context, "else", Toast.LENGTH_LONG).show();
-                            System.out.println("--------------my number---------" + incomingNumber);
+                            System.out.println("--------------my n  umber---------" + incomingNumber);
                             Contact contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
                             Toast.makeText(context, "" + !contact.getType().equals("white contact"), Toast.LENGTH_LONG).show();
                             if(!contact.getType().equals("white contact")) {

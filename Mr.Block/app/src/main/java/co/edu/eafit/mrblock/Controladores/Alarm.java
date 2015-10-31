@@ -1,5 +1,13 @@
 package co.edu.eafit.mrblock.Controladores;
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+
+
+
+import android.support.v4.app.FragmentPagerAdapter;
+
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -16,10 +24,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Entidades.DateTime;
@@ -32,7 +43,7 @@ import co.edu.eafit.mrblock.R;
  */
 public class Alarm extends AppCompatActivity {
     private Button buttonTime1, buttonDate1, buttonTime2, buttonDate2;
-    private TextView textAlarmPrompt;
+
     private TimePickerDialog timePickerDialog, timePickerDialog2;
     private DatePickerDialog datePickerDialog, datePickerDialog2;
     private int year1, monthOfaYear1, dayOfMonth1, hourOfDay1, minute1, year2, monthOfaYear2, dayOfMonth2, hourOfDay2, minute2;
@@ -40,11 +51,17 @@ public class Alarm extends AppCompatActivity {
     ArrayList<DateTime> dateTimeArrayList;
     private ContactInHelper contactInHelper;
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
 
         dateHelper = new DateHelper(getApplicationContext());
@@ -54,7 +71,7 @@ public class Alarm extends AppCompatActivity {
         contacts = contactInHelper.getAllContact();
 
 
-        textAlarmPrompt = (TextView) findViewById(R.id.alarm);
+
         buttonTime1 = (Button) findViewById(R.id.startTime1);
         buttonDate1 = (Button) findViewById(R.id.startDate1);
         buttonTime2 = (Button) findViewById(R.id.startTime2);
@@ -67,7 +84,6 @@ public class Alarm extends AppCompatActivity {
         buttonTime1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textAlarmPrompt.setText("");
                 openTimePickerDialog1(true);
             }
         });
@@ -75,7 +91,6 @@ public class Alarm extends AppCompatActivity {
         buttonTime2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textAlarmPrompt.setText("");
                 openTimePickerDialog2(true);
             }
         });
@@ -83,7 +98,6 @@ public class Alarm extends AppCompatActivity {
         buttonDate1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textAlarmPrompt.setText("");
                 openDatePickerDialog1();
             }
         });
@@ -91,14 +105,16 @@ public class Alarm extends AppCompatActivity {
         buttonDate2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textAlarmPrompt.setText("");
-                //try {
                     openDatePickerDialog2();
 
             }
-        });
+
+
+
+          });
 
     }
+
 
 
     private void openTimePickerDialog1(boolean is24r) {
@@ -219,8 +235,6 @@ public class Alarm extends AppCompatActivity {
 
     private void setTime1(Calendar targetCal) {
 
-        textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
-                + targetCal.getTime() + "\n" + "***\n");
         buttonDate1.setEnabled(true);
         buttonTime1.setEnabled(false);
 
@@ -243,8 +257,6 @@ public class Alarm extends AppCompatActivity {
 
     private void setDate1(Calendar targetCal) {
 
-        textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
-                + targetCal.getTime() + "\n" + "***\n");
         buttonTime2.setEnabled(true);
         buttonDate1.setEnabled(false);
         // user BoD suggests using Intent.ACTION_PICK instead of .ACTION_GET_CONTENT to avoid the chooser
@@ -376,6 +388,7 @@ public class Alarm extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
             Intent intent = new Intent(getApplicationContext(),MainFragmentActivity.class);
             startActivity(intent);
             return true;
