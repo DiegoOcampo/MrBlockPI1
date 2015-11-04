@@ -55,6 +55,7 @@ public class MapsActivity extends FragmentActivity {
             }
         });
         buildGoogleApiClient();
+        CheckUbicationsforDraw();
 //        LocationServices.GeofencingApi.addGeofences(mGoogleApiClient, getGeofencingRequest(), getGeofencePendingIntent());
     }
 
@@ -62,58 +63,40 @@ public class MapsActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+        CheckUbicationsforDraw();
     }
 
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call  once when {@link #mapa} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
     private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
         if (mapa == null) {
-            // Try to obtain the map from the SupportMapFragment.
             mapa = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
         }
         if (mapa != null) {
-            // El objeto GoogleMap ha sido referenciado correctamente
-            //ahora podemos manipular sus propiedades
-            //Seteamos el tipo de mapa
             mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            //Activamos la capa o layer MyLocation
             mapa.setMyLocationEnabled(true);
-            ubicationHelper = new UbicationHelper(getApplicationContext());
-            array = ubicationHelper.getAllUbication();
-            if(!array.isEmpty()){
-                for(int i = 0 ; i< array.size();i++){
-                    Ubicacion ubicacion = new Ubicacion();
-                    ubicacion = array.get(i);
-                    Toast.makeText(getApplicationContext(),"Creando GeoFence" + ubicacion.getName(),Toast.LENGTH_LONG).show();
-                    double rad = ubicacion.getRadio();
-                    float radio = (float)rad;
-                    geofence = new SimpleGeofence(ubicacion.getName(),ubicacion.getLatitud(),ubicacion.getLongitud(),radio);
-                    addMarkerForFence(geofence);
-                    mGeofenceList.add(i,geofence.toGeofence());
-                    Toast.makeText(getApplicationContext(),"Esperando prueba",Toast.LENGTH_LONG).show();
-                }
+        }
+    }
+
+    private void CheckUbicationsforDraw(){
+        ubicationHelper = new UbicationHelper(getApplicationContext());
+        array = ubicationHelper.getAllUbication();
+        if(!array.isEmpty()){
+            for(int i = 0 ; i< array.size();i++){
+                Ubicacion ubicacion = new Ubicacion();
+                ubicacion = array.get(i);
+                Toast.makeText(getApplicationContext(),"Creando GeoFence" + ubicacion.getName(),Toast.LENGTH_LONG).show();
+                double rad = ubicacion.getRadio();
+                float radio = (float)rad;
+                geofence = new SimpleGeofence(ubicacion.getName(),ubicacion.getLatitud(),ubicacion.getLongitud(),radio);
+                addMarkerForFence(geofence);
+                mGeofenceList.add(i,geofence.toGeofence());
+                Toast.makeText(getApplicationContext(),"Esperando prueba",Toast.LENGTH_LONG).show();
             }
         }
     }
 
     public void addMarkerForFence(SimpleGeofence fence){
         if(fence == null){
-            // display en error message and return
             return;
         }
         mapa.addMarker(new MarkerOptions()
@@ -121,7 +104,6 @@ public class MapsActivity extends FragmentActivity {
                 .title("Fence " + fence.getId())
                 .snippet("Radius: " + fence.getRadius())).showInfoWindow();
 
-        //Instantiates a new CircleOptions object +  center/radius
         CircleOptions circleOptions = new CircleOptions()
                 .center( new LatLng(fence.getLatitude(), fence.getLongitude()) )
                 .radius( fence.getRadius() )
@@ -129,9 +111,7 @@ public class MapsActivity extends FragmentActivity {
                 .strokeColor(Color.TRANSPARENT)
                 .strokeWidth(2);
 
-        // Get back the mutable Circle
         Circle circle = mapa.addCircle(circleOptions);
-        // more operations on the circle...
 
     }
 

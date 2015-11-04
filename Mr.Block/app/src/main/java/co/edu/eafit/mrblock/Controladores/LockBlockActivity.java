@@ -10,7 +10,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import co.edu.eafit.mrblock.R;
 /**
  * Created by Usuario on 12/10/2015.
  */
-public class LockBlockActivity extends AppCompatActivity {
+public class LockBlockActivity extends AppCompatActivity {//implements GoogleApiClient.ConnectionCallbacks
 
     private EditText name;
     private Button confirmed;
@@ -32,42 +34,27 @@ public class LockBlockActivity extends AppCompatActivity {
     private ArrayList<Ubicacion> array = new ArrayList<Ubicacion>();
     private ArrayList<String> array2 = new ArrayList<String>();
     private boolean exist;
-    private double radius;
+    private double radius = 250;
     private RadioGroup radioGroup;
-    private RadioButton cinco,cien,ciencinco,docientos,doscinco;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config_locblock);
+
         confirmed = (Button) findViewById(R.id.btn_Confirmed);
         name = (EditText) findViewById(R.id.edit_Name);
+        radioGroup = (RadioGroup)findViewById(R.id.Radius);
+
         ubicationHelper = new UbicationHelper(getApplicationContext());
         array = ubicationHelper.getAllUbication();
-        radioGroup = (RadioGroup)findViewById(R.id.Radius);
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId == R.id.RB_50m){
-                    radius = 50;
-                    Toast.makeText(getApplicationContext(),"Seleccionado 50 metros",Toast.LENGTH_SHORT).show();
-                }else if(checkedId == R.id.RB_100m){
-                    radius = 100;
-                    Toast.makeText(getApplicationContext(),"Seleccionado 100 metros",Toast.LENGTH_SHORT).show();
-                }else if(checkedId == R.id.RB_150m){
-                    radius = 150;
-                    Toast.makeText(getApplicationContext(),"Seleccionado 150 metros",Toast.LENGTH_SHORT).show();
-                }else if(checkedId == R.id.RB_200m){
-                    radius = 200;
-                    Toast.makeText(getApplicationContext(),"Seleccionado 200 metros",Toast.LENGTH_SHORT).show();
-                }else if(checkedId == R.id.RB_250m){
-                    radius = 250;
-                    Toast.makeText(getApplicationContext(),"Seleccionado 250 metros",Toast.LENGTH_SHORT).show();
-                }
+                CheckRadioButtonForRadius(checkedId);
             }
         });
-        /**
-         * Revisar el RadioGroup que define el tamaño del radio de bloqueo
-         */
+
         exist = false;
         if(!array.isEmpty()){
             for(int i = 0 ; i < array.size();i++ ){
@@ -77,43 +64,65 @@ public class LockBlockActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), ubic.getName(),Toast.LENGTH_SHORT).show();
             }
         }else if(array.isEmpty()){
-            Toast.makeText(getApplicationContext(),"esta vacio",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"No hay ubiaciones bloqueadas",Toast.LENGTH_LONG).show();
         }
+
         confirmed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exist = false;
-                nombre = name.getText().toString();
-                if (!array.isEmpty()) {
-                    for (int i = 0; i < array2.size(); i++) {
-                        Toast.makeText(getApplicationContext(), "Comparando " + i, Toast.LENGTH_LONG).show();
-                        String s = array2.get(i);
-                        if (nombre.equals(s)) {
-                            exist = true;
-                        }
-                    }
-                }
-                if (nombre.equals("")) {
-                    Toast.makeText(getApplicationContext(), " Porfavor Ingrese un Nombre para la Ubicacion ", Toast.LENGTH_SHORT).show();
-                } else if (exist) {
-                    Toast.makeText(getApplicationContext(), "Porfavor Elija otro Nombre ", Toast.LENGTH_SHORT).show();
-                } else if (!exist && !nombre.equals("")) {
-                    nombre = name.getText().toString();
-                    Ubicacion ubicacion = new Ubicacion();
-                    ubicacion.setName(nombre);
-                    LatLng ubiclatlng = MapsActivity.storeubic;
-                    ubicacion.setLatlng(ubiclatlng);
-                    ubicacion.setRadio(radius);
-                    ubicationHelper.addUbication(ubicacion);
-                    Toast.makeText(getApplicationContext(), "El Geofence :" + nombre + " Ha sido guardado", Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-                    startActivity(i);
-                }
+                CheckNameForDB();
             }
         });
     }
 
-     // Pendiente de revision y reestructuracion
+    private void CheckNameForDB(){
+        exist = false;
+        nombre = name.getText().toString();
+        if (nombre.equals("")) {
+            Toast.makeText(getApplicationContext(), " Porfavor Ingrese un Nombre para la Ubicacion ", Toast.LENGTH_SHORT).show();
+        }else if (!array.isEmpty()) {
+            for (int i = 0; i < array2.size(); i++) {
+                Toast.makeText(getApplicationContext(), "Comparando " + i, Toast.LENGTH_LONG).show();
+                String s = array2.get(i);
+                if (nombre.equals(s)) {
+                    exist = true;
+                }
+            }
+        }if (exist) {
+            Toast.makeText(getApplicationContext(), "Porfavor Elija otro Nombre ", Toast.LENGTH_SHORT).show();
+        }else if (!exist && !nombre.equals("")) {
+            nombre = name.getText().toString();
+            Ubicacion ubicacion = new Ubicacion();
+            ubicacion.setName(nombre);
+            LatLng ubiclatlng = MapsActivity.storeubic;
+            ubicacion.setLatlng(ubiclatlng);
+            ubicacion.setRadio(radius);
+            ubicationHelper.addUbication(ubicacion);
+            Toast.makeText(getApplicationContext(), "El Geofence :" + nombre + " Ha sido guardado", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+            startActivity(i);
+        }
+    }
+
+    public void CheckRadioButtonForRadius(int checkedId){
+        if(checkedId == R.id.RB_50m){
+            radius = 50;
+            Toast.makeText(getApplicationContext(),"Seleccionado 50 metros",Toast.LENGTH_SHORT).show();
+        }else if(checkedId == R.id.RB_100m){
+            radius = 100;
+            Toast.makeText(getApplicationContext(),"Seleccionado 100 metros",Toast.LENGTH_SHORT).show();
+        }else if(checkedId == R.id.RB_150m){
+            radius = 150;
+            Toast.makeText(getApplicationContext(),"Seleccionado 150 metros",Toast.LENGTH_SHORT).show();
+        }else if(checkedId == R.id.RB_200m){
+            radius = 200;
+            Toast.makeText(getApplicationContext(),"Seleccionado 200 metros",Toast.LENGTH_SHORT).show();
+        }else if(checkedId == R.id.RB_250m){
+            radius = 250;
+            Toast.makeText(getApplicationContext(),"Seleccionado 250 metros",Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void onRadioButtonClicked(View view){
         boolean check = ((RadioButton) view).isChecked();
         switch (view.getId()){
@@ -134,6 +143,5 @@ public class LockBlockActivity extends AppCompatActivity {
                 break;
         }
     }
-
 }
 

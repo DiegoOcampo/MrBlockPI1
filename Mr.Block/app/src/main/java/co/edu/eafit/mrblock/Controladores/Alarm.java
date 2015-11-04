@@ -52,12 +52,9 @@ public class Alarm extends AppCompatActivity {
     ArrayList<DateTime> dateTimeArrayList;
     private ContactInHelper contactInHelper;
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
-<<<<<<< HEAD
     private Toolbar toolbar;
-=======
     private UbicationHelper ubicationHelper;
 
->>>>>>> 8fecd957d07188f9743a35a6dd1f4055350fde4d
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
