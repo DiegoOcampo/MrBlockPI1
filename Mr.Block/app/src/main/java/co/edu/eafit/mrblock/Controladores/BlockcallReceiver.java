@@ -68,25 +68,6 @@ public class BlockcallReceiver extends BroadcastReceiver {
                 }
 
             }
-/*
-
-            String incoming = "hi";
-            dateTime = dateHelper.getDate(incoming.replaceAll(" ",""));
-
-            Toast.makeText(context, "hola" + dateTime.getDateName(),Toast.LENGTH_LONG).show();
-            date1.setYear(dateTime.getYear1() - 1900);
-            date1.setMonth(dateTime.getMonth1());
-            date1.setDate(dateTime.getDay1());
-            date1.setHours(dateTime.getHour1());
-            date1.setMinutes(dateTime.getMinute1());
-            date1.setSeconds(dateTime.getSecond1());
-            date2.setYear(dateTime.getYear2() - 1900);
-            date2.setMonth(dateTime.getMonth2());
-            date2.setDate(dateTime.getDay2());
-            date2.setHours(dateTime.getHour2());
-            date2.setMinutes(dateTime.getMinute2());
-            date2.setSeconds(dateTime.getSecond2());
-            Date date = new Date();*/
             //TODO Auto-generated method stub
             if (isDateBlock) {
                 if (myBundle != null) {
@@ -96,29 +77,20 @@ public class BlockcallReceiver extends BroadcastReceiver {
                             String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
                             System.out.println("--------in state-----");
                             if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-                                // Incoming call
                                 String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                                System.out.println("--------------my number---------" + incomingNumber);
+                                Contact contact = null;
+                                try {
+                                    contact= contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
+                                }catch (Exception e){
+                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                                if( contact==null ) {
+                                    Block(context);
+                                }
 
-                                // this is main section of the code,. could also be use for particular number.
-                                // Get the boring old TelephonyManager.
-                                TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-                                // Get the getITelephony() method
-                                Class<?> classTelephony = Class.forName(telephonyManager.getClass().getName());
-                                Method methodGetITelephony = classTelephony.getDeclaredMethod("getITelephony");
+                                //Block(context);
+                                // Incoming call
 
-                                // Ignore that the method is supposed to be private
-                                methodGetITelephony.setAccessible(true);
-
-                                // Invoke getITelephony() to get the ITelephony interface
-                                Object telephonyInterface = methodGetITelephony.invoke(telephonyManager);
-
-                                // Get the endCall method from ITelephony
-                                Class<?> telephonyInterfaceClass = Class.forName(telephonyInterface.getClass().getName());
-                                Method methodEndCall = telephonyInterfaceClass.getDeclaredMethod("endCall");
-
-                                // Invoke endCall()
-                                methodEndCall.invoke(telephonyInterface);
 
 
                             }
@@ -155,16 +127,13 @@ public class BlockcallReceiver extends BroadcastReceiver {
                             try {
                                 contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
                             }catch (Exception e){
-                                Toast.makeText(context, "error contact"+e.getMessage(), Toast.LENGTH_LONG).show();
                             }
-                            Toast.makeText(context, "hi", Toast.LENGTH_LONG).show();
                             if (contact!=null && contact.getType().equals("white contact")){
 
                             }else {
                                 Block(context);
                             }
                         }else {
-                            Toast.makeText(context, "else", Toast.LENGTH_LONG).show();
                             System.out.println("--------------my n  umber---------" + incomingNumber);
                             Contact contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
                             Toast.makeText(context, "" + !contact.getType().equals("white contact"), Toast.LENGTH_LONG).show();

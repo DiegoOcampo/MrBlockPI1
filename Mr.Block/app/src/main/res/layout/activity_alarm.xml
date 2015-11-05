@@ -46,7 +46,7 @@
 
         <Space
             android:layout_width="1dp"
-            android:layout_height="70dp"/>
+            android:layout_height="50dp"/>
 
         <AnalogClock
             android:layout_width="fill_parent"
@@ -62,24 +62,24 @@
             android:id="@+id/startTime1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="120px"
-            android:layout_marginRight="120px"
+            android:layout_marginLeft="60px"
+            android:layout_marginRight="60px"
             android:text="Hora desde" />
 
         <Button
             android:id="@+id/startDate1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="120px"
-            android:layout_marginRight="120px"
+            android:layout_marginLeft="60px"
+            android:layout_marginRight="60px"
             android:text="Fecha desde" />
 
         <Button
             android:id="@+id/startTime2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="120px"
-            android:layout_marginRight="120px"
+            android:layout_marginLeft="60px"
+            android:layout_marginRight="60px"
             android:text="Hora hasta" >
         </Button>
 
@@ -88,10 +88,15 @@
             android:id="@+id/startDate2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="120px"
-            android:layout_marginRight="120px"
+            android:layout_marginLeft="60px"
+            android:layout_marginRight="60px"
             android:text="Facha hasta"
             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/alarmprompt" />
 
 
     </LinearLayout>

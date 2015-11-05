@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import co.edu.eafit.mrblock.Entidades.Complete;
 import co.edu.eafit.mrblock.Entidades.Contact;
@@ -46,8 +49,8 @@ public class BlackListFragment extends Fragment{
     private ArrayList<Complete> completes = new ArrayList<Complete>();
     private ArrayList<DateTime> dateTimes = new ArrayList<DateTime>();
     private ArrayList<String> Blocks = new ArrayList<String>();
-    private ArrayList<Type> typesBlock = new ArrayList<Type>();
-    private ArrayList<String> typesBlockString = new ArrayList<String>();
+    private LinkedList<Type> typesBlock = new LinkedList<>();
+    private LinkedList<String> typesBlockString = new LinkedList<>();
 
 
 
@@ -85,34 +88,32 @@ public class BlackListFragment extends Fragment{
         dateTimes = dateHelper.getAllDate();
 
         typesBlock = typeHelper.getAllTypes();
-
         for(int i = 0;i < contacts.size();i++){
             Type type = new Type(contacts.get(i).getNumber(),contacts.get(i).getType());
             if(!typesBlockString.contains(type.getType() + ": " + contacts.get(i).getName())
                     && !type.getType().equals("white contact")) {
                 Blocks.add(contacts.get(i).getContact());
                 typeHelper.addType(type);
-                typesBlock.add(type);
-                typesBlockString.add(type.getType() + ": " + contacts.get(i).getName());
+                typesBlock.push(type);
+                typesBlockString.push(type.getType() + ": " + contacts.get(i).getName());
             }
         }
         for(int i = 0;i < completes.size();i++){
             Type type = new Type(completes.get(i).getBlockName(),completes.get(i).getType());
             if(!typesBlockString.contains(type.getType())) {
                 typeHelper.addType(type);
-                typesBlock.add(type);
-                typesBlockString.add(type.getType());
+                typesBlock.push(type);
+                typesBlockString.push(type.getType());
             }
         }
         for(int i = 0;i < dateTimes.size();i++){
             Type type = new Type(dateTimes.get(i).getDateName(),dateTimes.get(i).getType());
             if(!typesBlockString.contains(type.getType() + ": " + dateTimes.get(i).getDateName())) {
                 typeHelper.addType(type);
-                typesBlock.add(type);
-                typesBlockString.add(type.getType() + ": " + dateTimes.get(i).getDateName());
+                typesBlock.push(type);
+                typesBlockString.push(type.getType() + ": " + dateTimes.get(i).getDateName());
             }
         }
-
         int numberType = typesBlock.size();
 
 
@@ -147,8 +148,8 @@ public class BlackListFragment extends Fragment{
          try {
                     Complete complete = new Complete("Complete block", 1, 0, 0, 0, "Complete block");
                     Type type = new Type("Complete block", "Complete block");
-                    typesBlock.add(type);
-                    typesBlockString.add(type.getType());
+                    typesBlock.push(type);
+                    typesBlockString.push(type.getType());
                     typeHelper.addType(type);
     //                adapter.notifyDataSetChanged();
                     completeHelper.addComplete(complete);
@@ -173,8 +174,8 @@ public class BlackListFragment extends Fragment{
                 contacts.add(contact);
                 Blocks.add(contact.getContact());
                 Type type = new Type(contact.getNumber(), contact.getType());
-                typesBlock.add(type);
-                typesBlockString.add(type.getType() + ": " + contact.getName());
+                typesBlock.push(type);
+                typesBlockString.push(type.getType() + ": " + contact.getName());
                 typeHelper.addType(type);
 
                 //adapter.notifyDataSetChanged();
@@ -187,6 +188,7 @@ public class BlackListFragment extends Fragment{
     }
 
     private void openDetailsBlock(final int position){
+        //Collections.reverse(typesBlock);
         final Type type = typesBlock.get(position);
         final String id = type.getId();
         final String blocktype = type.getType();
@@ -202,7 +204,7 @@ public class BlackListFragment extends Fragment{
                     "name: " + comp.getBlockName());
         }else{
             DateTime date = dateHelper.getDate(id);
-            alertName.setMessage("type: " + blocktype + "\n" + "name: " + date.getDateName());
+            alertName.setMessage("type: " + date.getType() + "\n" + "name: " + date.getDateName());
         }
         alertName.setCancelable(false);
         alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import co.edu.eafit.mrblock.Contracts.Contract;
 import co.edu.eafit.mrblock.Entidades.Type;
@@ -30,8 +31,8 @@ public class TypeHelper {
         db.close();
     }
 
-    public ArrayList<Type> getAllTypes(){
-        ArrayList<Type> block= new ArrayList<Type>();
+    public LinkedList<Type> getAllTypes(){
+        LinkedList<Type> block= new LinkedList<Type>();
         String selectQuery = "SELECT  * FROM " + Contract.DateContract.TABLE_NAME;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -40,7 +41,7 @@ public class TypeHelper {
                 Type type = new Type();
                 type.setId(cursor.getString(0));
                 type.setType(cursor.getString(1));
-                block.add(type);
+                block.push(type);
             }while (cursor.moveToNext());
         }
         return block;

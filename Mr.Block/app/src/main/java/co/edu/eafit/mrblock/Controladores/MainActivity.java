@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         contacts = contactInHelper.getAllContact();
         completes = completeHelper.getAllComplete();
         dateTimes = dateHelper.getAllDate();
-        typesBlock = typeHelper.getAllTypes();
+        //typesBlock = typeHelper.getAllTypes();
 
 
 

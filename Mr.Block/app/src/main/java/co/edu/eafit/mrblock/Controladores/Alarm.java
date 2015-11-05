@@ -1,5 +1,9 @@
 package co.edu.eafit.mrblock.Controladores;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.os.SystemClock;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -54,7 +58,7 @@ public class Alarm extends AppCompatActivity {
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
     private Toolbar toolbar;
     private UbicationHelper ubicationHelper;
-
+    private TextView textAlarmPrompt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +70,7 @@ public class Alarm extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
+        textAlarmPrompt = (TextView) findViewById(R.id.alarmprompt);
         dateHelper = new DateHelper(getApplicationContext());
         dateTimeArrayList = new ArrayList<DateTime>();
         dateTimeArrayList = dateHelper.getAllDate();
@@ -243,20 +247,7 @@ public class Alarm extends AppCompatActivity {
         buttonDate1.setEnabled(true);
         buttonTime1.setEnabled(false);
 
-        //Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
-        //PendingIntent pendingIntent = PendingIntent.getBroadcast(
-        //        getBaseContext(), RQS_1, intent, 0);
-        //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        //alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),
-        //        pendingIntent);
-
-
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),10,
-        //        pendingIntent);
-      //  alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-      //          SystemClock.elapsedRealtime() +
-      //                  60 * 1000, pendingIntent);
 
     }
 
@@ -264,46 +255,7 @@ public class Alarm extends AppCompatActivity {
 
         buttonTime2.setEnabled(true);
         buttonDate1.setEnabled(false);
-        // user BoD suggests using Intent.ACTION_PICK instead of .ACTION_GET_CONTENT to avoid the chooser
-        //Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        // BoD con't: CONTENT_TYPE instead of CONTENT_ITEM_TYPE
-        //intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-        //startActivityForResult(intent, 1);
-        /*Date dates = new Date();
-        dates.setYear(dateTime.getYear() - 1900);
-        dates.setMonth(dateTime.getMonth());
-        dates.setDate(dateTime.getDay());
-        dates.setHours(dateTime.getHour());
-        dates.setMinutes(dateTime.getMinute());
-        dates.setSeconds(dateTime.getSecond());
-        Date dates1 = new Date();
-        Toast.makeText(getApplicationContext(),"entrada: "+dates.toString(),Toast.LENGTH_LONG).show();
-        Toast.makeText(getApplicationContext(),"actual: "+dates1.toString(),Toast.LENGTH_LONG).show();
-        if (dates1.before(dates)){
-            Toast.makeText(getApplicationContext(),"estoy antes",Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(getApplicationContext(),"estoy despues",Toast.LENGTH_LONG).show();
-        }*/
-        /* try {
-            calendar1.set(Calendar.YEAR, year1);
-
-            calendar1.set(Calendar.MONTH, monthOfaYear1);
-            calendar1.set(Calendar.DAY_OF_MONTH, dayOfMonth1);
-            calendar1.set(Calendar.HOUR_OF_DAY, hourOfDay1);
-            calendar1.set(Calendar.MINUTE, minute1);
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-        }*/
-        /*calendar1.set(Calendar.SECOND,0);
-        Toast.makeText(getBaseContext(),"cal "+calendar1.toString(),Toast.LENGTH_LONG).show();
-        Intent intent1 = new Intent(getBaseContext(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getBaseContext(), RQS_1, intent1, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(),
-                pendingIntent);
-
-    */}
+        }
 
 
 
@@ -311,6 +263,21 @@ public class Alarm extends AppCompatActivity {
 
         buttonDate2.setEnabled(true);
         buttonTime2.setEnabled(false);
+        setAlarm(targetCal);
+        /*Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                getBaseContext(), 1 , intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),
+                pendingIntent);
+
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),10,
+                pendingIntent);
+          alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                  SystemClock.elapsedRealtime() +
+                          60 * 1000, pendingIntent);*/
     }
 
     private void setDate2(Calendar targetCal) {
@@ -344,6 +311,51 @@ public class Alarm extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(),"Por favor ingrese una fecha valida",Toast.LENGTH_LONG).show();
         }
+
+
+
+
+        // user BoD suggests using Intent.ACTION_PICK instead of .ACTION_GET_CONTENT to avoid the chooser
+        //Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        // BoD con't: CONTENT_TYPE instead of CONTENT_ITEM_TYPE
+        //intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+        //startActivityForResult(intent, 1);
+        /*Date dates = new Date();
+        dates.setYear(dateTime.getYear() - 1900);
+        dates.setMonth(dateTime.getMonth());
+        dates.setDate(dateTime.getDay());
+        dates.setHours(dateTime.getHour());
+        dates.setMinutes(dateTime.getMinute());
+        dates.setSeconds(dateTime.getSecond());
+        Date dates1 = new Date();
+        Toast.makeText(getApplicationContext(),"entrada: "+dates.toString(),Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"actual: "+dates1.toString(),Toast.LENGTH_LONG).show();
+        if (dates1.before(dates)){
+            Toast.makeText(getApplicationContext(),"estoy antes",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(getApplicationContext(),"estoy despues",Toast.LENGTH_LONG).show();
+        }*/
+        /*Calendar calendar1 = Calendar.getInstance();
+         try {
+            calendar1.set(Calendar.YEAR, year2-1900);
+
+            calendar1.set(Calendar.MONTH, monthOfaYear2);
+            calendar1.set(Calendar.DAY_OF_MONTH, dayOfMonth2);
+            calendar1.set(Calendar.HOUR_OF_DAY, hourOfDay2);
+            calendar1.set(Calendar.MINUTE, minute2);
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        calendar1.set(Calendar.SECOND,0);
+        Toast.makeText(getBaseContext(),"cal "+calendar1.toString(),Toast.LENGTH_LONG).show();
+        Intent intent1 = new Intent(getBaseContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                getBaseContext(), 0, intent1, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(),
+                pendingIntent);*/
+
+
 
 
 
@@ -388,6 +400,20 @@ public class Alarm extends AppCompatActivity {
                 year2, monthOfaYear2, dayOfMonth2, hourOfDay2, minute2, 0,"date");
         dateHelper.addDate(dateTime);
         return dateTime;
+    }
+
+    private void setAlarm(Calendar targetCal) {
+
+        textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
+                + targetCal.getTime() + "\n" + "***\n");
+
+        Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                getBaseContext(), 1, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),
+                pendingIntent);
+
     }
 
     @Override
