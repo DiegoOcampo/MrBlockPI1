@@ -142,6 +142,10 @@ public class BlackListFragment extends Fragment{
 
     }
 
+    public ArrayList block(){
+        return Blocks;
+    }
+
     public void addCompleteToFragment(Context context){
         typeHelper = new TypeHelper(context);
         completeHelper = new CompleteHelper(context);
@@ -165,14 +169,22 @@ public class BlackListFragment extends Fragment{
         Contact contact= new Contact(number,name,type1);
         ContactInHelper contactInHelper = new ContactInHelper(context);
         TypeHelper typeHelper =new TypeHelper(context);
-        boolean blockAccept = true;
-        for(int i=0;i<Blocks.size();i++){
-            if(Blocks.get(i).equals(contact.getContact())){
-                blockAccept = false;
-                break;
-            }
+        CompleteHelper completeHelper = new CompleteHelper(context);
+        Complete complete = null;
+        Contact contact1 = null;
+        try{
+            contact1 = contactInHelper.getContact(number);
+        }catch (Exception e){
+
         }
-        if (blockAccept) {
+
+        try{
+            complete = completeHelper.getComplete("Complete block");
+        }catch (Exception e){
+
+        }
+
+        if (contact1 == null && complete==null) {
                 contactInHelper.addContact(contact);
                 //contactDbHelper.addContact(contact);
 
@@ -185,9 +197,11 @@ public class BlackListFragment extends Fragment{
 
                 //adapter.notifyDataSetChanged();
                 Toast.makeText(context, "Contact added: \n" + contactInHelper.getContact(contact.getNumber()).getContact(), Toast.LENGTH_LONG).show();
-            } else {
+            } else if(complete!=null){
+                Toast.makeText(context, "Every contact is blocked", Toast.LENGTH_LONG).show();
+            }else{
                 Toast.makeText(context, "contact already exists", Toast.LENGTH_LONG).show();
-            }
+        }
         return contact;
 
     }
@@ -205,8 +219,8 @@ public class BlackListFragment extends Fragment{
                     "name: " + con.getName() + "\n" + "number: " + con.getNumber());
         }else if(blocktype.equals("Complete block")){
             Complete comp = completeHelper.getComplete(id);
-            alertName.setMessage("type: " + blocktype + "\n" +
-                    "name: " + comp.getBlockName());
+            //alertName.setMessage("type: " + blocktype + "\n" +
+            //        "name: " + comp.getBlockName());
         }else{
             DateTime date = dateHelper.getDate(id);
             alertName.setMessage("type: " + date.getType() + "\n" + "name: " + date.getDateName());

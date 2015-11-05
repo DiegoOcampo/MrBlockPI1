@@ -100,9 +100,9 @@ public class WhiteListFragment extends Fragment {
             typeHelper.addType(type);
 
             //adapter.notifyDataSetChanged();
-            Toast.makeText(context, "Contacto agregado: \n" + contactInHelper.getContact(contact.getNumber()).getContact(), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Contact added: \n" + contactInHelper.getContact(contact.getNumber()).getContact(), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(context, "El contacto ya existe.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Contact already exists", Toast.LENGTH_LONG).show();
         }
         return contact;
 
@@ -112,7 +112,7 @@ public class WhiteListFragment extends Fragment {
     private void openDetailsBlock(final int position){
         final Contact contact = whiteArrayContacts.get(position);
         final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
-        alertName.setTitle("Detalles");
+        alertName.setTitle("Details");
             alertName.setMessage("type: " + contact.getType() + "\n" +
                     "name: " + contact.getName() + "\n" + "number: " + contact.getNumber());
         alertName.setCancelable(false);
@@ -120,14 +120,14 @@ public class WhiteListFragment extends Fragment {
             public void onClick(DialogInterface dialog, int whichButton) {
             }
         });
-        alertName.setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
+        alertName.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 whiteArrayContacts.remove(position);
                 whiteArrayString.remove(position);
                 contactInHelper.delete(contact);
                 typeHelper.delete(contact.getNumber());
                 adapter.notifyDataSetChanged();
-                Toast.makeText(context, "Elimindado", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
             }
         });
         alertName.show();
