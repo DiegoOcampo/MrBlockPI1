@@ -165,9 +165,14 @@ public class BlackListFragment extends Fragment{
         Contact contact= new Contact(number,name,type1);
         ContactInHelper contactInHelper = new ContactInHelper(context);
         TypeHelper typeHelper =new TypeHelper(context);
-
-        //adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
-        if (!Blocks.contains(contact.getContact())) {
+        boolean blockAccept = true;
+        for(int i=0;i<Blocks.size();i++){
+            if(Blocks.get(i).equals(contact.getContact())){
+                blockAccept = false;
+                break;
+            }
+        }
+        if (blockAccept) {
                 contactInHelper.addContact(contact);
                 //contactDbHelper.addContact(contact);
 
