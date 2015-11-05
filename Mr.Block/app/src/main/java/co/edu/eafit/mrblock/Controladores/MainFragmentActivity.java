@@ -38,10 +38,7 @@ public class MainFragmentActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private String [] items = {"Bloquear contacto", "Bloquear todo",  "Bloquear fecha",  "Bloquear posicion", "Bloquear app"};
-    private ListView listDrawer;
-    private DrawerLayout mDrawerLayout;
-    private boolean isWhiteList = false;
+     private boolean isWhiteList = false;
     private ArrayAdapter<String> adapterItems;
 
     @Override
@@ -61,14 +58,7 @@ public class MainFragmentActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        listDrawer = (ListView) findViewById(R.id.left_drawer_items);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_items);
 
-        adapterItems = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,items);
-
-        listDrawer.setAdapter(adapterItems);
-
-        listDrawer.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -192,39 +182,11 @@ public class MainFragmentActivity extends AppCompatActivity {
         }
     }
 
-    public void selectItem(int position) {
-        listDrawer.setItemChecked(position, true);
-        switch (position){
-            case 0:
-                Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
-                intent1.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-                startActivityForResult(intent1, 1);
-                break;
-            case 1:
-                openAlertBlock();
-                break;
-            case 2:
-                Intent intent2 = new Intent(getBaseContext(), Alarm.class);
-                startActivity(intent2);
-                break;
-            case 3:
-                Intent i = new Intent(getApplicationContext(),MapsActivity.class);
-                startActivity(i);
-                break;
-
-
-
-        }
-
-
-        mDrawerLayout.closeDrawer(listDrawer);
-    }
-
     private void openAlertBlock(){
 
         final AlertDialog.Builder alertName = new AlertDialog.Builder(MainFragmentActivity.this);
-        alertName.setTitle("Advertencia");
-        alertName.setMessage("Esta seguro de bloquear todos los contactos?");
+        alertName.setTitle("Warning");
+        alertName.setMessage("Are you sure to block every contact?");
         //final EditText dateName = new EditText(MainActivity.this);
         //alertName.setView(dateName);
         alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -245,19 +207,13 @@ public class MainFragmentActivity extends AppCompatActivity {
 
         alertName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Toast.makeText(getApplicationContext(), "Bloqueo cancelado", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Block canceled", Toast.LENGTH_LONG).show();
             }
         });
         alertName.show();
 
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
-        }
 
-    }
 
 }

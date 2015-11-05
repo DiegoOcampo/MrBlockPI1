@@ -153,7 +153,7 @@ public class BlackListFragment extends Fragment{
                     typeHelper.addType(type);
     //                adapter.notifyDataSetChanged();
                     completeHelper.addComplete(complete);
-                    Toast.makeText(context, "Todos los contactos han sido bloqueados", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Every contact was blocked", Toast.LENGTH_LONG).show();
                 }catch (Exception e){}
                 //}else{
                 //    Toast.makeText(getApplicationContext(), "Los contactos ya fueron bloqueados anteriormente", Toast.LENGTH_LONG).show();
@@ -179,9 +179,9 @@ public class BlackListFragment extends Fragment{
                 typeHelper.addType(type);
 
                 //adapter.notifyDataSetChanged();
-                Toast.makeText(context, "Contacto agregado: \n" + contactInHelper.getContact(contact.getNumber()).getContact(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Contact added: \n" + contactInHelper.getContact(contact.getNumber()).getContact(), Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(context, "El contacto ya existe.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "contact already exists", Toast.LENGTH_LONG).show();
             }
         return contact;
 
@@ -193,7 +193,7 @@ public class BlackListFragment extends Fragment{
         final String id = type.getId();
         final String blocktype = type.getType();
         final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
-        alertName.setTitle("Detalles");
+        alertName.setTitle("Details");
         if(blocktype.equals("contact")){
             Contact con = contactInHelper.getContact(id);
             alertName.setMessage("type: " + blocktype + "\n" +
@@ -211,7 +211,7 @@ public class BlackListFragment extends Fragment{
             public void onClick(DialogInterface dialog, int whichButton) {
             }
         });
-        alertName.setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
+        alertName.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
                 if (type.getType().equals("contact")) {
@@ -227,7 +227,7 @@ public class BlackListFragment extends Fragment{
                 typesBlock.remove(position);
                 typesBlockString.remove(position);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(context, "Elimindado", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
             }
         });
 

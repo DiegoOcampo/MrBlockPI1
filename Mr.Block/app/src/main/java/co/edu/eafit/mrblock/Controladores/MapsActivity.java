@@ -50,6 +50,7 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onMapClick(LatLng latLng) {
                 storeubic = latLng;
+                finish();
                 Intent i = new Intent(getApplicationContext(), LockBlockActivity.class);
                 startActivity(i);
             }

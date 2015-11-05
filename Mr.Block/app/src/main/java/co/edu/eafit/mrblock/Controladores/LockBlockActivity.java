@@ -99,6 +99,7 @@ public class LockBlockActivity extends AppCompatActivity {//implements GoogleApi
             ubicacion.setRadio(radius);
             ubicationHelper.addUbication(ubicacion);
             Toast.makeText(getApplicationContext(), "El Geofence :" + nombre + " Ha sido guardado", Toast.LENGTH_LONG).show();
+            finish();
             Intent i = new Intent(getApplicationContext(), MapsActivity.class);
             startActivity(i);
         }

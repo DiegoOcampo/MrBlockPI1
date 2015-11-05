@@ -35,12 +35,5 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
 </android.support.design.widget.CoordinatorLayout>
-    <ListView android:id="@+id/left_drawer_items"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="#ee606060"/>
+
 </android.support.v4.widget.DrawerLayout>
