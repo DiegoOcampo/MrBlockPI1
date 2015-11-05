@@ -55,9 +55,7 @@ public class MapsActivity extends FragmentActivity {
                 startActivity(i);
             }
         });
-        buildGoogleApiClient();
         CheckUbicationsforDraw();
-//        LocationServices.GeofencingApi.addGeofences(mGoogleApiClient, getGeofencingRequest(), getGeofencePendingIntent());
     }
 
     @Override
@@ -116,37 +114,6 @@ public class MapsActivity extends FragmentActivity {
 
     }
 
-    private PendingIntent getGeofencePendingIntent() {
-        // Reuse the PendingIntent if we already have it.
-        if (mGeofencePendingIntent != null) {
-            return mGeofencePendingIntent;
-        }
-        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
-        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
-        // calling addGeofences() and removeGeofences().
-        return PendingIntent.getService(this, 0, intent, PendingIntent.
-                FLAG_UPDATE_CURRENT);
-    }
-
-    private GeofencingRequest getGeofencingRequest() {
-        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-        builder.addGeofences(mGeofenceList);
-        return builder.build();
-    }
-
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-        boolean conectado = mGoogleApiClient.isConnected();
-        if(conectado){
-            Toast.makeText(getApplicationContext(),"Conectado",Toast.LENGTH_LONG).show();
-        }else if(!conectado){
-            Toast.makeText(getApplicationContext(),"No Conectado",Toast.LENGTH_LONG).show();
-        }
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

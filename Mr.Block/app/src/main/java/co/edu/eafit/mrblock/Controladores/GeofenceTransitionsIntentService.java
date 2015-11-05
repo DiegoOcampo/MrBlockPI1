@@ -16,8 +16,14 @@ import co.edu.eafit.mrblock.R;
  */
 public class GeofenceTransitionsIntentService extends IntentService {
 
+    protected static final String TAG = "GeofenceTransitionsIS";
     public GeofenceTransitionsIntentService() {
-        super(GeofenceTransitionsIntentService.class.getSimpleName());
+        super(TAG);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
     }
 
     protected void onHandleIntent(Intent intent) {
