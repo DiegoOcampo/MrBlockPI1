@@ -112,6 +112,16 @@ public class MapsActivity extends FragmentActivity {
 
         Circle circle = mapa.addCircle(circleOptions);
 
+        try{
+            Geofence geo = fence.toGeofence()
+            ArrayList<Geofence> geofen = new ArrayList();
+            geofen.add(1,geo);
+            LockBlockActivity lock = new LockBlockActivity();
+            lock.addGeofencesHandler(geofen);
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+
     }
 
 

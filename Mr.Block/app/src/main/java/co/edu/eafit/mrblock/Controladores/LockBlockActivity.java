@@ -86,6 +86,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
             @Override
             public void onClick(View v) {
                 CheckNameForDB();
+
             }
         });
     }
