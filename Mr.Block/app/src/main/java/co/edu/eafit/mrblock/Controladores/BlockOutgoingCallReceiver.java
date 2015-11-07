@@ -3,6 +3,7 @@ package co.edu.eafit.mrblock.Controladores;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -25,13 +26,15 @@ public class BlockOutgoingCallReceiver extends BroadcastReceiver{
         contactInHelper = new ContactInHelper(context);
         callBlock = isSmsBlock(completeHelper);
         blockedContact = false;
+        String phonenumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+        Toast.makeText(context,"------Called Number------"+phonenumber,Toast.LENGTH_LONG).show();
         if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
             if (getResultData()!=null && callBlock) {
                 String number = "123456";
                 setResultData(number);
             }
-            checkDBforblockednumbers(contactInHelper,intent);
-            if(!callBlock && blockedContact){
+            blockedContact = checkDBforblockednumbers(contactInHelper,intent);
+            if(blockedContact){
                 String number = "123456";
                 setResultData(number);
             }
