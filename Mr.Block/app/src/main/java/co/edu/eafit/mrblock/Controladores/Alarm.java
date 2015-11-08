@@ -38,8 +38,10 @@ import java.util.List;
 
 import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Entidades.DateTime;
+import co.edu.eafit.mrblock.Entidades.Type;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.Helper.DateHelper;
+import co.edu.eafit.mrblock.Helper.TypeHelper;
 import co.edu.eafit.mrblock.Helper.UbicationHelper;
 import co.edu.eafit.mrblock.R;
 
@@ -55,6 +57,7 @@ public class Alarm extends AppCompatActivity {
     private DateHelper dateHelper;
     ArrayList<DateTime> dateTimeArrayList;
     private ContactInHelper contactInHelper;
+    private TypeHelper typeHelper;
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
     private Toolbar toolbar;
     private UbicationHelper ubicationHelper;
@@ -69,7 +72,7 @@ public class Alarm extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        typeHelper = new TypeHelper(getApplicationContext());
         textAlarmPrompt = (TextView) findViewById(R.id.alarmprompt);
         dateHelper = new DateHelper(getApplicationContext());
         dateTimeArrayList = new ArrayList<DateTime>();
@@ -391,10 +394,12 @@ public class Alarm extends AppCompatActivity {
     }
 
     public DateTime addDateTime(String dateName){
-        Toast.makeText(getApplicationContext(), "Fecha agregada: " + dateName, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Date added: " + dateName, Toast.LENGTH_LONG).show();
         DateTime dateTime = new DateTime(dateName, year1, monthOfaYear1, dayOfMonth1, hourOfDay1, minute1, 0,
                 year2, monthOfaYear2, dayOfMonth2, hourOfDay2, minute2, 0,"date");
+        Type type = new Type(dateTime.getDateName(),dateTime.getType());
         dateHelper.addDate(dateTime);
+        typeHelper.addType(type);
         return dateTime;
     }
 

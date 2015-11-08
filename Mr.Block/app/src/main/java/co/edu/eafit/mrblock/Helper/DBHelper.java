@@ -68,7 +68,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DELETE_TYPE = "DROP TABLE IF EXISTS " + Contract.TypeContract.TABLE_NAME;
 
-    //public static final String DELETE_COMPLETE = "DROP TABLE IF EXISTS " + Contract.CompleteContract.TABLE_NAME;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

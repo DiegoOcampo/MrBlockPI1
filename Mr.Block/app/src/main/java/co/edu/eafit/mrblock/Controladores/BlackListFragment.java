@@ -52,8 +52,7 @@ public class BlackListFragment extends Fragment{
     private ArrayList<String> Blocks = new ArrayList<String>();
     private LinkedList<Type> typesBlock = new LinkedList<>();
     private LinkedList<String> typesBlockString = new LinkedList<>();
-
-
+    private  LinkedList<Type> typesBlockShow = new LinkedList<>();
 
     public static ArrayAdapter<String> adapter;
 
@@ -66,7 +65,7 @@ public class BlackListFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
+        adapter = new ArrayAdapter<String >(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
 
 
 
@@ -90,7 +89,15 @@ public class BlackListFragment extends Fragment{
         dateTimes = dateHelper.getAllDate();
 
         typesBlock = typeHelper.getAllTypes();
-        for(int i = 0;i < contacts.size();i++){
+        if(typesBlockString.size()==0) {
+            for (int i = 0; i < typesBlock.size(); i++) {
+                if(!typesBlock.get(i).getType().equals("white contact")) {
+                    typesBlockString.add(typesBlock.get(i).getType() + ": " + typesBlock.get(i).getId());
+                    typesBlockShow.add(typesBlock.get(i));
+                }
+            }
+        }
+        /*for(int i = 0;i < contacts.size();i++){
             Type type = new Type(contacts.get(i).getNumber(),contacts.get(i).getType());
             if(!typesBlockString.contains(type.getType() + ": " + contacts.get(i).getName())
                     && !type.getType().equals("white contact")) {
@@ -118,8 +125,8 @@ public class BlackListFragment extends Fragment{
         }
         int numberType = typesBlock.size();
         for(int i=0;i<numberType;i++){
-            Toast.makeText(context, typesBlock.get(i).getId(), Toast.LENGTH_LONG).show();
-        }
+            Toast.makeText(context, "showing: "+typesBlock.get(i).getId(), Toast.LENGTH_LONG).show();
+        }*/
 
         adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
@@ -157,8 +164,6 @@ public class BlackListFragment extends Fragment{
          try {
                     Complete complete = new Complete("Complete block", 1, 0, 0, 0, "Complete block");
                     Type type = new Type("Complete block", "Complete block");
-                    typesBlock.push(type);
-                    typesBlockString.push(type.getType());
                     typeHelper.addType(type);
     //                adapter.notifyDataSetChanged();
                     completeHelper.addComplete(complete);
@@ -193,11 +198,9 @@ public class BlackListFragment extends Fragment{
                 contactInHelper.addContact(contact);
                 //contactDbHelper.addContact(contact);
 
-                contacts.add(contact);
-                Blocks.add(contact.getContact());
+            contacts.add(contact);
+            Blocks.add(contact.getContact());
                 Type type = new Type(contact.getNumber(), contact.getType());
-                typesBlock.push(type);
-                typesBlockString.push(type.getType() + ": " + contact.getName());
                 typeHelper.addType(type);
 
                 //adapter.notifyDataSetChanged();
@@ -214,13 +217,10 @@ public class BlackListFragment extends Fragment{
     private void openDetailsBlock(final int position) {
         //Collections.reverse(typesBlock);
         //try {
-            Toast.makeText(context, "1", Toast.LENGTH_LONG).show();
-            if(typesBlock.size()>0) {
-                final Type type = typesBlock.get(position);
+                final Type type = typesBlockShow.get(position);
                 final String id = type.getId();
                 final String blocktype = type.getType();
                 final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
-                Toast.makeText(context, "2", Toast.LENGTH_LONG).show();
                 alertName.setTitle("Details");
                 if (blocktype.equals("contact")) {
                     Contact con = contactInHelper.getContact(id);
@@ -255,15 +255,14 @@ public class BlackListFragment extends Fragment{
                         typesBlock.remove(position);
                         typesBlockString.remove(position);
                         adapter.notifyDataSetChanged();
+                        typeHelper.delete(type.getId());
                         Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
                     }
                 });
 
 
                 alertName.show();
-            }else{
-                Toast.makeText(context, "I'm empty", Toast.LENGTH_LONG).show();
-            }
+
        // }catch (Exception e){
         //    Toast.makeText(context,"error: " + e.getMessage(),Toast.LENGTH_LONG).show();
         //}

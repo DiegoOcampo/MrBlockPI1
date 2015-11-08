@@ -33,7 +33,7 @@ public class TypeHelper {
 
     public LinkedList<Type> getAllTypes(){
         LinkedList<Type> block= new LinkedList<Type>();
-        String selectQuery = "SELECT  * FROM " + Contract.DateContract.TABLE_NAME;
+        String selectQuery = "SELECT  * FROM " + Contract.TypeContract.TABLE_NAME;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
