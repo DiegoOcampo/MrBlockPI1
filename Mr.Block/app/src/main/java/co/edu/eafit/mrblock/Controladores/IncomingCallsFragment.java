@@ -29,7 +29,6 @@ public class IncomingCallsFragment extends Fragment {
     ArrayList<String> callsString = new ArrayList<String>();
     ArrayAdapter<String> adapter;
     CallInHelper callInHelper;
-    ContactInHelper contactInHelper;
     public IncomingCallsFragment() {
 
     }
@@ -46,7 +45,6 @@ public class IncomingCallsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_incoming_calls, container, false);
         listIncomingCalls = (ListView) view.findViewById(R.id.listIncomingCalls);
 
-        contactInHelper = new ContactInHelper(context);
 
         callInHelper = new CallInHelper(context);
         calls = callInHelper.getAllCall();

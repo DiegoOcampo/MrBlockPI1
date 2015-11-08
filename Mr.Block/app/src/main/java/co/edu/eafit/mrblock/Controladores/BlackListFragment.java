@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public class BlackListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = container.getContext();
+
         View view = inflater.inflate(R.layout.fragment_black_list, container, false);
         listBlackList = (ListView)view.findViewById(R.id.listBlackList);
 
@@ -115,7 +117,9 @@ public class BlackListFragment extends Fragment{
             }
         }
         int numberType = typesBlock.size();
-
+        for(int i=0;i<numberType;i++){
+            Toast.makeText(context, typesBlock.get(i).getId(), Toast.LENGTH_LONG).show();
+        }
 
         adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
@@ -134,7 +138,8 @@ public class BlackListFragment extends Fragment{
                 }
                 Toast.makeText(getApplicationContext(),"Contacto eliminado: \n" + contact.getContact(),Toast.LENGTH_LONG).show();
                 adapter.notifyDataSetChanged();*/
-                openDetailsBlock(position);
+                    openDetailsBlock(position);
+
             }
         });
         return view;
@@ -206,52 +211,62 @@ public class BlackListFragment extends Fragment{
 
     }
 
-    private void openDetailsBlock(final int position){
+    private void openDetailsBlock(final int position) {
         //Collections.reverse(typesBlock);
-        final Type type = typesBlock.get(position);
-        final String id = type.getId();
-        final String blocktype = type.getType();
-        final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
-        alertName.setTitle("Details");
-        if(blocktype.equals("contact")){
-            Contact con = contactInHelper.getContact(id);
-            alertName.setMessage("type: " + blocktype + "\n" +
-                    "name: " + con.getName() + "\n" + "number: " + con.getNumber());
-        }else if(blocktype.equals("Complete block")){
-            Complete comp = completeHelper.getComplete(id);
-            //alertName.setMessage("type: " + blocktype + "\n" +
-            //        "name: " + comp.getBlockName());
-        }else{
-            DateTime date = dateHelper.getDate(id);
-            alertName.setMessage("type: " + date.getType() + "\n" + "name: " + date.getDateName());
-        }
-        alertName.setCancelable(false);
-        alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-            }
-        });
-        alertName.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-
-                if (type.getType().equals("contact")) {
-                    Contact contact = contactInHelper.getContact(id);
-                    contactInHelper.delete(contact);
-                } else if (type.getType().equals("Complete block")) {
-                    Complete complete = completeHelper.getComplete(id);
-                    completeHelper.delete(id);
+        //try {
+            Toast.makeText(context, "1", Toast.LENGTH_LONG).show();
+            if(typesBlock.size()>0) {
+                final Type type = typesBlock.get(position);
+                final String id = type.getId();
+                final String blocktype = type.getType();
+                final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
+                Toast.makeText(context, "2", Toast.LENGTH_LONG).show();
+                alertName.setTitle("Details");
+                if (blocktype.equals("contact")) {
+                    Contact con = contactInHelper.getContact(id);
+                    alertName.setMessage("type: " + con.getType() + "\n" +
+                            "name: " + con.getName() + "\n" + "number: " + con.getNumber());
+                } else if (blocktype.equals("Complete block")) {
+                    Complete comp = completeHelper.getComplete(id);
+                    alertName.setMessage("type: " + comp.getType() + "\n" +
+                            "name: " + comp.getBlockName());
                 } else {
-                    DateTime dateTime = dateHelper.getDate(id);
-                    dateHelper.delete(id);
+                    DateTime date = dateHelper.getDate(id);
+                    alertName.setMessage("type: " + date.getType() + "\n" + "name: " + date.getDateName());
                 }
-                typesBlock.remove(position);
-                typesBlockString.remove(position);
-                adapter.notifyDataSetChanged();
-                Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
+                alertName.setCancelable(false);
+                alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+                alertName.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        if (type.getType().equals("contact")) {
+                            Contact contact = contactInHelper.getContact(id);
+                            contactInHelper.delete(contact);
+                        } else if (type.getType().equals("Complete block")) {
+                            Complete complete = completeHelper.getComplete(id);
+                            completeHelper.delete(id);
+                        } else {
+                            DateTime dateTime = dateHelper.getDate(id);
+                            dateHelper.delete(id);
+                        }
+                        typesBlock.remove(position);
+                        typesBlockString.remove(position);
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+                alertName.show();
+            }else{
+                Toast.makeText(context, "I'm empty", Toast.LENGTH_LONG).show();
             }
-        });
-
-
-        alertName.show();
+       // }catch (Exception e){
+        //    Toast.makeText(context,"error: " + e.getMessage(),Toast.LENGTH_LONG).show();
+        //}
 
     }
 

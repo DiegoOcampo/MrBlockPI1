@@ -300,16 +300,12 @@ public class Alarm extends AppCompatActivity {
         date_2.setMinutes(minute2);
         date_2.setSeconds(0);
         if(date_1.before(date_2) && !date_1.before(date_3)){
-            for(DateTime d: dateTimeArrayList){
-                Toast.makeText(getApplicationContext(),d.getDateName() + d.getMinute1(),Toast.LENGTH_LONG).show();
-                dateHelper.delete(d.getDateName());
-            }
             openAlert();
 
 
         }else{
 
-            Toast.makeText(getApplicationContext(),"Por favor ingrese una fecha valida",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Please enter a valid date",Toast.LENGTH_LONG).show();
         }
 
 

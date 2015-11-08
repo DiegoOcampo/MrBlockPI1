@@ -26,41 +26,24 @@ public class BlockOutgoingCallReceiver extends BroadcastReceiver{
         contactInHelper = new ContactInHelper(context);
         callBlock = isSmsBlock(completeHelper);
         blockedContact = false;
-        String phonenumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
-        Toast.makeText(context,"------Called Number------"+phonenumber,Toast.LENGTH_LONG).show();
+        String phonenumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER).replaceAll(" ", "");
+        Contact contact = null;
+        try{
+            contact = contactInHelper.getContact(phonenumber);
+        }catch (Exception e){
+
+        }
         if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
-            if (getResultData()!=null && callBlock) {
+            if (getResultData()!=null && callBlock || contact != null) {
                 String number = "123456";
                 setResultData(number);
             }
-            blockedContact = checkDBforblockednumbers(contactInHelper,intent);
-            if(blockedContact){
+            /*
+            if(contact != null){
                 String number = "123456";
                 setResultData(number);
-            }
+            }*/
         }
-    }
-
-    public boolean checkDBforblockednumbers(ContactInHelper contactInHelper, Intent intent){
-        ArrayList<Contact> listblockedContacts = new ArrayList<>();
-        listblockedContacts = contactInHelper.getAllContact();
-        ArrayList<String> numbers = new ArrayList<>();
-        for(int i = 0 ; i<listblockedContacts.size();i++){
-            numbers.add(i,listblockedContacts.get(i).getNumber());
-        }
-        String phonenumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
-        for(int i = 0;i<numbers.size();i++){
-            if(phonenumber == numbers.get(i)){
-                blockedContact = true;
-                break;
-            }
-        }
-        return blockedContact;
-    }
-
-    public String getNumberMarked(Intent intent){
-        String phonenumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
-        return phonenumber;
     }
 
     public boolean isSmsBlock(CompleteHelper completeHelper){
