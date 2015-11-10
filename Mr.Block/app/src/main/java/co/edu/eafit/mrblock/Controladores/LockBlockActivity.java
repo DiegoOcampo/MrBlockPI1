@@ -33,7 +33,7 @@ import co.edu.eafit.mrblock.R;
  * Created by Usuario on 12/10/2015.
  */
 public class LockBlockActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status>{//implements GoogleApiClient.ConnectionCallbacks
+        GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status>{
 
     private EditText name;
     private Button confirmed;
@@ -54,6 +54,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config_locblock);
+
         mGeofencePendingIntent = null;
         buildGoogleApiClient();
 
@@ -125,9 +126,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
         if (status.isSuccess()) {
             // Update state and save in shared preferences.
             mGeofencesAdded = !mGeofencesAdded;
-
-            Toast.makeText(
-                    this,
+            Toast.makeText(this,
                     getString(mGeofencesAdded ? R.string.geofences_added :
                             R.string.geofences_removed),
                     Toast.LENGTH_SHORT
@@ -157,6 +156,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "Connected to GoogleApiClient");
+        Toast.makeText(getApplicationContext(),"Conectado",Toast.LENGTH_LONG).show();
     }
 
 
