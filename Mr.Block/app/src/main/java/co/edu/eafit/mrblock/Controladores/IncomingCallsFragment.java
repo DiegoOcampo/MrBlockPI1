@@ -1,6 +1,7 @@
 package co.edu.eafit.mrblock.Controladores;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,8 @@ public class IncomingCallsFragment extends Fragment {
                              Bundle savedInstanceState) {
         context = container.getContext();
         View view = inflater.inflate(R.layout.fragment_incoming_calls, container, false);
+        //FragmentTransaction ft = getFragmentManager().beginTransaction();
+        //ft.detach(this).attach(this).commit();
         listIncomingCalls = (ListView) view.findViewById(R.id.listIncomingCalls);
 
 

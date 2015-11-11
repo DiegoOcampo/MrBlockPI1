@@ -131,7 +131,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
                             if (contact!=null && contact.getType().equals("white contact")){
 
                             }else {
-                                Call call = new Call("contact", incomingNumber, "call");
+                                Call call = new Call(incomingNumber, "contact", "call");
                                 callInHelper.addCall(call);
                                 Block(context);
                             }
