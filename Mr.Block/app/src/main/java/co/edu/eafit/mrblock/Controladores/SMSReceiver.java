@@ -48,7 +48,6 @@ public class SMSReceiver extends BroadcastReceiver{
                     incomingNumber = msgs[i].getOriginatingAddress();
                 }
                 //---display the new SMS message---
-                Toast.makeText(context, incomingNumber, Toast.LENGTH_LONG).show();
             }
         }
     }

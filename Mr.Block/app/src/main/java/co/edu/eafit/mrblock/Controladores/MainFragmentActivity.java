@@ -59,6 +59,7 @@ public class MainFragmentActivity extends AppCompatActivity {
 
 
 
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
