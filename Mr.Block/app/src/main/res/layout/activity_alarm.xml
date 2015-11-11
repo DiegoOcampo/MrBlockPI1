@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="60px"
             android:layout_marginRight="60px"
-            android:text="Hora desde" />
+            android:text="Start time" />
 
         <Button
             android:id="@+id/startDate1"
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="60px"
             android:layout_marginRight="60px"
-            android:text="Fecha desde" />
+            android:text="start Date" />
 
         <Button
             android:id="@+id/startTime2"
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="60px"
             android:layout_marginRight="60px"
-            android:text="Hora hasta" >
+            android:text="End time" >
         </Button>
 
 
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="60px"
             android:layout_marginRight="60px"
-            android:text="Facha hasta"
+            android:text="End date"
             />
 
         <TextView

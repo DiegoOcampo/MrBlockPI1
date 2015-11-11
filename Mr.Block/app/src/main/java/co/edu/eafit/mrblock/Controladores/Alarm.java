@@ -133,7 +133,7 @@ public class Alarm extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         timePickerDialog = new TimePickerDialog(Alarm.this,onTimeSetListener1,calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE), is24r);
-        timePickerDialog.setTitle("Set Alarm Time");
+        timePickerDialog.setTitle("Set time");
         timePickerDialog.show();
     }
 
@@ -141,7 +141,7 @@ public class Alarm extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         timePickerDialog2 = new TimePickerDialog(Alarm.this,onTimeSetListener2,calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE), is24r);
-        timePickerDialog2.setTitle("Set Alarm Time");
+        timePickerDialog2.setTitle("Set time");
         timePickerDialog2.show();
     }
 
@@ -149,7 +149,7 @@ public class Alarm extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         datePickerDialog = new DatePickerDialog(Alarm.this,date1,calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.setTitle("Set Date Time");
+        datePickerDialog.setTitle("Set date");
         datePickerDialog.show();
 
     }
@@ -158,7 +158,7 @@ public class Alarm extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         datePickerDialog2 = new DatePickerDialog(Alarm.this,date2,calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog2.setTitle("Set Date Time");
+        datePickerDialog2.setTitle("Set date");
         datePickerDialog2.show();
     }
 
@@ -362,17 +362,17 @@ public class Alarm extends AppCompatActivity {
     public void openAlert(){
 
                 AlertDialog.Builder alertName = new AlertDialog.Builder(Alarm.this);
-                alertName.setTitle("Nombre");
-                alertName.setMessage("Ingrese un nombre de bloqueo");
+                alertName.setTitle("Name");
+                alertName.setMessage("Enter a block name");
                 final EditText dateNameEditText = new EditText(Alarm.this);
                 alertName.setView(dateNameEditText);
 
-                alertName.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //Editable YouEditTextValue = dateName.getText();
                         final String dateName = dateNameEditText.getText().toString();
                         if (dateName.equals("")) {
-                            Toast.makeText(getApplicationContext(), "Nombre invalido", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Invalid name", Toast.LENGTH_LONG).show();
                         } else {
                             addDateTime(dateName);
 //                            Toast.makeText(getApplicationContext(),dateHelper.getDate(dateName).getDateName()+"hi",Toast.LENGTH_LONG).show();
@@ -380,10 +380,10 @@ public class Alarm extends AppCompatActivity {
                     }
                 });
 
-                alertName.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                alertName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // what ever you want to do with No option.
-                        Toast.makeText(getApplicationContext(), "La fecha no fue agregada", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "The date wasn't added", Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -405,15 +405,15 @@ public class Alarm extends AppCompatActivity {
 
     private void setAlarm(Calendar targetCal) {
 
-        textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
-                + targetCal.getTime() + "\n" + "***\n");
+        //textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
+        //        + targetCal.getTime() + "\n" + "***\n");
 
-        Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getBaseContext(), 1, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),
-                pendingIntent);
+        //Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
+        //PendingIntent pendingIntent = PendingIntent.getBroadcast(
+        //        getBaseContext(), 1, intent, 0);
+        //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),
+        //        pendingIntent);
 
     }
 
