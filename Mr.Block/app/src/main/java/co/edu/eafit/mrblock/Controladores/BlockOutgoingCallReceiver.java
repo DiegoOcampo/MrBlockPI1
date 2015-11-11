@@ -34,15 +34,19 @@ public class BlockOutgoingCallReceiver extends BroadcastReceiver{
 
         }
         if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
-            if (getResultData()!=null && callBlock || contact != null) {
-                String number = "123456";
+            if ((getResultData()!=null && callBlock)) {
+                if(contact == null){
+                    String number = phonenumber + "0";
+                    setResultData(number);
+                }else if(contact != null && !contact.getType().equals("white contact")) {
+                    String number = phonenumber + "0";
+                    setResultData(number);
+                }
+            }
+            if(contact != null && !contact.getType().equals("white contact")){
+                String number = phonenumber + "0";
                 setResultData(number);
             }
-            /*
-            if(contact != null){
-                String number = "123456";
-                setResultData(number);
-            }*/
         }
     }
 

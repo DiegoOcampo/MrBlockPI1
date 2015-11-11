@@ -97,36 +97,6 @@ public class BlackListFragment extends Fragment{
                 }
             }
         }
-        /*for(int i = 0;i < contacts.size();i++){
-            Type type = new Type(contacts.get(i).getNumber(),contacts.get(i).getType());
-            if(!typesBlockString.contains(type.getType() + ": " + contacts.get(i).getName())
-                    && !type.getType().equals("white contact")) {
-                Blocks.add(contacts.get(i).getContact());
-                typeHelper.addType(type);
-                typesBlock.push(type);
-                typesBlockString.push(type.getType() + ": " + contacts.get(i).getName());
-            }
-        }
-        for(int i = 0;i < completes.size();i++){
-            Type type = new Type(completes.get(i).getBlockName(),completes.get(i).getType());
-            if(!typesBlockString.contains(type.getType())) {
-                typeHelper.addType(type);
-                typesBlock.push(type);
-                typesBlockString.push(type.getType());
-            }
-        }
-        for(int i = 0;i < dateTimes.size();i++){
-            Type type = new Type(dateTimes.get(i).getDateName(),dateTimes.get(i).getType());
-            if(!typesBlockString.contains(type.getType() + ": " + dateTimes.get(i).getDateName())) {
-                typeHelper.addType(type);
-                typesBlock.push(type);
-                typesBlockString.push(type.getType() + ": " + dateTimes.get(i).getDateName());
-            }
-        }
-        int numberType = typesBlock.size();
-        for(int i=0;i<numberType;i++){
-            Toast.makeText(context, "showing: "+typesBlock.get(i).getId(), Toast.LENGTH_LONG).show();
-        }*/
 
         adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);

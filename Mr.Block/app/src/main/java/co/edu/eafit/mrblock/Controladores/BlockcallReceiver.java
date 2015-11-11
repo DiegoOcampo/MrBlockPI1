@@ -120,17 +120,19 @@ public class BlockcallReceiver extends BroadcastReceiver {
                         }catch (Exception e){
                             Toast.makeText(context,"error complete"+ e.getMessage(), Toast.LENGTH_LONG).show();
                         }
-                        String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                        String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER).replaceAll(" ", "");
                         if(complete!=null){
-                            Toast.makeText(context, "si", Toast.LENGTH_LONG).show();
+
                             Contact contact= null;
                             try {
-                                contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
+                                contact = contactInHelper.getContact(incomingNumber);
                             }catch (Exception e){
                             }
                             if (contact!=null && contact.getType().equals("white contact")){
 
                             }else {
+                                Call call = new Call("contact", incomingNumber, "call");
+                                callInHelper.addCall(call);
                                 Block(context);
                             }
                         }else {
