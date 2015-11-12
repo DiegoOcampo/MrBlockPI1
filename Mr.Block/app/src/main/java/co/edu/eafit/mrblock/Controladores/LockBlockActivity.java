@@ -250,19 +250,14 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
     public void CheckRadioButtonForRadius(int checkedId){
         if(checkedId == R.id.RB_50m){
             radius = 50;
-            Toast.makeText(getApplicationContext(),"Seleccionado 50 metros",Toast.LENGTH_SHORT).show();
         }else if(checkedId == R.id.RB_100m){
             radius = 100;
-            Toast.makeText(getApplicationContext(),"Seleccionado 100 metros",Toast.LENGTH_SHORT).show();
         }else if(checkedId == R.id.RB_150m){
             radius = 150;
-            Toast.makeText(getApplicationContext(),"Seleccionado 150 metros",Toast.LENGTH_SHORT).show();
         }else if(checkedId == R.id.RB_200m){
             radius = 200;
-            Toast.makeText(getApplicationContext(),"Seleccionado 200 metros",Toast.LENGTH_SHORT).show();
         }else if(checkedId == R.id.RB_250m){
             radius = 250;
-            Toast.makeText(getApplicationContext(),"Seleccionado 250 metros",Toast.LENGTH_SHORT).show();
         }
     }
 
