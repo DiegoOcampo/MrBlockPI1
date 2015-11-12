@@ -56,6 +56,9 @@ public class MapsActivity extends FragmentActivity {
             }
         });
         CheckUbicationsforDraw();
+        Intent mapsIntent = new Intent(MapsActivity.this,GeofenceTransitionsIntentService.class);
+        startService(mapsIntent);
+
     }
 
     @Override
@@ -112,7 +115,7 @@ public class MapsActivity extends FragmentActivity {
 
         Circle circle = mapa.addCircle(circleOptions);
 
-        try{
+       /* try{
             Geofence geo = fence.toGeofence();
             ArrayList<Geofence> geofen = new ArrayList();
             geofen.add(0,geo);
@@ -120,7 +123,7 @@ public class MapsActivity extends FragmentActivity {
             lock.addGeofencesHandler(geofen);
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-        }
+        }*/
 
     }
 

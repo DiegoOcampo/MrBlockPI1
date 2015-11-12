@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
@@ -50,6 +51,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         // Test that the reported transition was of interest.
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
                 geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+            Toast.makeText(getApplicationContext(),"change",Toast.LENGTH_LONG);
             List triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
              String geofenceTransitionDetails = getGeofenceTransitionDetails(
