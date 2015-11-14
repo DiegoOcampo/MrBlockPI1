@@ -54,10 +54,12 @@ public class BaresActivity extends AppCompatActivity {
     }
 
     public class JsonTask extends AsyncTask<URL, Void, List<Bar>> {
+        List bares = new ArrayList<>();
 
         @Override
         protected List doInBackground(URL... urls){
-            List bares = null;
+            Bar bars = new Bar(1,"a","b","c","4");
+            bares.add(bars);
 
             try {
                 // Establecer la conexión

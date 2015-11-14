@@ -6,6 +6,7 @@
     <string name="action_block_date">Block date</string>
     <string name="action_block_location">Block location</string>
     <string name="action_add_white_list">Add to white list</string>
+    <string name="action_events">Events</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="title_activity_maps">Map</string>
