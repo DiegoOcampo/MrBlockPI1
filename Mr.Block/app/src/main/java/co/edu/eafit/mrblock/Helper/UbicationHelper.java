@@ -70,6 +70,7 @@ public class UbicationHelper {
                 block.add(ubic);
             }while (cursor.moveToNext());
         }
+        db.close();
         return block;
     }
 

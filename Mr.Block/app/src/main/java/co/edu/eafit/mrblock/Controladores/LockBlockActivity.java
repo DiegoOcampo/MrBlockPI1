@@ -43,7 +43,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
     private ArrayList<Ubicacion> array = new ArrayList<Ubicacion>();
     private ArrayList<String> array2 = new ArrayList<String>();
     private boolean exist;
-    private double radius = 3;
+    private double radius = 250;
     private RadioGroup radioGroup;
     protected static final String TAG = "GeoFenceController";
     protected GoogleApiClient mGoogleApiClient;
@@ -77,30 +77,30 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
             }
         });
 
+        Intent lockblockIntent = new Intent(this,GeofenceTransitionsIntentService.class);
+        startService(lockblockIntent);
+
         exist = false;
         if(!array.isEmpty()){
             for(int i = 0 ; i < array.size();i++ ){
                 Ubicacion ubic = new Ubicacion();
                 ubic=array.get(i);
                 array2.add(i, ubic.getName());
-                Toast.makeText(getApplicationContext(), ubic.getName(),Toast.LENGTH_SHORT).show();
             }
-        }else if(array.isEmpty()){
-            Toast.makeText(getApplicationContext(),"No hay ubiaciones bloqueadas",Toast.LENGTH_LONG).show();
         }
         confirmed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CheckNameForDB();
-                //addGeofencesHandler(mGeofenceList);
                 ArrayList<SimpleGeofence> simpleGeofences = new ArrayList<SimpleGeofence>();
                 for(int i = 0;i<array.size();i++){
                     Ubicacion ubicacion = new Ubicacion();
                     ubicacion = array.get(i);
                     simpleGeofences.add(i, new SimpleGeofence(ubicacion.getName(),ubicacion.getLatitud(),ubicacion.getLongitud(),(float)ubicacion.getRadio()));
-                    mGeofenceList.add(i,simpleGeofences.get(i).toGeofence());
+                    mGeofenceList.add(i, simpleGeofences.get(i).toGeofence());
                 }
-                //addGeofencesHandler(mGeofenceList);
+                //Intent lockblockIntent = new Intent(LockBlockActivity.this,GeofenceTransitionsIntentService.class);
+                //startService(lockblockIntent);
             }
         });
 
@@ -129,12 +129,6 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-      /*  boolean conectado = mGoogleApiClient.isConnected();
-        if(conectado){
-            Toast.makeText(getApplicationContext(),"Conectado",Toast.LENGTH_LONG).show();
-        }else if(!conectado){
-            Toast.makeText(getApplicationContext(),"No Conectado",Toast.LENGTH_LONG).show();
-        }*/
     }
 
     public void onResult(Status status) {
@@ -171,18 +165,23 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "Connected to GoogleApiClient");
-        Toast.makeText(getApplicationContext(),"Conectado",Toast.LENGTH_LONG).show();
-        addGeofencesHandler();
+        if (!array.isEmpty()) {
+            addGeofencesHandler();
+        }
     }
-
 
     public void addGeofencesHandler() {//ArrayList<Geofence> listGeofence
         //buildGoogleApiClient();
         //mGoogleApiClient.connect();
         //while (!mGoogleApiClient.isConnected()){}
+        ArrayList<SimpleGeofence> simpleGeofences = new ArrayList<SimpleGeofence>();
+        for(int i = 0;i<array.size();i++){
+            Ubicacion ubicacion = new Ubicacion();
+            ubicacion = array.get(i);
+            simpleGeofences.add(i, new SimpleGeofence(ubicacion.getName(),ubicacion.getLatitud(),ubicacion.getLongitud(),(float)ubicacion.getRadio()));
+            mGeofenceList.add(i,simpleGeofences.get(i).toGeofence());
+        }
         if (!mGoogleApiClient.isConnected()) {
-            //Toast.makeText(getApplicationContext(), "No estoy conectado" , Toast.LENGTH_SHORT).show();
-            //return;
             mGoogleApiClient.connect();
         }else if(mGoogleApiClient.isConnected()){
             Toast.makeText(getApplicationContext(),"Estoy Conectado",Toast.LENGTH_LONG).show();
@@ -227,6 +226,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
         Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
         // addGeofences() and removeGeofences().
+        Log.i(TAG,"PendingIntent Created");
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
@@ -237,7 +237,6 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
             Toast.makeText(getApplicationContext(), " Porfavor Ingrese un Nombre para la Ubicacion ", Toast.LENGTH_SHORT).show();
         }else if (!array.isEmpty()) {
             for (int i = 0; i < array2.size(); i++) {
-                Toast.makeText(getApplicationContext(), "Comparando " + i, Toast.LENGTH_LONG).show();
                 String s = array2.get(i);
                 if (nombre.equals(s)) {
                     exist = true;
@@ -253,7 +252,6 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
             ubicacion.setLatlng(ubiclatlng);
             ubicacion.setRadio(radius);
             ubicationHelper.addUbication(ubicacion);
-            Toast.makeText(getApplicationContext(), "The Geofence :" + nombre + " has been created", Toast.LENGTH_LONG).show();
             finish();
             Intent i = new Intent(getApplicationContext(), MapsActivity.class);
             startActivity(i);

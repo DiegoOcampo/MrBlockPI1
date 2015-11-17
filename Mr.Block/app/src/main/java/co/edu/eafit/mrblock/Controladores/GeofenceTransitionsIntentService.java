@@ -27,16 +27,20 @@ import co.edu.eafit.mrblock.R;
 public class GeofenceTransitionsIntentService extends IntentService {
 
     protected static final String TAG = "GeofenceTransitionsIS";
+    public static final String Transition_Exited = "eafit.edu.co.mrblock.Controladores.GeofenceTransitionIS.Exit";
+    public static final String Transition_Entered = "eafit.edu.co.mrblock.Controladores.GeofenceTransitionIS.Entered";
     public GeofenceTransitionsIntentService() {
-        super(TAG);
+        super("GeofenceTransitionsIntentService");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i(TAG,"Iniciado el service");
     }
 
     protected void onHandleIntent(Intent intent) {
+        Log.i(TAG,"Hecho");
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
          if (geofencingEvent.hasError()) {
          String errorMessage = GeofenceErrorMessages.getErrorString(this,
@@ -51,9 +55,10 @@ public class GeofenceTransitionsIntentService extends IntentService {
         // Test that the reported transition was of interest.
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
                 geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
-            Toast.makeText(getApplicationContext(),"change",Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(),"change",Toast.LENGTH_LONG).show();
             List triggeringGeofences = geofencingEvent.getTriggeringGeofences();
-
+            geofencingEvent.getTriggeringLocation();
+            Log.wtf(TAG,"Transicion");
              String geofenceTransitionDetails = getGeofenceTransitionDetails(
              this,
              geofenceTransition,
@@ -64,8 +69,8 @@ public class GeofenceTransitionsIntentService extends IntentService {
             Log.i(TAG, geofenceTransitionDetails);
         } else {
             // Log the error.
-            Log.e(TAG, getString(R.string.geofence_transition_invalid_type,
-                  geofenceTransition));
+            Log.i(TAG, getString(R.string.geofence_transition_invalid_type,
+                    geofenceTransition));
         }
     }
 
@@ -94,7 +99,8 @@ public class GeofenceTransitionsIntentService extends IntentService {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
         // Add the main Activity to the task stack as the parent.
-        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(BaresActivity.class);
+
 
         // Push the content Intent onto the stack.
         stackBuilder.addNextIntent(notificationIntent);
@@ -130,8 +136,16 @@ public class GeofenceTransitionsIntentService extends IntentService {
     private String getTransitionString(int transitionType) {
         switch (transitionType) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
+                Log.i(TAG,"Entrar");
+                Intent IntentEnter = new Intent();
+                IntentEnter.setAction(Transition_Entered);
+                sendBroadcast(IntentEnter);
                 return getString(R.string.geofence_transition_entered);
             case Geofence.GEOFENCE_TRANSITION_EXIT:
+                Log.i(TAG,"Salir");
+                Intent IntentExit = new Intent();
+                IntentExit.setAction(Transition_Exited);
+                sendBroadcast(IntentExit);
                 return getString(R.string.geofence_transition_exited);
             default:
                 return getString(R.string.unknown_geofence_transition);

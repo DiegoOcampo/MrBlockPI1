@@ -2,6 +2,7 @@ package co.edu.eafit.mrblock.Controladores;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -36,8 +37,6 @@ public class MapsActivity extends FragmentActivity {
     private UbicationHelper ubicationHelper;
     public static LatLng storeubic;
     private ArrayList<Geofence> mGeofenceList = new ArrayList<Geofence>();
-    private PendingIntent mGeofencePendingIntent;
-    private GoogleApiClient mGoogleApiClient;
     private SimpleGeofence geofence;
     private ArrayList<Ubicacion> ubicacionblock = new ArrayList<Ubicacion>();
 
@@ -50,7 +49,6 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onMapClick(LatLng latLng) {
                 storeubic = latLng;
-                finish();
                 Intent i = new Intent(getApplicationContext(), LockBlockActivity.class);
                 startActivity(i);
             }
@@ -58,7 +56,11 @@ public class MapsActivity extends FragmentActivity {
         CheckUbicationsforDraw();
         Intent mapsIntent = new Intent(MapsActivity.this,GeofenceTransitionsIntentService.class);
         startService(mapsIntent);
-
+        //IntentFilter filter = new IntentFilter();
+        //filter.addAction(GeofenceTransitionsIntentService.Transition_Exited);
+        //filter.addAction(GeofenceTransitionsIntentService.Transition_Entered);
+        //MapsReceiver Mapsreciever = new MapsReceiver();
+        //registerReceiver(Mapsreciever, filter);
     }
 
     @Override
@@ -86,13 +88,11 @@ public class MapsActivity extends FragmentActivity {
             for(int i = 0 ; i< array.size();i++){
                 Ubicacion ubicacion = new Ubicacion();
                 ubicacion = array.get(i);
-                Toast.makeText(getApplicationContext(),"Creando GeoFence" + ubicacion.getName(),Toast.LENGTH_LONG).show();
                 double rad = ubicacion.getRadio();
                 float radio = (float)rad;
                 geofence = new SimpleGeofence(ubicacion.getName(),ubicacion.getLatitud(),ubicacion.getLongitud(),radio);
                 addMarkerForFence(geofence);
                 mGeofenceList.add(i,geofence.toGeofence());
-                Toast.makeText(getApplicationContext(),"Esperando prueba",Toast.LENGTH_LONG).show();
             }
         }
     }

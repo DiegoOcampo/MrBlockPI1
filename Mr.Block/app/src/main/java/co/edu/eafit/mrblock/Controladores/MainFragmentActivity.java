@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,7 +58,11 @@ public class MainFragmentActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(GeofenceTransitionsIntentService.Transition_Exited);
+        filter.addAction(GeofenceTransitionsIntentService.Transition_Entered);
+        MapsReceiver Mapsreciever = new MapsReceiver();
+        registerReceiver(Mapsreciever, filter);
 
 
     }
