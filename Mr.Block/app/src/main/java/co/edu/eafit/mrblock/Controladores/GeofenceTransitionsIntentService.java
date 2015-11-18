@@ -55,7 +55,6 @@ public class GeofenceTransitionsIntentService extends IntentService {
         // Test that the reported transition was of interest.
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
                 geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
-            Toast.makeText(getApplicationContext(),"change",Toast.LENGTH_LONG).show();
             List triggeringGeofences = geofencingEvent.getTriggeringGeofences();
             geofencingEvent.getTriggeringLocation();
             Log.wtf(TAG,"Transicion");

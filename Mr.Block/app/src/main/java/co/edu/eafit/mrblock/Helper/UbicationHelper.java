@@ -38,7 +38,7 @@ public class UbicationHelper {
     public Ubicacion getUbication(String place){
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.query(Contract.ContactInContract.TABLE_NAME,new String[]{
+        Cursor cursor = db.query(Contract.UbicationContract.TABLE_NAME,new String[]{
                         Contract.UbicationContract.COLUMN_PLACE,
                         Contract.UbicationContract.COLUMN_LATITUDE,
                         Contract.UbicationContract.COLUMN_LONGITUDE,

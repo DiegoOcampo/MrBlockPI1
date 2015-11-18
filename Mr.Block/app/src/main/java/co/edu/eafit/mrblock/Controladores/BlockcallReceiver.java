@@ -82,7 +82,6 @@ public class BlockcallReceiver extends BroadcastReceiver {
                                 try {
                                     contact= contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
                                 }catch (Exception e){
-                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                                 if( contact==null ) {
                                     Block(context);
@@ -118,7 +117,6 @@ public class BlockcallReceiver extends BroadcastReceiver {
                         try {
                             complete = completeHelper.getComplete("Complete block");
                         }catch (Exception e){
-                            Toast.makeText(context,"error complete"+ e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                         String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER).replaceAll(" ", "");
                         if(complete!=null){
@@ -138,7 +136,6 @@ public class BlockcallReceiver extends BroadcastReceiver {
                         }else {
                             System.out.println("--------------my n  umber---------" + incomingNumber);
                             Contact contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
-                            Toast.makeText(context, "" + !contact.getType().equals("white contact"), Toast.LENGTH_LONG).show();
                             if(!contact.getType().equals("white contact")) {
                                 Call call = new Call(contact.getNumber(), contact.getName(), "call");
                                 callInHelper.addCall(call);

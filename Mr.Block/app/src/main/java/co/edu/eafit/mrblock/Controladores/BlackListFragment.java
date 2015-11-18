@@ -28,10 +28,12 @@ import co.edu.eafit.mrblock.Entidades.Complete;
 import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Entidades.DateTime;
 import co.edu.eafit.mrblock.Entidades.Type;
+import co.edu.eafit.mrblock.Entidades.Ubicacion;
 import co.edu.eafit.mrblock.Helper.CompleteHelper;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.Helper.DateHelper;
 import co.edu.eafit.mrblock.Helper.TypeHelper;
+import co.edu.eafit.mrblock.Helper.UbicationHelper;
 import co.edu.eafit.mrblock.R;
 
 /**
@@ -43,6 +45,7 @@ public class BlackListFragment extends Fragment{
     private ContactInHelper contactInHelper;
     private DateHelper dateHelper;
     private TypeHelper typeHelper;
+    private UbicationHelper ubicationHelper;
 
     private Context context;
 
@@ -83,6 +86,7 @@ public class BlackListFragment extends Fragment{
         completeHelper = new CompleteHelper(context);
         dateHelper = new DateHelper(context);
         typeHelper =new TypeHelper(context);
+        ubicationHelper = new UbicationHelper(context);
 
         contacts = contactInHelper.getAllContact();
         completes = completeHelper.getAllComplete();
@@ -200,7 +204,11 @@ public class BlackListFragment extends Fragment{
                     Complete comp = completeHelper.getComplete(id);
                     alertName.setMessage("type: " + comp.getType() + "\n" +
                             "name: " + comp.getBlockName());
-                } else {
+                } else if(blocktype.equals("location")) {
+                    Ubicacion ubicacion = ubicationHelper.getUbication(id);
+                    alertName.setMessage("name: " + ubicacion.getName() + "\n" +
+                            "radius: " + ubicacion.getRadio());
+                }else{
                     DateTime date = dateHelper.getDate(id);
                     alertName.setMessage("type: " + date.getType() + "\n" + "name: " + date.getDateName());
                 }
@@ -218,7 +226,11 @@ public class BlackListFragment extends Fragment{
                         } else if (type.getType().equals("Complete block")) {
                             Complete complete = completeHelper.getComplete(id);
                             completeHelper.delete(id);
-                        } else {
+                        } else if(type.getType().equals("location")) {
+                            Ubicacion ubicacion = ubicationHelper.getUbication(id);
+                            ubicationHelper.delete(ubicacion);
+                            LockBlockActivity lockBlockActivity= new LockBlockActivity();
+                        }else{
                             DateTime dateTime = dateHelper.getDate(id);
                             dateHelper.delete(id);
                         }

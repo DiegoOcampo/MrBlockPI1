@@ -19,30 +19,31 @@ import co.edu.eafit.mrblock.Helper.TransitionInHelper;
 public class MapsReceiver extends BroadcastReceiver {
     protected static final String TAG = "MapsReceiver";
     private boolean blocked = false;
-    TransitionBlock Transition;
     TransitionInHelper transitionInHelper;
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        transitionInHelper = new TransitionInHelper(context);
         if(intent.getAction().equals(GeofenceTransitionsIntentService.Transition_Entered)){
             Log.wtf(TAG,"Into a Geofence");
-            transitionInHelper = new TransitionInHelper(context);
-            int type = 1;
-            Transition = new TransitionBlock(type);
+            int block = 1;
+            transitionInHelper.deleteAll();
+            TransitionBlock Transition = new TransitionBlock("location",block);
             transitionInHelper.addTransition(Transition);
             blocked = true;
         }else if (intent.getAction().equals(GeofenceTransitionsIntentService.Transition_Exited)){
             Log.wtf(TAG,"Out of a Geofence");
-            transitionInHelper = new TransitionInHelper(context);
-            int type = 0;
-            Transition = new TransitionBlock(type);
+            int block = 0;
+            transitionInHelper.deleteAll();
+            TransitionBlock Transition = new TransitionBlock("location", block);
             transitionInHelper.addTransition(Transition);
             blocked = false;
         }
-        String typeblock = "MapsBlocked";
+        try {
+        String typeblock = "location";
         TransitionBlock Transitionblock = transitionInHelper.getTransitionBlocked(typeblock);
-        if(Transitionblock.getBlock() == 1) {
-            try {
-                Toast.makeText(context, blocked + " ", Toast.LENGTH_LONG).show();
+        if(Transitionblock!=null && Transitionblock.getBlock() == 1) {
+
                 if (intent.getAction().equals("android.intent.action.PHONE_STATE")) {
                     String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
                     System.out.println("--------in state-----");
@@ -70,9 +71,10 @@ public class MapsReceiver extends BroadcastReceiver {
 
                     }
                 }
-            } catch (Exception ex) { // Many things can go wrong with reflection calls
-                ex.printStackTrace();
-            }
+
+        }
+        } catch (Exception ex) { // Many things can go wrong with reflection calls
+            ex.printStackTrace();
         }
     }
 }

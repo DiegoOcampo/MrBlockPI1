@@ -26,7 +26,9 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 import co.edu.eafit.mrblock.Entidades.SimpleGeofence;
+import co.edu.eafit.mrblock.Entidades.Type;
 import co.edu.eafit.mrblock.Entidades.Ubicacion;
+import co.edu.eafit.mrblock.Helper.TypeHelper;
 import co.edu.eafit.mrblock.Helper.UbicationHelper;
 import co.edu.eafit.mrblock.R;
 
@@ -40,6 +42,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
     private Button confirmed;
     private String nombre;
     private UbicationHelper ubicationHelper;
+    private TypeHelper typeHelper;
     private ArrayList<Ubicacion> array = new ArrayList<Ubicacion>();
     private ArrayList<String> array2 = new ArrayList<String>();
     private boolean exist;
@@ -68,6 +71,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
         radioGroup = (RadioGroup)findViewById(R.id.Radius);
 
         ubicationHelper = new UbicationHelper(getApplicationContext());
+        typeHelper = new TypeHelper(getApplicationContext());
         array = ubicationHelper.getAllUbication();
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -92,6 +96,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
             @Override
             public void onClick(View v) {
                 CheckNameForDB();
+                array = ubicationHelper.getAllUbication();
                 ArrayList<SimpleGeofence> simpleGeofences = new ArrayList<SimpleGeofence>();
                 for(int i = 0;i<array.size();i++){
                     Ubicacion ubicacion = new Ubicacion();
@@ -99,6 +104,12 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
                     simpleGeofences.add(i, new SimpleGeofence(ubicacion.getName(),ubicacion.getLatitud(),ubicacion.getLongitud(),(float)ubicacion.getRadio()));
                     mGeofenceList.add(i, simpleGeofences.get(i).toGeofence());
                 }
+                if(mGoogleApiClient.isConnected()){
+                    addGeofencesHandler();
+                }
+                finish();
+                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                startActivity(i);
                 //Intent lockblockIntent = new Intent(LockBlockActivity.this,GeofenceTransitionsIntentService.class);
                 //startService(lockblockIntent);
             }
@@ -165,9 +176,9 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "Connected to GoogleApiClient");
-        if (!array.isEmpty()) {
-            addGeofencesHandler();
-        }
+        //if (!array.isEmpty()) {
+        //    addGeofencesHandler();
+        //}
     }
 
     public void addGeofencesHandler() {//ArrayList<Geofence> listGeofence
@@ -184,7 +195,6 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
         if (!mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }else if(mGoogleApiClient.isConnected()){
-            Toast.makeText(getApplicationContext(),"Estoy Conectado",Toast.LENGTH_LONG).show();
             try {
                 LocationServices.GeofencingApi.addGeofences(
                         mGoogleApiClient,
@@ -234,7 +244,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
         exist = false;
         nombre = name.getText().toString();
         if (nombre.equals("")) {
-            Toast.makeText(getApplicationContext(), " Porfavor Ingrese un Nombre para la Ubicacion ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), " Please enter a name ", Toast.LENGTH_SHORT).show();
         }else if (!array.isEmpty()) {
             for (int i = 0; i < array2.size(); i++) {
                 String s = array2.get(i);
@@ -252,9 +262,9 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
             ubicacion.setLatlng(ubiclatlng);
             ubicacion.setRadio(radius);
             ubicationHelper.addUbication(ubicacion);
-            finish();
-            Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-            startActivity(i);
+            Type type = new Type(nombre, "location");
+            typeHelper.addType(type);
+
         }
     }
 

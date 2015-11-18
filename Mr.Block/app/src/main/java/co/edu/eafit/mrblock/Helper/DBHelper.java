@@ -12,7 +12,7 @@ import co.edu.eafit.mrblock.Contracts.Contract;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Block";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
 
     private static final String  TABLE_CONTACTS= " CREATE TABLE " + Contract.ContactInContract.TABLE_NAME
             + "(" + Contract.ContactInContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
@@ -28,8 +28,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String DELETE_UBICATION = " DROP TABLE IF EXISTS " + Contract.UbicationContract.TABLE_NAME;
 
     public static final String TABLE_TRANSITION = "CREATE TABLE " + Contract.TransitionContract.TABLE_NAME
-            + "(" + Contract.TransitionContract.COLUMN_TYPEBLOCK + "TEXT PRIMARY KEY, "
-            + Contract.TransitionContract.COLUMN_BLOCK + "INTEGER)";
+            + "(" + Contract.TransitionContract.COLUMN_TYPEBLOCK + " TEXT PRIMARY KEY, "
+            + Contract.TransitionContract.COLUMN_BLOCK + " INTEGER)";
     public static final String DELETE_TRANSITION = " DROP TABLE IF EXIST " + Contract.TransitionContract.TABLE_NAME;
 
     private static final String TABLE_CALLS = " CREATE TABLE " + Contract.CallInContract.TABLE_NAME

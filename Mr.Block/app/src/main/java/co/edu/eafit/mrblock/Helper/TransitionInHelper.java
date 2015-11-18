@@ -24,8 +24,9 @@ public class TransitionInHelper {
     public void addTransition(TransitionBlock transition){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(Contract.TransitionContract.COLUMN_BLOCK, transition.getBlock());
         values.put(Contract.TransitionContract.COLUMN_TYPEBLOCK, transition.getType());
+        values.put(Contract.TransitionContract.COLUMN_BLOCK, transition.getBlock());
+        db.insert(Contract.TransitionContract.TABLE_NAME, null, values);
         db.close();
     }
 
@@ -40,18 +41,29 @@ public class TransitionInHelper {
         }
     }
 
-    public TransitionBlock getTransitionBlocked(String Type){
+    public long deleteAll(){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        try {
+            return db.delete(Contract.TransitionContract.TABLE_NAME, null,null);
+            //db.close();
+        }catch (Exception e){
+            Log.e("DB ERROR", e.toString());
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public TransitionBlock getTransitionBlocked(String type){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(Contract.TransitionContract.TABLE_NAME, new String[]{
                 Contract.TransitionContract.COLUMN_TYPEBLOCK,
                 Contract.TransitionContract.COLUMN_BLOCK,},
-                Contract.TransitionContract.COLUMN_TYPEBLOCK + "= '" + Type + "'", null
+                Contract.TransitionContract.COLUMN_TYPEBLOCK + "= '" + type + "'", null
                 , null, null, null, null);
         if(cursor!=null){
             cursor.moveToFirst();
         }
-        Log.wtf("Databse",""+cursor.getInt(0));
-        TransitionBlock transitionBlock = new TransitionBlock(cursor.getInt(0));
+        TransitionBlock transitionBlock = new TransitionBlock(cursor.getString(0),cursor.getInt(1));
         return transitionBlock;
     }
 }
