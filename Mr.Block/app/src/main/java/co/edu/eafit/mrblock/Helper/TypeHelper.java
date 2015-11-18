@@ -58,7 +58,6 @@ public class TypeHelper {
         }
     }
     public Type getType(String id){
-
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(Contract.TypeContract.TABLE_NAME,new String[]{
                         Contract.TypeContract.COLUMN_ID,

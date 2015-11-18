@@ -33,7 +33,6 @@ public class UbicationHelper {
         values.put(Contract.UbicationContract.COLUMN_RADIUS, ubicacion.getRadio());
         db.insert(Contract.UbicationContract.TABLE_NAME, null, values);
         db.close();
-
     }
 
     public Ubicacion getUbication(String place){

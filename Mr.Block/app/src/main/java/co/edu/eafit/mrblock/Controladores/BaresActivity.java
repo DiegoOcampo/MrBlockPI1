@@ -22,7 +22,7 @@ import co.edu.eafit.mrblock.Entidades.Bar;
 import co.edu.eafit.mrblock.R;
 
 /**
- * Created by yeison on 13/11/2015.
+0 * Created by yeison on 13/11/2015.
  */
 public class BaresActivity extends AppCompatActivity {
     HttpURLConnection con;

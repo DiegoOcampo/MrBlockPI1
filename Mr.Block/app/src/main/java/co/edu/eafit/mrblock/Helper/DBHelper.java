@@ -27,6 +27,11 @@ public class DBHelper extends SQLiteOpenHelper {
             + Contract.UbicationContract.COLUMN_RADIUS + " REAL)";
     public static final String DELETE_UBICATION = " DROP TABLE IF EXISTS " + Contract.UbicationContract.TABLE_NAME;
 
+    public static final String TABLE_TRANSITION = "CREATE TABLE " + Contract.TransitionContract.TABLE_NAME
+            + "(" + Contract.TransitionContract.COLUMN_TYPEBLOCK + "TEXT PRIMARY KEY, "
+            + Contract.TransitionContract.COLUMN_BLOCK + "INTEGER)";
+    public static final String DELETE_TRANSITION = " DROP TABLE IF EXIST " + Contract.TransitionContract.TABLE_NAME;
+
     private static final String TABLE_CALLS = " CREATE TABLE " + Contract.CallInContract.TABLE_NAME
             + "(" + Contract.CallInContract.COLUMN_NUMBER + " TEXT PRIMARY KEY, "
             + Contract.CallInContract.COLUMN_NAME + " TEXT,"
@@ -81,6 +86,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(TABLE_UBICATION);
         db.execSQL(TABLE_COMPLETE);
         db.execSQL(TABLE_TYPE);
+        db.execSQL(TABLE_TRANSITION);
     }
 
     @Override
@@ -91,6 +97,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(DELETE_UBICATION);
         db.execSQL(DELETE_COMPLETE);
         db.execSQL(DELETE_TYPE);
+        db.execSQL(DELETE_TRANSITION);
         onCreate(db);
     }
 }

@@ -16,6 +16,12 @@ public class Contract {
         public static final String COLUMN_TYPE = "Type";
     }
 
+    public static abstract class TransitionContract implements BaseColumns{
+        public static final String TABLE_NAME = "TransitionIn";
+        public static final String COLUMN_TYPEBLOCK = "Type";
+        public static final String COLUMN_BLOCK = "Block";
+    }
+
     public static abstract class CallInContract implements BaseColumns{
         public static final String TABLE_NAME = "CallsIn";
         public static final String COLUMN_NAME = "Name";

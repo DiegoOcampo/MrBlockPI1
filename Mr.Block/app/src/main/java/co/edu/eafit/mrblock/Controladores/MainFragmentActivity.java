@@ -61,6 +61,7 @@ public class MainFragmentActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(GeofenceTransitionsIntentService.Transition_Exited);
         filter.addAction(GeofenceTransitionsIntentService.Transition_Entered);
+        filter.addAction("android.intent.action.PHONE_STATE");
         MapsReceiver Mapsreciever = new MapsReceiver();
         registerReceiver(Mapsreciever, filter);
 
