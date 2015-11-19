@@ -11,8 +11,8 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_add_white_list" android:title="@string/action_add_white_list"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_events" android:title="@string/action_events"
+   <!-- <item android:id="@+id/action_events" android:title="@string/action_events"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_add_new_block"
-        android:orderInCategory="100" app:showAsAction="always" android:icon="@drawable/ic_add" />
+        android:orderInCategory="100" app:showAsAction="always" android:icon="@drawable/ic_add" />-->
 </menu>

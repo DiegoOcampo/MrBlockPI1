@@ -144,10 +144,10 @@ public class MainFragmentActivity extends AppCompatActivity {
                 intent3.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
                 startActivityForResult(intent3, 1);
                 return true;
-            case R.id.action_events:
+            /*case R.id.action_events:
                 Intent intent4 = new Intent(getBaseContext(),BaresActivity.class);
                 startActivity(intent4);
-                return true;
+                return true;*/
 
         }
         return super.onOptionsItemSelected(item);
