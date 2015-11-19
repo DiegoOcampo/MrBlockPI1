@@ -58,14 +58,14 @@ public class MainFragmentActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(GeofenceTransitionsIntentService.Transition_Exited);
-        filter.addAction(GeofenceTransitionsIntentService.Transition_Entered);
+        /*IntentFilter filter = new IntentFilter();
+        filter.addAction("eafit.edu.co.mrblock.Controladores.GeofenceTransitionIS.Exit");
+        filter.addAction("eafit.edu.co.mrblock.Controladores.GeofenceTransitionIS.Entered");
         filter.addAction("android.intent.action.PHONE_STATE");
-        MapsReceiver Mapsreciever = new MapsReceiver();
-        registerReceiver(Mapsreciever, filter);
-
-
+        BlockcallReceiver blockcallReceiver = new BlockcallReceiver();
+        registerReceiver(blockcallReceiver,filter);
+        *///MapsReceiver Mapsreciever = new MapsReceiver();
+        //registerReceiver(Mapsreciever, filter);
     }
 
     private void setupViewPager(ViewPager viewPager) {

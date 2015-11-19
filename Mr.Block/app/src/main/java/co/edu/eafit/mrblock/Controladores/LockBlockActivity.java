@@ -104,12 +104,14 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
                     simpleGeofences.add(i, new SimpleGeofence(ubicacion.getName(),ubicacion.getLatitud(),ubicacion.getLongitud(),(float)ubicacion.getRadio()));
                     mGeofenceList.add(i, simpleGeofences.get(i).toGeofence());
                 }
-                if(mGoogleApiClient.isConnected()){
-                    addGeofencesHandler();
+                if(!nombre.equals("")) {
+                    if (mGoogleApiClient.isConnected()) {
+                        addGeofencesHandler();
+                    }
+                    finish();
+                    Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                    startActivity(i);
                 }
-                finish();
-                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-                startActivity(i);
                 //Intent lockblockIntent = new Intent(LockBlockActivity.this,GeofenceTransitionsIntentService.class);
                 //startService(lockblockIntent);
             }

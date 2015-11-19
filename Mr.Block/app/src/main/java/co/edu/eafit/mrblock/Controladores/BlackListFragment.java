@@ -188,6 +188,8 @@ public class BlackListFragment extends Fragment{
 
     }
 
+
+
     private void openDetailsBlock(final int position) {
         //Collections.reverse(typesBlock);
         //try {
@@ -229,7 +231,6 @@ public class BlackListFragment extends Fragment{
                         } else if(type.getType().equals("location")) {
                             Ubicacion ubicacion = ubicationHelper.getUbication(id);
                             ubicationHelper.delete(ubicacion);
-                            LockBlockActivity lockBlockActivity= new LockBlockActivity();
                         }else{
                             DateTime dateTime = dateHelper.getDate(id);
                             dateHelper.delete(id);

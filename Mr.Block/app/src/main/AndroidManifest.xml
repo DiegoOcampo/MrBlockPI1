@@ -43,7 +43,7 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".Controladores.MainFragmentActivity" />
         </activity>
-        <receiver android:name=".Controladores.MapsReceiver"></receiver>
+        <!--<receiver android:name=".Controladores.MapsReceiver"></receiver>-->
         <activity
             android:name=".Controladores.LockBlockActivity"
             android:label="@string/app_name" />
@@ -54,6 +54,9 @@
             <intent-filter android:priority="100" >
                 <action android:name="android.intent.action.PHONE_STATE" >
                 </action>
+                <!--<action android:name="android.intent.action.LOCALE_CHANGED"></action>
+                --><action android:name="eafit.edu.co.mrblock.Controladores.GeofenceTransitionIS.Entered"></action>
+                <action android:name="eafit.edu.co.mrblock.Controladores.GeofenceTransitionIS.Exit"></action>
             </intent-filter>
         </receiver>
         <receiver android:name=".Controladores.BlockOutgoingCallReceiver" >
