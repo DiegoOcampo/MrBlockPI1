@@ -1,11 +1,15 @@
 package co.edu.eafit.mrblock.Controladores;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,16 +31,31 @@ import co.edu.eafit.mrblock.R;
 public class BaresActivity extends AppCompatActivity {
     HttpURLConnection con;
     ListView lista;
-    ArrayAdapter adaptador;
+    ArrayAdapter adapter;
+    ArrayList<String> bares = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bares);
-
+        Bar bar1 = new Bar(123,"bar1","cr 45","3426578","las mejores micheladas");
+        bares.add(bar1.getNombre());
+        Bar bar2 = new Bar(124,"bar2","cr 46","3789578","Solo aguardiente antioqueño");
+        bares.add(bar2.getNombre());
+        Bar bar3 = new Bar(125,"bar3","cr 46","3789578","Solo aguardiente antioqueño");
+        bares.add(bar3.getNombre());
         lista= (ListView) findViewById(R.id.listaBares);
+        adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, bares);
+        lista.setAdapter(adapter);
+       /* lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openDetailsBlock(position);
+            }
+        });*/
 
-        try{
+
+
+        /*try{
             ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
@@ -50,16 +69,17 @@ public class BaresActivity extends AppCompatActivity {
             }
         }catch (MalformedURLException e){
             e.printStackTrace();
-        }
+        }*/
     }
-
+/*
     public class JsonTask extends AsyncTask<URL, Void, List<Bar>> {
         List bares = new ArrayList<>();
 
         @Override
         protected List doInBackground(URL... urls){
-            Bar bars = new Bar(1,"a","b","c","4");
-            bares.add(bars);
+            //Bar bars = new Bar(1,"a","b","c","4");
+            //bares.add(bars);
+
 
             try {
                 // Establecer la conexión
@@ -68,7 +88,6 @@ public class BaresActivity extends AppCompatActivity {
                 con.setReadTimeout(10000);
 
                 int statusCode = con.getResponseCode();
-                Toast.makeText(getBaseContext(), "json", Toast.LENGTH_SHORT).show();
                 if (statusCode!=200){
                     bares = new ArrayList<>();
                     Bar ba = new Bar(Integer.parseInt(null),"Error",null,null,null);
@@ -96,7 +115,31 @@ public class BaresActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Ocurrió un error de parsing Json", Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    }*/
+
+    /*private void openDetailsBlock(final int position) {
+        //Collections.reverse(typesBlock);
+        //try {
+        final Bar bar = bares.get(position);
+        //final String id = type.getId();
+        //final String blocktype = type.getType();
+        final AlertDialog.Builder alertName = new AlertDialog.Builder(getApplicationContext());
+        alertName.setTitle("Details");
+        alertName.setMessage("name: " + bar.getNombre() + "\n" + "id: " + bar.getId());
+
+        alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+        alertName.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+        alertName.show();
+
+
+    }*/
 }
 
 

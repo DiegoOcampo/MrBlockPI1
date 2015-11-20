@@ -38,8 +38,10 @@ public class AdaptadorBares extends ArrayAdapter<Bar> {
         TextView publicidadBar = (TextView)v.findViewById(R.id.publicidadBar);
 
         Bar item = getItem(position);
-
-        idBar.setText(item.getId());
+        //rollNo.setText(Integer.toString(items[position].getRollNo()));
+        idBar.setText(Integer.toString(item.getId()));
+        //nombreBar.setText(Integer.toString(item.getNombre()));
+        //idBar.setText(item.getId());
         nombreBar.setText(item.getNombre());
         direccionBar.setText(item.getDireccion());
         telefonoBar.setText(item.getTelefono());
