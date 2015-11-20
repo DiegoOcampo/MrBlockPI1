@@ -135,6 +135,7 @@ public class MainFragmentActivity extends AppCompatActivity {
                 startActivity(intent2);
                 return true;
             case R.id.action_date_location:
+                finish();
                 Intent i = new Intent(getApplicationContext(),MapsActivity.class);
                 startActivity(i);
                 return true;

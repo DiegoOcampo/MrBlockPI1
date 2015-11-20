@@ -6,9 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -37,7 +41,8 @@ import co.edu.eafit.mrblock.R;
  */
 public class LockBlockActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status>{
-
+    //private ListView listViewUbication;
+    //private ArrayAdapter<Ubicacion> adapterUbication;
     private EditText name;
     private Button confirmed;
     private String nombre;
@@ -73,6 +78,9 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
         ubicationHelper = new UbicationHelper(getApplicationContext());
         typeHelper = new TypeHelper(getApplicationContext());
         array = ubicationHelper.getAllUbication();
+        /*listViewUbication = (ListView)findViewById(R.id.listViewUbication);
+        adapterUbication = new ArrayAdapter<Ubicacion>(getApplicationContext(),android.R.layout.simple_list_item_1, array);
+        listViewUbication.setAdapter(adapterUbication);*/
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -97,6 +105,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 CheckNameForDB();
                 array = ubicationHelper.getAllUbication();
+                //adapterUbication.notifyDataSetChanged();
                 ArrayList<SimpleGeofence> simpleGeofences = new ArrayList<SimpleGeofence>();
                 for(int i = 0;i<array.size();i++){
                     Ubicacion ubicacion = new Ubicacion();
@@ -109,13 +118,27 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
                         addGeofencesHandler();
                     }
                     finish();
-                    Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                    Intent i = new Intent(getApplicationContext(), MainFragmentActivity.class);
                     startActivity(i);
                 }
                 //Intent lockblockIntent = new Intent(LockBlockActivity.this,GeofenceTransitionsIntentService.class);
                 //startService(lockblockIntent);
             }
         });
+
+        /*listViewUbication.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Ubicacion ubicacion = array.get(position);
+                Toast.makeText(getApplicationContext(), ubicacion.getName(), Toast.LENGTH_LONG).show();
+                ubicationHelper.delete(ubicacion);
+                String idUbication = ubicacion.getName();
+                ArrayList<String> deleteUbication = new ArrayList<String>();
+                deleteUbication.add(idUbication);
+                removeGeofencesHandler(deleteUbication);
+                array.remove(position);
+                adapterUbication.notifyDataSetChanged();
+            }
+        });*/
 
     }
 
@@ -238,7 +261,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
         Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
         // addGeofences() and removeGeofences().
-        Log.i(TAG,"PendingIntent Created");
+        Log.i(TAG, "PendingIntent Created");
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
@@ -303,6 +326,17 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
                 radius = 50;
                 break;
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            Intent intent = new Intent(getApplicationContext(),MainFragmentActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }
 

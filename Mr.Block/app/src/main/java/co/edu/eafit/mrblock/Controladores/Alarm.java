@@ -79,6 +79,9 @@ public class Alarm extends AppCompatActivity {
         dateTimeArrayList = dateHelper.getAllDate();
         contactInHelper = new ContactInHelper(getApplicationContext());
         contacts = contactInHelper.getAllContact();
+        ubicationHelper = new UbicationHelper(getApplicationContext());
+        ubicationHelper.deleteAll();
+
 
 
         buttonTime1 = (Button) findViewById(R.id.startTime1);
@@ -397,6 +400,9 @@ public class Alarm extends AppCompatActivity {
         Type type = new Type(dateTime.getDateName(),dateTime.getType());
         dateHelper.addDate(dateTime);
         typeHelper.addType(type);
+        finish();
+        Intent intent = new Intent(getApplicationContext(),MainFragmentActivity.class);
+        startActivity(intent);
         return dateTime;
     }
 

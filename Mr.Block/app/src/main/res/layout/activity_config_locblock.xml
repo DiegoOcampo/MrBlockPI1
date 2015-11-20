@@ -118,7 +118,14 @@
         android:id="@+id/btn_Confirmed"
         android:layout_gravity="center_horizontal" />
 
+
+
 </LinearLayout>
+    <!--    <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewUbication"
+            android:layout_centerHorizontal="true" />-->
     </RelativeLayout>
 
     </android.support.design.widget.CoordinatorLayout>

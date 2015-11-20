@@ -122,7 +122,7 @@ public class BlackListFragment extends Fragment{
                 }
                 Toast.makeText(getApplicationContext(),"Contacto eliminado: \n" + contact.getContact(),Toast.LENGTH_LONG).show();
                 adapter.notifyDataSetChanged();*/
-                openDetailsBlock(position);
+                    openDetailsBlock(position);
 
             }
         });
@@ -138,24 +138,21 @@ public class BlackListFragment extends Fragment{
     public void addCompleteToFragment(Context context){
         typeHelper = new TypeHelper(context);
         completeHelper = new CompleteHelper(context);
-        try {
-            Complete complete = new Complete("Complete block", 1, 0, 0, 0, "Complete block");
-            Type type = new Type("Complete block", "Complete block");
-            typeHelper.addType(type);
-            //                adapter.notifyDataSetChanged();
-            completeHelper.addComplete(complete);
-            Toast.makeText(context, "Every contact was blocked", Toast.LENGTH_LONG).show();
-        }catch (Exception e){}
-        //}else{
-        //    Toast.makeText(getApplicationContext(), "Los contactos ya fueron bloqueados anteriormente", Toast.LENGTH_LONG).show();
-        //}
+         try {
+                    Complete complete = new Complete("Complete block", 1, 0, 0, 0, "Complete block");
+                    Type type = new Type("Complete block", "Complete block");
+                    typeHelper.addType(type);
+    //                adapter.notifyDataSetChanged();
+                    completeHelper.addComplete(complete);
+                    Toast.makeText(context, "Every contact was blocked", Toast.LENGTH_LONG).show();
+                }catch (Exception e){}
+                //}else{
+                //    Toast.makeText(getApplicationContext(), "Los contactos ya fueron bloqueados anteriormente", Toast.LENGTH_LONG).show();
+                //}
     }
 
     public Contact addContactToFragment(String number, String name, String type1, Context context){
         this.context = context;
-        if(number.charAt(0) == '+'){
-            number = number.substring(3);
-        }
         Contact contact= new Contact(number,name,type1);
         ContactInHelper contactInHelper = new ContactInHelper(context);
         TypeHelper typeHelper =new TypeHelper(context);
@@ -175,20 +172,20 @@ public class BlackListFragment extends Fragment{
         }
 
         if (contact1 == null && complete==null) {
-            contactInHelper.addContact(contact);
-            //contactDbHelper.addContact(contact);
+                contactInHelper.addContact(contact);
+                //contactDbHelper.addContact(contact);
 
             contacts.add(contact);
             Blocks.add(contact.getContact());
-            Type type = new Type(contact.getNumber(), contact.getType());
-            typeHelper.addType(type);
+                Type type = new Type(contact.getNumber(), contact.getType());
+                typeHelper.addType(type);
 
-            //adapter.notifyDataSetChanged();
-            Toast.makeText(context, "Contact added: \n" + contactInHelper.getContact(contact.getNumber()).getContact(), Toast.LENGTH_LONG).show();
-        } else if(complete!=null){
-            Toast.makeText(context, "Every contact is blocked", Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(context, "contact already exists", Toast.LENGTH_LONG).show();
+                //adapter.notifyDataSetChanged();
+                Toast.makeText(context, "Contact added: \n" + contactInHelper.getContact(contact.getNumber()).getContact(), Toast.LENGTH_LONG).show();
+            } else if(complete!=null){
+                Toast.makeText(context, "Every contact is blocked", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(context, "contact already exists", Toast.LENGTH_LONG).show();
         }
         return contact;
 
@@ -199,64 +196,64 @@ public class BlackListFragment extends Fragment{
     private void openDetailsBlock(final int position) {
         //Collections.reverse(typesBlock);
         //try {
-        final Type type = typesBlockShow.get(position);
-        final String id = type.getId();
-        final String blocktype = type.getType();
-        final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
-        alertName.setTitle("Details");
-        if (blocktype.equals("contact")) {
-            Contact con = contactInHelper.getContact(id);
-            alertName.setMessage("type: " + con.getType() + "\n" +
-                    "name: " + con.getName() + "\n" + "number: " + con.getNumber());
-        } else if (blocktype.equals("Complete block")) {
-            Complete comp = completeHelper.getComplete(id);
-            alertName.setMessage("type: " + comp.getType() + "\n" +
-                    "name: " + comp.getBlockName());
-        } else if(blocktype.equals("location")) {
-            Ubicacion ubicacion = ubicationHelper.getUbication(id);
-            alertName.setMessage("name: " + ubicacion.getName() + "\n" +
-                    "radius: " + ubicacion.getRadio());
-        }else{
-            DateTime date = dateHelper.getDate(id);
-            alertName.setMessage("type: " + date.getType() + "\n" + "name: " + date.getDateName());
-        }
-        alertName.setCancelable(false);
-        alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-            }
-        });
-        alertName.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-
-                if (type.getType().equals("contact")) {
-                    Contact contact = contactInHelper.getContact(id);
-                    contactInHelper.delete(contact);
-                } else if (type.getType().equals("Complete block")) {
-                    Complete complete = completeHelper.getComplete(id);
-                    completeHelper.delete(id);
-                } else if (type.getType().equals("location")) {
+                final Type type = typesBlockShow.get(position);
+                final String id = type.getId();
+                final String blocktype = type.getType();
+                final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
+                alertName.setTitle("Details");
+                if (blocktype.equals("contact")) {
+                    Contact con = contactInHelper.getContact(id);
+                    alertName.setMessage("type: " + con.getType() + "\n" +
+                            "name: " + con.getName() + "\n" + "number: " + con.getNumber());
+                } else if (blocktype.equals("Complete block")) {
+                    Complete comp = completeHelper.getComplete(id);
+                    alertName.setMessage("type: " + comp.getType() + "\n" +
+                            "name: " + comp.getBlockName());
+                } else if(blocktype.equals("location")) {
                     Ubicacion ubicacion = ubicationHelper.getUbication(id);
-                    ubicationHelper.delete(ubicacion);
-                    transitionInHelper.deleteAll();
-                    TransitionBlock transition = new TransitionBlock("location", 0);
-                    transitionInHelper.addTransition(transition);
-                } else {
-                    DateTime dateTime = dateHelper.getDate(id);
-                    dateHelper.delete(id);
+                    alertName.setMessage("name: " + ubicacion.getName() + "\n" +
+                            "radius: " + ubicacion.getRadio());
+                }else{
+                    DateTime date = dateHelper.getDate(id);
+                    alertName.setMessage("type: " + date.getType() + "\n" + "name: " + date.getDateName());
                 }
-                typesBlock.remove(position);
-                typesBlockString.remove(position);
-                adapter.notifyDataSetChanged();
-                typeHelper.delete(type.getId());
-                Intent intent = new Intent(getContext(), MainFragmentActivity.class);
-                startActivity(intent);
-                Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
-            }
-        });
-        alertName.show();
+                alertName.setCancelable(false);
+                alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+                alertName.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        if (type.getType().equals("contact")) {
+                            Contact contact = contactInHelper.getContact(id);
+                            contactInHelper.delete(contact);
+                        } else if (type.getType().equals("Complete block")) {
+                            Complete complete = completeHelper.getComplete(id);
+                            completeHelper.delete(id);
+                        } else if (type.getType().equals("location")) {
+                            Ubicacion ubicacion = ubicationHelper.getUbication(id);
+                            ubicationHelper.delete(ubicacion);
+                            transitionInHelper.deleteAll();
+                            TransitionBlock transition = new TransitionBlock("location", 0);
+                            transitionInHelper.addTransition(transition);
+                        } else {
+                            DateTime dateTime = dateHelper.getDate(id);
+                            dateHelper.delete(id);
+                        }
+                        typesBlock.remove(position);
+                        typesBlockString.remove(position);
+                        adapter.notifyDataSetChanged();
+                        typeHelper.delete(type.getId());
+                        Intent intent = new Intent(getContext(), MainFragmentActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
+                    }
+                });
+                alertName.show();
 
 
-        // }catch (Exception e){
+       // }catch (Exception e){
         //    Toast.makeText(context,"error: " + e.getMessage(),Toast.LENGTH_LONG).show();
         //}
 
