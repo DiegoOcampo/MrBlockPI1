@@ -80,9 +80,6 @@ public class Alarm extends AppCompatActivity {
         contactInHelper = new ContactInHelper(getApplicationContext());
         contacts = contactInHelper.getAllContact();
         ubicationHelper = new UbicationHelper(getApplicationContext());
-        ubicationHelper.deleteAll();
-
-
 
         buttonTime1 = (Button) findViewById(R.id.startTime1);
         buttonDate1 = (Button) findViewById(R.id.startDate1);

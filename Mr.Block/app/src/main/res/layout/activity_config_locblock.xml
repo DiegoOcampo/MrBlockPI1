@@ -118,6 +118,15 @@
         android:id="@+id/btn_Confirmed"
         android:layout_gravity="center_horizontal" />
 
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Delete a Block"
+        android:id="@+id/btn_Delete"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/abc_background_cache_hint_selector_material_dark"
+        android:nestedScrollingEnabled="false" />
+
 </LinearLayout>
     </RelativeLayout>
 
