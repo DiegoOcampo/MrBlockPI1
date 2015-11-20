@@ -150,9 +150,6 @@ public class BlackListFragment extends Fragment{
 
     public Contact addContactToFragment(String number, String name, String type1, Context context){
         this.context = context;
-        if(number.charAt(0)  == '+'){
-            number = number.substring(3);
-        }
         Contact contact= new Contact(number,name,type1);
         ContactInHelper contactInHelper = new ContactInHelper(context);
         TypeHelper typeHelper =new TypeHelper(context);

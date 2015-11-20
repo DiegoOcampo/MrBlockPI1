@@ -11,7 +11,7 @@
     <string name="drawer_close">Close</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
-        AIzaSyCsUhrRAkjrC_hryNPPqDznRtIp69GJjnc
+        AIzaSyA2c_dCWcv1X5cq-5etNQ-Wz20BHHWeTRk
     </string>
     <string name="blackList">Black List</string>
     <string name="add_geofences">Add geofences</string>

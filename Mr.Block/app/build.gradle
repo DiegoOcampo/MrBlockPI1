@@ -1,26 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'Mr-Block'
-            keyPassword 'Davidgomez199681'
-            storeFile file('C:/Users/Usuario/Documents/Android Applications Keystores Release/Mr-Block.jks')
-            storePassword 'Davidgomez1996814'
-        }
-    }
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
+
     defaultConfig {
         applicationId "co.edu.eafit.mrblock"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 2
-        versionName "1.1"
+        versionCode 1
+        versionName "1.0"
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
