@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -43,6 +44,7 @@ import co.edu.eafit.mrblock.R;
  */
 public class BlackListFragment extends Fragment{
     private ListView listBlackList;
+    private View textEmpty;
     private CompleteHelper completeHelper;
     private ContactInHelper contactInHelper;
     private DateHelper dateHelper;
@@ -50,6 +52,7 @@ public class BlackListFragment extends Fragment{
     private UbicationHelper ubicationHelper;
     private TransitionInHelper transitionInHelper;
     private Context context;
+    private boolean delete;
 
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
     private ArrayList<Complete> completes = new ArrayList<Complete>();
@@ -80,9 +83,10 @@ public class BlackListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = container.getContext();
-
+        delete = false;
         View view = inflater.inflate(R.layout.fragment_black_list, container, false);
         listBlackList = (ListView)view.findViewById(R.id.listBlackList);
+        textEmpty = (View)view.findViewById(R.id.textEmptyBlack);
 
         contactInHelper = new ContactInHelper(context);
         completeHelper = new CompleteHelper(context);
@@ -104,26 +108,20 @@ public class BlackListFragment extends Fragment{
                 }
             }
         }
+     /*   if(typesBlockString.size() == 0){
+            textEmpty.setText("The list is empty");
+        }
+*/
+
 
         adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
         listBlackList.setAdapter(adapter);
+        listBlackList.setEmptyView(textEmpty);
         listBlackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                /*
-                Contact contact = contacts.get(position);
-
-                long row = contactInHelper.delete(contact);
-                if(row>0){
-                    contacts.remove(position);
-                    Blocks.remove(position);
-                }
-                Toast.makeText(getApplicationContext(),"Contacto eliminado: \n" + contact.getContact(),Toast.LENGTH_LONG).show();
-                adapter.notifyDataSetChanged();*/
-                    openDetailsBlock(position);
-
+                openDetailsBlock(position);
+                adapter.notifyDataSetChanged();
             }
         });
         return view;
@@ -136,13 +134,13 @@ public class BlackListFragment extends Fragment{
     }
 
     public void addCompleteToFragment(Context context){
+
         typeHelper = new TypeHelper(context);
         completeHelper = new CompleteHelper(context);
          try {
                     Complete complete = new Complete("Complete block", 1, 0, 0, 0, "Complete block");
                     Type type = new Type("Complete block", "Complete block");
                     typeHelper.addType(type);
-    //                adapter.notifyDataSetChanged();
                     completeHelper.addComplete(complete);
                     Toast.makeText(context, "Every contact was blocked", Toast.LENGTH_LONG).show();
                 }catch (Exception e){}
@@ -199,9 +197,11 @@ public class BlackListFragment extends Fragment{
     private void openDetailsBlock(final int position) {
         //Collections.reverse(typesBlock);
         //try {
+                Toast.makeText(context,position + "", Toast.LENGTH_LONG).show();
                 final Type type = typesBlockShow.get(position);
                 final String id = type.getId();
-                final String blocktype = type.getType();
+                Toast.makeText(context,id + "", Toast.LENGTH_LONG).show();
+        final String blocktype = type.getType();
                 final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
                 alertName.setTitle("Details");
                 if (blocktype.equals("contact")) {
@@ -244,17 +244,18 @@ public class BlackListFragment extends Fragment{
                             DateTime dateTime = dateHelper.getDate(id);
                             dateHelper.delete(id);
                         }
-                        typesBlock.remove(position);
-                        typesBlockString.remove(position);
-                        adapter.notifyDataSetChanged();
+                        delete = true;
+
                         typeHelper.delete(type.getId());
-                        Intent intent = new Intent(getContext(), MainFragmentActivity.class);
-                        startActivity(intent);
+                        //typesBlock.remove(position);
+                        //typesBlockString.remove(position);
+                        //adapter.notifyDataSetChanged();
                         Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
+                        //Intent intent = new Intent(getContext(), MainFragmentActivity.class);
+                        //startActivity(intent);
                     }
                 });
                 alertName.show();
-
 
        // }catch (Exception e){
         //    Toast.makeText(context,"error: " + e.getMessage(),Toast.LENGTH_LONG).show();

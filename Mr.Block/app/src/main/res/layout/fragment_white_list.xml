@@ -11,6 +11,14 @@
         android:textSize="40dp"
         android:textStyle="bold"
         android:layout_centerInParent="true"/>-->
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:text="The list white is empty"
+        android:id="@+id/textEmptyWhite" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

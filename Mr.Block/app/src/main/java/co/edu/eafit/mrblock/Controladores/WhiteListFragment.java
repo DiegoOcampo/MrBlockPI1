@@ -28,6 +28,7 @@ import co.edu.eafit.mrblock.R;
  */
 public class WhiteListFragment extends Fragment {
     private ListView listWhiteList;
+    private View textEmpty;
     private Context context;
     private ArrayAdapter<String> adapter;
     private ArrayList<Contact> whiteArrayContacts = new ArrayList<>();
@@ -60,7 +61,9 @@ public class WhiteListFragment extends Fragment {
             }
         }
         listWhiteList = (ListView) view.findViewById(R.id.listWhiteList);
+        textEmpty = (View) view.findViewById(R.id.textEmptyWhite);
         adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, whiteArrayString);
+        listWhiteList.setEmptyView(textEmpty);
         listWhiteList.setAdapter(adapter);
         listWhiteList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

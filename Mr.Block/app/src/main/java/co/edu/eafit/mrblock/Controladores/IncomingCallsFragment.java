@@ -25,6 +25,7 @@ import co.edu.eafit.mrblock.R;
 public class IncomingCallsFragment extends Fragment {
     private ListView listIncomingCalls;
     private Context context;
+    private View textEmpty;
 
     ArrayList<Call> calls = new ArrayList<Call>();
     ArrayList<String> callsString = new ArrayList<String>();
@@ -47,7 +48,8 @@ public class IncomingCallsFragment extends Fragment {
         //FragmentTransaction ft = getFragmentManager().beginTransaction();
         //ft.detach(this).attach(this).commit();
         listIncomingCalls = (ListView) view.findViewById(R.id.listIncomingCalls);
-
+        textEmpty = (View) view.findViewById(R.id.textEmptyIncoming);
+        listIncomingCalls.setEmptyView(textEmpty);
 
         callInHelper = new CallInHelper(context);
         calls = callInHelper.getAllCall();
