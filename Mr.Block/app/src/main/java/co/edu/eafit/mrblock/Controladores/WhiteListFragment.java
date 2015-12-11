@@ -31,6 +31,7 @@ public class WhiteListFragment extends Fragment {
     private View textEmpty;
     private Context context;
     private ArrayAdapter<String> adapter;
+    private CustomList adapter1;
     private ArrayList<Contact> whiteArrayContacts = new ArrayList<>();
     private ArrayList<String> whiteArrayString = new ArrayList<>();
     private ContactInHelper contactInHelper;
@@ -51,15 +52,19 @@ public class WhiteListFragment extends Fragment {
         contactInHelper = new ContactInHelper(context);
         typeHelper = new TypeHelper(context);
         whiteArrayContacts = contactInHelper.getAllContact();
-        for(int i=0; i < whiteArrayContacts.size();i++){
-            if(whiteArrayContacts.get(i).getType().equals("white contact")
-                    && !whiteArrayString.contains(whiteArrayContacts.get(i).getContact())){
-                whiteArrayString.add(whiteArrayContacts.get(i).getContact());
-                contactInHelper.addContact(whiteArrayContacts.get(i));
-                Type type = new Type(whiteArrayContacts.get(i).getNumber(),whiteArrayContacts.get(i).getType());
-                typeHelper.addType(type);
+        if(whiteArrayString.size()==0) {
+            for (int i = 0; i < whiteArrayContacts.size(); i++) {
+                if (whiteArrayContacts.get(i).getType().equals("white contact")
+                        && (whiteArrayString.contains(whiteArrayContacts.get(i).getContact()) == false)) {
+                    //Toast.makeText(context,whiteArrayContacts.get(i).getContact(),Toast.LENGTH_LONG).show();
+                    whiteArrayString.add(whiteArrayContacts.get(i).getContact());
+                    contactInHelper.addContact(whiteArrayContacts.get(i));
+                    Type type = new Type(whiteArrayContacts.get(i).getNumber(), whiteArrayContacts.get(i).getType());
+                    typeHelper.addType(type);
+                }
             }
         }
+
         listWhiteList = (ListView) view.findViewById(R.id.listWhiteList);
         textEmpty = (View) view.findViewById(R.id.textEmptyWhite);
         adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, whiteArrayString);
@@ -93,7 +98,14 @@ public class WhiteListFragment extends Fragment {
         TypeHelper typeHelper =new TypeHelper(context);
 
         //adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
-        if (!whiteArrayString.contains(contact.getContact())) {
+        Contact contact1 = null;
+        try{
+            contact1 = contactInHelper.getContact(number);
+        }catch (Exception e){
+
+        }
+        if(contact1 == null){
+        //if (!whiteArrayString.contains(contact.getContact())) {
             contactInHelper.addContact(contact);
             //contactDbHelper.addContact(contact);
 

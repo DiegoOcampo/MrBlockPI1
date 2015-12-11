@@ -53,7 +53,7 @@ public class BlackListFragment extends Fragment{
     private TransitionInHelper transitionInHelper;
     private Context context;
     private boolean delete;
-
+    private ArrayList<Integer> imageId;
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
     private ArrayList<Complete> completes = new ArrayList<Complete>();
     private ArrayList<DateTime> dateTimes = new ArrayList<DateTime>();
@@ -63,6 +63,7 @@ public class BlackListFragment extends Fragment{
     private  LinkedList<Type> typesBlockShow = new LinkedList<>();
 
     public static ArrayAdapter<String> adapter;
+    private CustomList adapter1;
 
     public BlackListFragment(){
 
@@ -74,7 +75,7 @@ public class BlackListFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new ArrayAdapter<String >(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
-
+        adapter1 = new CustomList(getActivity(), typesBlockString, imageId);
 
 
     }
@@ -83,6 +84,10 @@ public class BlackListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = container.getContext();
+
+
+        imageId= new ArrayList<>();
+
         delete = false;
         View view = inflater.inflate(R.layout.fragment_black_list, container, false);
         listBlackList = (ListView)view.findViewById(R.id.listBlackList);
@@ -105,6 +110,29 @@ public class BlackListFragment extends Fragment{
                 if(!typesBlock.get(i).getType().equals("white contact")) {
                     typesBlockString.add(typesBlock.get(i).getType() + ": " + typesBlock.get(i).getId());
                     typesBlockShow.add(typesBlock.get(i));
+                    /*if(typesBlock.get(i).getType().equals("contact")){
+                        imageId.add(R.mipmap.ic_contact);
+                    }else if(typesBlock.get(i).getType().equals("Complete block")){
+                        imageId.add(R.mipmap.ic_all);
+                    }else if(typesBlock.get(i).getType().equals("location")){
+                        imageId.add(R.mipmap.ic_location);
+                    }else{
+                        imageId.add(R.mipmap.ic_date);
+                    }*/
+                }
+            }
+        }
+
+        for(int i = 0; i < typesBlock.size(); i++){
+            if(!typesBlock.get(i).getType().equals("white contact")) {
+                if (typesBlock.get(i).getType().equals("contact")) {
+                    imageId.add(R.mipmap.ic_contact);
+                } else if (typesBlock.get(i).getType().equals("Complete block")) {
+                    imageId.add(R.mipmap.ic_all);
+                } else if (typesBlock.get(i).getType().equals("location")) {
+                    imageId.add(R.mipmap.ic_location);
+                } else {
+                    imageId.add(R.mipmap.ic_date);
                 }
             }
         }
@@ -113,15 +141,15 @@ public class BlackListFragment extends Fragment{
         }
 */
 
+        adapter1 = new CustomList(getActivity(), typesBlockString, imageId);
 
-        adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, typesBlockString);
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, typesBlockString);
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-        listBlackList.setAdapter(adapter);
+        listBlackList.setAdapter(adapter1);
         listBlackList.setEmptyView(textEmpty);
         listBlackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 openDetailsBlock(position);
-                adapter.notifyDataSetChanged();
             }
         });
         return view;
@@ -197,10 +225,8 @@ public class BlackListFragment extends Fragment{
     private void openDetailsBlock(final int position) {
         //Collections.reverse(typesBlock);
         //try {
-                Toast.makeText(context,position + "", Toast.LENGTH_LONG).show();
-                final Type type = typesBlockShow.get(position);
-                final String id = type.getId();
-                Toast.makeText(context,id + "", Toast.LENGTH_LONG).show();
+        final Type type = typesBlockShow.get(position);
+        final String id = type.getId();
         final String blocktype = type.getType();
                 final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
                 alertName.setTitle("Details");
@@ -232,7 +258,6 @@ public class BlackListFragment extends Fragment{
                             Contact contact = contactInHelper.getContact(id);
                             contactInHelper.delete(contact);
                         } else if (type.getType().equals("Complete block")) {
-                            Complete complete = completeHelper.getComplete(id);
                             completeHelper.delete(id);
                         } else if (type.getType().equals("location")) {
                             Ubicacion ubicacion = ubicationHelper.getUbication(id);
@@ -244,12 +269,15 @@ public class BlackListFragment extends Fragment{
                             DateTime dateTime = dateHelper.getDate(id);
                             dateHelper.delete(id);
                         }
-                        delete = true;
 
+                        imageId.remove(position);
+                        typesBlock.remove(position);
+                        typesBlockShow.remove(position);
+                        typesBlockString.remove(position);
                         typeHelper.delete(type.getId());
-                        //typesBlock.remove(position);
-                        //typesBlockString.remove(position);
-                        //adapter.notifyDataSetChanged();
+
+                        adapter1.notifyDataSetChanged();
+
                         Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
                         //Intent intent = new Intent(getContext(), MainFragmentActivity.class);
                         //startActivity(intent);
