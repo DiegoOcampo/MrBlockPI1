@@ -52,6 +52,28 @@ public class ContactInHelper  {
         return contact;
     }
 
+    public ArrayList<Contact> getWhiteContacts(){
+        String type = "white contact";
+        ArrayList<Contact> block= new ArrayList<Contact>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(Contract.ContactInContract.TABLE_NAME,new String[]{
+                        Contract.ContactInContract.COLUMN_NUMBER,
+                        Contract.ContactInContract.COLUMN_NAME,
+                        Contract.ContactInContract.COLUMN_TYPE},
+                Contract.ContactInContract.COLUMN_TYPE + "='" + type +"'",null,
+                null,null,null,null);
+        if(cursor.moveToFirst()){
+            do{
+                Contact contact = new Contact();
+                contact.setNumber(cursor.getString(0));
+                contact.setName(cursor.getString(1));
+                contact.setType(cursor.getString(2));
+                block.add(contact);
+            }while (cursor.moveToNext());
+        }
+        return block;
+    }
+
     public ArrayList<Contact> getAllContact(){
         ArrayList<Contact> block= new ArrayList<Contact>();
         String selectQuery = "SELECT  * FROM " + Contract.ContactInContract.TABLE_NAME;
@@ -68,6 +90,8 @@ public class ContactInHelper  {
         }
         return block;
     }
+
+
 
     public long delete(Contact contact){
         SQLiteDatabase db = dbHelper.getWritableDatabase();

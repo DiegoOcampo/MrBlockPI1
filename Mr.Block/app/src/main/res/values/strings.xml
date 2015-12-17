@@ -40,4 +40,15 @@
     <string name="unknown_geofence_transition">Unknown Transition</string>
 
     <string name="geofence_transition_notification_text">Click notification to return to app</string>
+    <string name="white_empty">The white list is empty</string>
+    <string name="date_start_time">Start time</string>
+    <string name="date_start_date">start Date</string>
+    <string name="date_end_time">End time</string>
+    <string name="date_end_date">End date</string>
+    <string name="chose_radius">Chose the Radius of the Block</string>
+    <string name="m_250">250 Meters</string>
+    <string name="m_200">200 Meters</string>
+    <string name="m_150">150 Meters</string>
+    <string name="m_50">50 Meters</string>
+    <string name="confirm">Confirm</string>
 </resources>

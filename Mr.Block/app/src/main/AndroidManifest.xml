@@ -35,7 +35,6 @@
         <activity
             android:name=".Controladores.CallsInListActivity"
             android:label="@string/app_name"/>
-        <activity android:name=".Controladores.BaresActivity"></activity>
         <activity
             android:name=".Controladores.Alarm"
             android:label="@string/app_name" >

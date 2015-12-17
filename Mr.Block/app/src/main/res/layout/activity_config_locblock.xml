@@ -56,7 +56,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Chose the Radius of the Block"
+        android:text="@string/chose_radius"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
         android:textStyle="italic"
@@ -71,7 +71,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="250 Meters"
+            android:text="@string/m_250"
             android:id="@+id/RB_250m"
             android:layout_gravity="center_horizontal"
             android:onClick="onRadioButtonClicked"
@@ -80,7 +80,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="200 Meters"
+            android:text="@string/m_200"
             android:id="@+id/RB_200m"
             android:layout_gravity="center_horizontal"
             android:onClick="onRadioButtonClicked"/>
@@ -88,7 +88,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="150 Meters"
+            android:text="@string/m_150"
             android:id="@+id/RB_150m"
             android:layout_gravity="center_horizontal"
             android:onClick="onRadioButtonClicked"/>
@@ -104,7 +104,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50 Meters"
+            android:text="@string/m_50"
             android:id="@+id/RB_50m"
             android:layout_gravity="center_horizontal"
             android:onClick="onRadioButtonClicked"/>
@@ -114,7 +114,7 @@
     <Button
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Confirm"
+        android:text="@string/confirm"
         android:id="@+id/btn_Confirmed"
         android:layout_gravity="center_horizontal" />
 

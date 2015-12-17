@@ -26,7 +26,6 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textFilterEnabled="true"
-        android:paddingTop="25dip"
         android:textAlignment="center" />
 
 
