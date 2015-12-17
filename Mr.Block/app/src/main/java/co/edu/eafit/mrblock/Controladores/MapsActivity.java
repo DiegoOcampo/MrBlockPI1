@@ -104,8 +104,8 @@ public class MapsActivity extends FragmentActivity {
         }
         mapa.addMarker(new MarkerOptions()
                 .position(new LatLng(fence.getLatitude(), fence.getLongitude()))
-                .title("Fence " + fence.getId())
-                .snippet("Radius: " + fence.getRadius())).showInfoWindow();
+                .title(getString(R.string.maps_fence) + fence.getId())
+                .snippet(getString(R.string.maps_radius) + fence.getRadius())).showInfoWindow();
 
         CircleOptions circleOptions = new CircleOptions()
                 .center( new LatLng(fence.getLatitude(), fence.getLongitude()) )

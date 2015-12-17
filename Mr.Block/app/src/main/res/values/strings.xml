@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Mr.Block</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_block_contacts">Block contacts</string>
     <string name="action_block_all">Block all</string>
     <string name="action_block_date">Block date</string>
@@ -38,7 +37,6 @@
     <string name="geofence_transition_entered">Entered</string>
     <string name="geofence_transition_exited">Exited</string>
     <string name="unknown_geofence_transition">Unknown Transition</string>
-
     <string name="geofence_transition_notification_text">Click notification to return to app</string>
     <string name="white_empty">The white list is empty</string>
     <string name="date_start_time">Start time</string>
@@ -49,6 +47,50 @@
     <string name="m_250">250 Meters</string>
     <string name="m_200">200 Meters</string>
     <string name="m_150">150 Meters</string>
-    <string name="m_50">50 Meters</string>
+    <string name="m_100">100 Meters</string>
+    <string name="m_50"> 50 Meters</string>
     <string name="confirm">Confirm</string>
+    <string name="black_empty">The black list is empty</string>
+    <string name="incoming_empty">The incoming list is empty</string>
+    <string name="name_loc_block">Name of the Block</string>
+    <string name="date_set_time">Set time</string>
+    <string name="date_set_date">Set date</string>
+    <string name="enter_valid_date">Please enter a valid date</string>
+    <string name="date_name">Name</string>
+    <string name="date_block_name">Enter a block name</string>
+    <string name="date_ok">Ok</string>
+    <string name="date_invalid_name">Invalid name</string>
+    <string name="date_cancel">Cancel</string>
+    <string name="date_no_added">The date wasn\'t added</string>
+    <string name="date_added">"Date added: "</string>
+    <string name="black_every_contact_was_blocked">Every contact was blocked</string>
+    <string name="black_contact_added">Contact added: \n</string>
+    <string name="black_every_contact_blocked">Every contact is already blocked</string>
+    <string name="black_contact_already">contact already exists</string>
+    <string name="black_details">Details</string>
+    <string name="black_type">"type: "</string>
+    <string name="black_name">"name: "</string>
+    <string name="black_number">"number: "</string>
+    <string name="black_radius">"radius: "</string>
+    <string name="ok">Ok</string>
+    <string name="delete">Delete</string>
+    <string name="deleted">Deleted</string>
+    <string name="lock_enter_name">" Please enter a name "</string>
+    <string name="lock_choose_another_name">Please choose another name</string>
+    <string name="main_black">BLACK LIST</string>
+    <string name="main_incoming">INCOMING CALLS</string>
+    <string name="main_white">WHITE LIST</string>
+    <string name="main_warning">Warning</string>
+    <string name="main_sure">Are you sure to block every contact?</string>
+    <string name="main_cancel">Cancel</string>
+    <string name="main_canceled">Block canceled</string>
+    <string name="maps_fence">"Fence "</string>
+    <string name="maps_radius">"Radius: "</string>
+    <string name="white_contact_added">Contact added: \n</string>
+    <string name="white_contact_already">Contact already exists</string>
+    <string name="white_details">Details</string>
+    <string name="white_type">"type: "</string>
+    <string name="white_name">"name: "</string>
+    <string name="white_number">"number: "</string>
+
 </resources>

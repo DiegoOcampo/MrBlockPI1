@@ -123,9 +123,9 @@ public class WhiteListFragment extends Fragment {
             typeHelper.addType(type);
 
             //adapter.notifyDataSetChanged();
-            Toast.makeText(context, "Contact added: \n" + contactInHelper.getContact(contact.getNumber()).getContact(), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.white_contact_added) + contactInHelper.getContact(contact.getNumber()).getContact(), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(context, "Contact already exists", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, R.string.white_contact_already, Toast.LENGTH_LONG).show();
         }
         return contact;
 
@@ -136,15 +136,16 @@ public class WhiteListFragment extends Fragment {
         //final Contact contact = whiteArrayContacts.get(position);
         final Contact contact = whiteContacts.get(position);
         final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
-        alertName.setTitle("Details");
-            alertName.setMessage("type: " + contact.getType() + "\n" +
-                    "name: " + contact.getName() + "\n" + "number: " + contact.getNumber());
+        alertName.setTitle(R.string.white_details);
+            alertName.setMessage(context.getString(R.string.white_type) + contact.getType() + "\n" +
+                    context.getString(R.string.white_name) + contact.getName() + "\n" +
+                    context.getString(R.string.white_number) + contact.getNumber());
         alertName.setCancelable(false);
-        alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        alertName.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
             }
         });
-        alertName.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+        alertName.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //whiteArrayContacts.remove(position);
                 whiteContacts.remove(position);
@@ -154,7 +155,7 @@ public class WhiteListFragment extends Fragment {
                 imageId.remove(position);
                 //adapter.notifyDataSetChanged();
                 adapter1.notifyDataSetChanged();
-                Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.deleted, Toast.LENGTH_LONG).show();
             }
         });
         alertName.show();

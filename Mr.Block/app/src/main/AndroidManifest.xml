@@ -22,7 +22,6 @@
         android:icon="@mipmap/ic_launcher_transparent"
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme" >
-        <service android:enabled="true" android:name=".ServiceClass" />
         <service android:name=".Controladores.GeofenceTransitionsIntentService"></service>
         <activity
             android:name=".Controladores.MainFragmentActivity"
@@ -32,9 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Controladores.CallsInListActivity"
-            android:label="@string/app_name"/>
         <activity
             android:name=".Controladores.Alarm"
             android:label="@string/app_name" >

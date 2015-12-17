@@ -131,7 +131,7 @@ public class Alarm extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         timePickerDialog = new TimePickerDialog(Alarm.this,onTimeSetListener1,calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE), is24r);
-        timePickerDialog.setTitle("Set time");
+        timePickerDialog.setTitle(getString(R.string.date_set_time));
         timePickerDialog.show();
     }
 
@@ -139,7 +139,7 @@ public class Alarm extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         timePickerDialog2 = new TimePickerDialog(Alarm.this,onTimeSetListener2,calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE), is24r);
-        timePickerDialog2.setTitle("Set time");
+        timePickerDialog2.setTitle(getString(R.string.date_set_time));
         timePickerDialog2.show();
     }
 
@@ -147,7 +147,7 @@ public class Alarm extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         datePickerDialog = new DatePickerDialog(Alarm.this,date1,calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.setTitle("Set date");
+        datePickerDialog.setTitle(getString(R.string.date_set_date));
         datePickerDialog.show();
 
     }
@@ -156,7 +156,7 @@ public class Alarm extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         datePickerDialog2 = new DatePickerDialog(Alarm.this,date2,calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog2.setTitle("Set date");
+        datePickerDialog2.setTitle(getString(R.string.date_set_date));
         datePickerDialog2.show();
     }
 
@@ -306,7 +306,7 @@ public class Alarm extends AppCompatActivity {
 
         }else{
 
-            Toast.makeText(getApplicationContext(),"Please enter a valid date",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.enter_valid_date,Toast.LENGTH_LONG).show();
         }
 
 
@@ -360,17 +360,17 @@ public class Alarm extends AppCompatActivity {
     public void openAlert(){
 
                 AlertDialog.Builder alertName = new AlertDialog.Builder(Alarm.this);
-                alertName.setTitle("Name");
-                alertName.setMessage("Enter a block name");
+                alertName.setTitle(R.string.date_name);
+                alertName.setMessage(R.string.date_block_name);
                 final EditText dateNameEditText = new EditText(Alarm.this);
                 alertName.setView(dateNameEditText);
 
-                alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                alertName.setPositiveButton(R.string.date_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //Editable YouEditTextValue = dateName.getText();
                         final String dateName = dateNameEditText.getText().toString();
                         if (dateName.equals("")) {
-                            Toast.makeText(getApplicationContext(), "Invalid name", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), R.string.date_invalid_name, Toast.LENGTH_LONG).show();
                         } else {
                             addDateTime(dateName);
 //                            Toast.makeText(getApplicationContext(),dateHelper.getDate(dateName).getDateName()+"hi",Toast.LENGTH_LONG).show();
@@ -378,10 +378,10 @@ public class Alarm extends AppCompatActivity {
                     }
                 });
 
-                alertName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                alertName.setNegativeButton(R.string.date_cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // what ever you want to do with No option.
-                        Toast.makeText(getApplicationContext(), "The date wasn't added", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.date_no_added, Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -392,7 +392,7 @@ public class Alarm extends AppCompatActivity {
     }
 
     public DateTime addDateTime(String dateName){
-        Toast.makeText(getApplicationContext(), "Date added: " + dateName, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), getString(R.string.date_added) + dateName, Toast.LENGTH_LONG).show();
         DateTime dateTime = new DateTime(dateName, year1, monthOfaYear1, dayOfMonth1, hourOfDay1, minute1, 0,
                 year2, monthOfaYear2, dayOfMonth2, hourOfDay2, minute2, 0,"date");
         Type type = new Type(dateTime.getDateName(),dateTime.getType());

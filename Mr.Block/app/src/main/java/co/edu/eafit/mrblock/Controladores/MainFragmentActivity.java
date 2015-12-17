@@ -70,9 +70,9 @@ public class MainFragmentActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new BlackListFragment(), "BLACK LIST");
-        adapter.addFragment(new IncomingCallsFragment(),"INCOMING CALLS");
-        adapter.addFragment(new WhiteListFragment(), "WHITE LIST");
+        adapter.addFragment(new BlackListFragment(), getString(R.string.main_black));
+        adapter.addFragment(new IncomingCallsFragment(),getString(R.string.main_incoming));
+        adapter.addFragment(new WhiteListFragment(), getString(R.string.main_white));
         viewPager.setAdapter(adapter);
     }
 
@@ -193,11 +193,10 @@ public class MainFragmentActivity extends AppCompatActivity {
     private void openAlertBlock(){
 
         final AlertDialog.Builder alertName = new AlertDialog.Builder(MainFragmentActivity.this);
-        alertName.setTitle("Warning");
-        alertName.setMessage("Are you sure to block every contact?");
-        //final EditText dateName = new EditText(MainActivity.this);
+        alertName.setTitle(R.string.main_warning);
+        alertName.setMessage(R.string.main_sure);
         //alertName.setView(dateName);
-        alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        alertName.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //String editTextName = dateName.getText().toString();
                 //Type type1 = typeHelper.getType("Complete block");
@@ -213,9 +212,9 @@ public class MainFragmentActivity extends AppCompatActivity {
             }
         });
 
-        alertName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alertName.setNegativeButton(R.string.main_cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Toast.makeText(getApplicationContext(), "Block canceled", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.main_canceled, Toast.LENGTH_LONG).show();
             }
         });
         alertName.show();

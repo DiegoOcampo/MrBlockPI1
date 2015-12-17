@@ -1,0 +1,96 @@
+<resources>
+    <string name="app_name">Mr.Block</string>
+    <string name="action_block_contacts">Bloquear contactos</string>
+    <string name="action_block_all">Bloquear todo</string>
+    <string name="action_block_date">Bloquear fecha</string>
+    <string name="action_block_location">Bloquear ubicación</string>
+    <string name="action_add_white_list">Agregar especiales</string>
+    <string name="action_events">Eventos</string>
+    <string name="drawer_open">Abierto</string>
+    <string name="drawer_close">Cerrado</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
+        AIzaSyCvAbO8i701MyLJPe4o5i7rXiAbhcZADtc
+    </string>
+    <string name="blackList">Lista negra</string>
+    <string name="add_geofences">Agregar geofence</string>
+    <string name="remove_geofences">Eliminar geofence</string>
+
+    <string name="geofences_added">Geofences agregados</string>
+    <string name="geofences_removed">Geofences eliminados</string>
+
+    <!-- Error strings -->
+    <string name="not_connected">GoogleApiClient no esta aun conectada. Intenta de nuevo.</string>
+    <string name="geofence_not_available">Geofence service no esta disponible ahora</string>
+    <string name="geofence_too_many_geofences">Tu aplicación tiene registrados demasiados geofences</string>
+    <string name="geofence_too_many_pending_intents">
+        You have provided too many PendingIntents to the addGeofences() call
+    </string>
+    <string name="unknown_geofence_error">
+        Unknown error: the Geofence service is not available now
+    </string>
+    <string name="geofence_transition_invalid_type">
+        Geofence transition error: invalid transition type %1$d
+    </string>
+
+    <!-- Transition type strings -->
+    <string name="geofence_transition_entered">Entro</string>
+    <string name="geofence_transition_exited">Salio</string>
+    <string name="unknown_geofence_transition">Transición desconocida</string>
+    <string name="geofence_transition_notification_text">Click para volver a la aplicación</string>
+    <string name="white_empty">La lista blanca esta vacia</string>
+    <string name="date_start_time">Hora inicial</string>
+    <string name="date_start_date">Fecha inicial</string>
+    <string name="date_end_time">Hora final</string>
+    <string name="date_end_date">Fecha final</string>
+    <string name="chose_radius">Elegir un radio</string>
+    <string name="m_250">250 Metros</string>
+    <string name="m_200">200 Metros</string>
+    <string name="m_150">150 Metros</string>
+    <string name="m_100">100 Metros</string>
+    <string name="m_50"> 50 Metros</string>
+    <string name="confirm">Confirmar</string>
+    <string name="black_empty">La lista negra esta vacia</string>
+    <string name="incoming_empty">La lista de llamadas esta vacia</string>
+    <string name="name_loc_block">Nombre del bloqueo</string>
+    <string name="date_set_time">Establecer hora</string>
+    <string name="date_set_date">Establecer fecha</string>
+    <string name="enter_valid_date">Por favor ingrese una fecha valida</string>
+    <string name="date_name">Nombre</string>
+    <string name="date_block_name">Ingrese un nombre de bloqueo</string>
+    <string name="date_ok">Aceptar</string>
+    <string name="date_invalid_name">Nombre invalido</string>
+    <string name="date_cancel">Cancelar</string>
+    <string name="date_no_added">La fecha no fue agregada</string>
+    <string name="date_added">"Fecha agregada: "</string>
+    <string name="black_every_contact_was_blocked">Todos los contactos fueron bloqueados</string>
+    <string name="black_contact_added">Contacto agregado: \n</string>
+    <string name="black_every_contact_blocked">Todos los contactos ya fueron bloqueados</string>
+    <string name="black_contact_already">El contacto ya existe</string>
+    <string name="black_details">Detalles</string>
+    <string name="black_type">"Tipo: "</string>
+    <string name="black_name">"Nombre: "</string>
+    <string name="black_number">"Numero: "</string>
+    <string name="black_radius">"Radio: "</string>
+    <string name="ok">Aceptar</string>
+    <string name="delete">Eliminar</string>
+    <string name="deleted">Eliminado</string>
+    <string name="lock_enter_name">" Por favor ingrese un nombre "</string>
+    <string name="lock_choose_another_name">Por favor ingrese otro nombre</string>
+    <string name="main_black">LISTA NEGRA</string>
+    <string name="main_incoming">LLAMADAS</string>
+    <string name="main_white">LISTA BLANCA</string>
+    <string name="main_warning">Precaución</string>
+    <string name="main_sure">Estas seguro de bloquear todos los contactos?</string>
+    <string name="main_cancel">Cancelar</string>
+    <string name="main_canceled">Bloqueo cancelado</string>
+    <string name="maps_fence">"Fence "</string>
+    <string name="maps_radius">"Radio: "</string>
+    <string name="white_contact_added">Contacto agregado: \n</string>
+    <string name="white_contact_already">El contacto ya existe</string>
+    <string name="white_details">Detalles</string>
+    <string name="white_type">"Tipo: "</string>
+    <string name="white_name">"Nombre: "</string>
+    <string name="white_number">"Numero: "</string>
+
+</resources>

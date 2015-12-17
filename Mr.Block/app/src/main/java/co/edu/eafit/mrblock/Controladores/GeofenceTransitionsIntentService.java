@@ -92,12 +92,13 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
     private void sendNotification(String notificationDetails) {
         // Create an explicit content Intent that starts the main Activity.
-        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent notificationIntent = new Intent(getApplicationContext(), MainFragmentActivity.class);
 
         // Construct a task stack.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
-
+        // Add the main Activity to the task stack as the parent.
+        //stackBuilder.addParentStack(BaresActivity.class);
 
 
         // Push the content Intent onto the stack.

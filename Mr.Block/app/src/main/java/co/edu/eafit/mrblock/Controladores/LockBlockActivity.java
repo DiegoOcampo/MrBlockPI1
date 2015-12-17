@@ -113,7 +113,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
                     simpleGeofences.add(i, new SimpleGeofence(ubicacion.getName(),ubicacion.getLatitud(),ubicacion.getLongitud(),(float)ubicacion.getRadio()));
                     mGeofenceList.add(i, simpleGeofences.get(i).toGeofence());
                 }
-                if(!nombre.equals("")) {
+                if(!nombre.equals("") && !exist) {
                     if (mGoogleApiClient.isConnected()) {
                         addGeofencesHandler();
                     }
@@ -269,7 +269,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
         exist = false;
         nombre = name.getText().toString();
         if (nombre.equals("")) {
-            Toast.makeText(getApplicationContext(), " Please enter a name ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.lock_enter_name, Toast.LENGTH_SHORT).show();
         }else if (!array.isEmpty()) {
             for (int i = 0; i < array2.size(); i++) {
                 String s = array2.get(i);
@@ -277,8 +277,10 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
                     exist = true;
                 }
             }
-        }if (exist) {
-            Toast.makeText(getApplicationContext(), "Please choose another name", Toast.LENGTH_SHORT).show();
+        }
+
+        if (exist) {
+            Toast.makeText(getApplicationContext(), R.string.lock_choose_another_name, Toast.LENGTH_SHORT).show();
         }else if (!exist && !nombre.equals("")) {
             nombre = name.getText().toString();
             Ubicacion ubicacion = new Ubicacion();

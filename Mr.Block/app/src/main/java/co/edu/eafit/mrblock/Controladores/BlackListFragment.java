@@ -170,7 +170,7 @@ public class BlackListFragment extends Fragment{
                     Type type = new Type("Complete block", "Complete block");
                     typeHelper.addType(type);
                     completeHelper.addComplete(complete);
-                    Toast.makeText(context, "Every contact was blocked", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.black_every_contact_was_blocked, Toast.LENGTH_LONG).show();
                 }catch (Exception e){}
                 //}else{
                 //    Toast.makeText(getApplicationContext(), "Los contactos ya fueron bloqueados anteriormente", Toast.LENGTH_LONG).show();
@@ -210,11 +210,11 @@ public class BlackListFragment extends Fragment{
                 typeHelper.addType(type);
 
                 //adapter.notifyDataSetChanged();
-                Toast.makeText(context, "Contact added: \n" + contactInHelper.getContact(contact.getNumber()).getContact(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getString(R.string.black_contact_added) + contactInHelper.getContact(contact.getNumber()).getContact(), Toast.LENGTH_LONG).show();
             } else if(complete!=null){
-                Toast.makeText(context, "Every contact is blocked", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.black_every_contact_blocked, Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(context, "contact already exists", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.black_contact_already, Toast.LENGTH_LONG).show();
         }
         return contact;
 
@@ -229,29 +229,30 @@ public class BlackListFragment extends Fragment{
         final String id = type.getId();
         final String blocktype = type.getType();
                 final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
-                alertName.setTitle("Details");
+                alertName.setTitle(R.string.black_details);
                 if (blocktype.equals("contact")) {
                     Contact con = contactInHelper.getContact(id);
-                    alertName.setMessage("type: " + con.getType() + "\n" +
-                            "name: " + con.getName() + "\n" + "number: " + con.getNumber());
+                    alertName.setMessage(context.getString(R.string.black_type) + con.getType() + "\n" +
+                            context.getString(R.string.black_name) + con.getName() + "\n" +
+                            context.getString(R.string.black_number) + con.getNumber());
                 } else if (blocktype.equals("Complete block")) {
                     Complete comp = completeHelper.getComplete(id);
-                    alertName.setMessage("type: " + comp.getType() + "\n" +
-                            "name: " + comp.getBlockName());
+                    alertName.setMessage(context.getString(R.string.black_type) + comp.getType() + "\n" +
+                            context.getString(R.string.black_name) + comp.getBlockName());
                 } else if(blocktype.equals("location")) {
                     Ubicacion ubicacion = ubicationHelper.getUbication(id);
-                    alertName.setMessage("name: " + ubicacion.getName() + "\n" +
-                            "radius: " + ubicacion.getRadio());
+                    alertName.setMessage(context.getString(R.string.black_name) + ubicacion.getName() + "\n" +
+                            context.getString(R.string.black_radius) + ubicacion.getRadio());
                 }else{
                     DateTime date = dateHelper.getDate(id);
-                    alertName.setMessage("type: " + date.getType() + "\n" + "name: " + date.getDateName());
+                    alertName.setMessage(context.getString(R.string.black_type) + date.getType() + "\n" + context.getString(R.string.black_name) + date.getDateName());
                 }
                 alertName.setCancelable(false);
-                alertName.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                alertName.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
                 });
-                alertName.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                alertName.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
                         if (type.getType().equals("contact")) {
@@ -278,7 +279,7 @@ public class BlackListFragment extends Fragment{
 
                         adapter1.notifyDataSetChanged();
 
-                        Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.deleted, Toast.LENGTH_LONG).show();
                         //Intent intent = new Intent(getContext(), MainFragmentActivity.class);
                         //startActivity(intent);
                     }

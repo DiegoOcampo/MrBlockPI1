@@ -50,7 +50,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="20dp"
-        android:hint="Name of the Block" />
+        android:hint="@string/name_loc_block" />
 
     <TextView
         android:layout_width="250dp"
@@ -96,7 +96,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100 Meters"
+            android:text="@string/m_100"
             android:id="@+id/RB_100m"
             android:layout_gravity="center_horizontal"
             android:onClick="onRadioButtonClicked"/>
