@@ -21,6 +21,7 @@ import co.edu.eafit.mrblock.Helper.CallInHelper;
 import co.edu.eafit.mrblock.Helper.CompleteHelper;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
 import co.edu.eafit.mrblock.Helper.DateHelper;
+import co.edu.eafit.mrblock.R;
 
 /**
  * Created by juan on 9/10/15.
@@ -34,7 +35,7 @@ public class SMSReceiver extends BroadcastReceiver{
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs = null;
         String incomingNumber = "";
-        smsBlock = isSmsBlock(completeHelper);
+        smsBlock = isSmsBlock(completeHelper, context);
         if (bundle != null)
         {
             if(smsBlock) {
@@ -52,10 +53,10 @@ public class SMSReceiver extends BroadcastReceiver{
         }
     }
 
-    public boolean isSmsBlock(CompleteHelper completeHelper){
+    public boolean isSmsBlock(CompleteHelper completeHelper, Context context){
         ArrayList<Complete> completes = completeHelper.getAllComplete();
         for(int i = 0; i < completes.size();i++){
-            if(completes.get(i).getBlockName().equals("Complete block")){
+            if(completes.get(i).getBlockName().equals(context.getString(R.string.complete_type_complete))){
                 return true;
             }
         }

@@ -170,7 +170,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
                     if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                         Complete complete =  null;
                         try {
-                            complete = completeHelper.getComplete("Complete block");
+                            complete = completeHelper.getComplete(context.getString(R.string.complete_type_complete));
                         }catch (Exception e){
                             //Toast.makeText(context,"error complete"+ e.getMessage(), Toast.LENGTH_LONG).show();
                         }

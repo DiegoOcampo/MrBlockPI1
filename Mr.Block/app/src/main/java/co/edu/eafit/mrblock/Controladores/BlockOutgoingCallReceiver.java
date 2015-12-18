@@ -25,7 +25,7 @@ public class BlockOutgoingCallReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         completeHelper = new CompleteHelper(context);
         contactInHelper = new ContactInHelper(context);
-        callBlock = isSmsBlock(completeHelper);
+        callBlock = isSmsBlock(completeHelper, context);
         blockedContact = false;
         String phonenumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER).replaceAll(" ", "");
         Contact contact = null;
@@ -51,10 +51,10 @@ public class BlockOutgoingCallReceiver extends BroadcastReceiver{
         }
     }
 
-    public boolean isSmsBlock(CompleteHelper completeHelper){
+    public boolean isSmsBlock(CompleteHelper completeHelper, Context context){
         ArrayList<Complete> completes = completeHelper.getAllComplete();
         for(int i=0;i<completes.size();i++){
-            if(completes.get(i).getBlockName().equals("Complete block")){
+            if(completes.get(i).getBlockName().equals(context.getString(R.string.complete_type_complete))){
                 return true;
             }
         }

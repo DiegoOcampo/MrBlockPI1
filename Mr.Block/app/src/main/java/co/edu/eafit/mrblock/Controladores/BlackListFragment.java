@@ -118,7 +118,7 @@ public class BlackListFragment extends Fragment{
             if(!typesBlock.get(i).getType().equals(context.getString(R.string.white_type_white))) {
                 if (typesBlock.get(i).getType().equals(context.getString(R.string.contact_type_contact))) {
                     imageId.add(R.mipmap.ic_contact);
-                } else if (typesBlock.get(i).getType().equals("Complete block")) {
+                } else if (typesBlock.get(i).getType().equals(context.getString(R.string.complete_type_complete))) {
                     imageId.add(R.mipmap.ic_all);
                 } else if (typesBlock.get(i).getType().equals("location")) {
                     imageId.add(R.mipmap.ic_location);
@@ -157,8 +157,8 @@ public class BlackListFragment extends Fragment{
         typeHelper = new TypeHelper(context);
         completeHelper = new CompleteHelper(context);
          try {
-                    Complete complete = new Complete("Complete block", 1, 0, 0, 0, "Complete block");
-                    Type type = new Type("Complete block", "Complete block");
+                    Complete complete = new Complete(context.getString(R.string.complete_type_complete), 1, 0, 0, 0, context.getString(R.string.complete_type_complete));
+                    Type type = new Type(context.getString(R.string.complete_type_complete), context.getString(R.string.complete_type_complete));
                     typeHelper.addType(type);
                     completeHelper.addComplete(complete);
                     Toast.makeText(context, R.string.black_every_contact_was_blocked, Toast.LENGTH_LONG).show();
@@ -186,7 +186,7 @@ public class BlackListFragment extends Fragment{
         }
 
         try{
-            complete = completeHelper.getComplete("Complete block");
+            complete = completeHelper.getComplete(context.getString(R.string.complete_type_complete));
         }catch (Exception e){
 
         }
@@ -226,7 +226,7 @@ public class BlackListFragment extends Fragment{
                     alertName.setMessage(context.getString(R.string.black_type) + con.getType() + "\n" +
                             context.getString(R.string.black_name) + con.getName() + "\n" +
                             context.getString(R.string.black_number) + con.getNumber());
-                } else if (blocktype.equals("Complete block")) {
+                } else if (blocktype.equals(context.getString(R.string.complete_type_complete))) {
                     Complete comp = completeHelper.getComplete(id);
                     alertName.setMessage(context.getString(R.string.black_type) + comp.getType() + "\n" +
                             context.getString(R.string.black_name) + comp.getBlockName());
@@ -249,7 +249,7 @@ public class BlackListFragment extends Fragment{
                         if (type.getType().equals(context.getString(R.string.contact_type_contact))) {
                             Contact contact = contactInHelper.getContact(id);
                             contactInHelper.delete(contact);
-                        } else if (type.getType().equals("Complete block")) {
+                        } else if (type.getType().equals(context.getString(R.string.complete_type_complete))) {
                             completeHelper.delete(id);
                         } else if (type.getType().equals("location")) {
                             Ubicacion ubicacion = ubicationHelper.getUbication(id);

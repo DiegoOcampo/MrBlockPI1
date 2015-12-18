@@ -95,5 +95,6 @@
     <string name="date_type_date">fecha</string>
     <string name="white_type_white">lista blanca</string>
     <string name="contact_type_contact">lista negra</string>
+    <string name="complete_type_complete">Bloqueo completo</string>
 
 </resources>
