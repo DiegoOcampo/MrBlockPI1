@@ -11,6 +11,7 @@ import co.edu.eafit.mrblock.Entidades.Complete;
 import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Helper.CompleteHelper;
 import co.edu.eafit.mrblock.Helper.ContactInHelper;
+import co.edu.eafit.mrblock.R;
 
 /**
  * Created by juan on 22/09/15.
@@ -38,12 +39,12 @@ public class BlockOutgoingCallReceiver extends BroadcastReceiver{
                 if(contact == null){
                     String number = phonenumber + "0";
                     setResultData(number);
-                }else if(contact != null && !contact.getType().equals("white contact")) {
+                }else if(contact != null && !contact.getType().equals(context.getString(R.string.white_type_white))) {
                     String number = phonenumber + "0";
                     setResultData(number);
                 }
             }
-            if(contact != null && !contact.getType().equals("white contact")){
+            if(contact != null && !contact.getType().equals(context.getString(R.string.white_type_white))){
                 String number = phonenumber + "0";
                 setResultData(number);
             }

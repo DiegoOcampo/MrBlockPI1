@@ -53,7 +53,7 @@ public class ContactInHelper  {
     }
 
     public ArrayList<Contact> getWhiteContacts(){
-        String type = "white contact";
+        String type = "white list";
         ArrayList<Contact> block= new ArrayList<Contact>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(Contract.ContactInContract.TABLE_NAME,new String[]{

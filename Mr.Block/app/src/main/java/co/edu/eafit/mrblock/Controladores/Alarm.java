@@ -264,21 +264,6 @@ public class Alarm extends AppCompatActivity {
 
         buttonDate2.setEnabled(true);
         buttonTime2.setEnabled(false);
-        setAlarm(targetCal);
-        /*Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getBaseContext(), 1 , intent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),
-                pendingIntent);
-
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),10,
-                pendingIntent);
-          alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                  SystemClock.elapsedRealtime() +
-                          60 * 1000, pendingIntent);*/
     }
 
     private void setDate2(Calendar targetCal) {
@@ -310,52 +295,6 @@ public class Alarm extends AppCompatActivity {
         }
 
 
-
-
-        // user BoD suggests using Intent.ACTION_PICK instead of .ACTION_GET_CONTENT to avoid the chooser
-        //Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        // BoD con't: CONTENT_TYPE instead of CONTENT_ITEM_TYPE
-        //intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-        //startActivityForResult(intent, 1);
-        /*Date dates = new Date();
-        dates.setYear(dateTime.getYear() - 1900);
-        dates.setMonth(dateTime.getMonth());
-        dates.setDate(dateTime.getDay());
-        dates.setHours(dateTime.getHour());
-        dates.setMinutes(dateTime.getMinute());
-        dates.setSeconds(dateTime.getSecond());
-        Date dates1 = new Date();
-        Toast.makeText(getApplicationContext(),"entrada: "+dates.toString(),Toast.LENGTH_LONG).show();
-        Toast.makeText(getApplicationContext(),"actual: "+dates1.toString(),Toast.LENGTH_LONG).show();
-        if (dates1.before(dates)){
-            Toast.makeText(getApplicationContext(),"estoy antes",Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(getApplicationContext(),"estoy despues",Toast.LENGTH_LONG).show();
-        }*/
-        /*Calendar calendar1 = Calendar.getInstance();
-         try {
-            calendar1.set(Calendar.YEAR, year2-1900);
-
-            calendar1.set(Calendar.MONTH, monthOfaYear2);
-            calendar1.set(Calendar.DAY_OF_MONTH, dayOfMonth2);
-            calendar1.set(Calendar.HOUR_OF_DAY, hourOfDay2);
-            calendar1.set(Calendar.MINUTE, minute2);
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        calendar1.set(Calendar.SECOND,0);
-        Toast.makeText(getBaseContext(),"cal "+calendar1.toString(),Toast.LENGTH_LONG).show();
-        Intent intent1 = new Intent(getBaseContext(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getBaseContext(), 0, intent1, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(),
-                pendingIntent);*/
-
-
-
-
-
     }
     public void openAlert(){
 
@@ -373,7 +312,6 @@ public class Alarm extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), R.string.date_invalid_name, Toast.LENGTH_LONG).show();
                         } else {
                             addDateTime(dateName);
-//                            Toast.makeText(getApplicationContext(),dateHelper.getDate(dateName).getDateName()+"hi",Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -394,7 +332,7 @@ public class Alarm extends AppCompatActivity {
     public DateTime addDateTime(String dateName){
         Toast.makeText(getApplicationContext(), getString(R.string.date_added) + dateName, Toast.LENGTH_LONG).show();
         DateTime dateTime = new DateTime(dateName, year1, monthOfaYear1, dayOfMonth1, hourOfDay1, minute1, 0,
-                year2, monthOfaYear2, dayOfMonth2, hourOfDay2, minute2, 0,"date");
+                year2, monthOfaYear2, dayOfMonth2, hourOfDay2, minute2, 0,getString(R.string.date_type_date));
         Type type = new Type(dateTime.getDateName(),dateTime.getType());
         dateHelper.addDate(dateTime);
         typeHelper.addType(type);
@@ -404,19 +342,6 @@ public class Alarm extends AppCompatActivity {
         return dateTime;
     }
 
-    private void setAlarm(Calendar targetCal) {
-
-        //textAlarmPrompt.setText("\n\n***\n" + "Alarm is set "
-        //        + targetCal.getTime() + "\n" + "***\n");
-
-        //Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
-        //PendingIntent pendingIntent = PendingIntent.getBroadcast(
-        //        getBaseContext(), 1, intent, 0);
-        //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        //alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),
-        //        pendingIntent);
-
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

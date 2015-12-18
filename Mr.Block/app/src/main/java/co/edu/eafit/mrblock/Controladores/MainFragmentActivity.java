@@ -174,7 +174,7 @@ public class MainFragmentActivity extends AppCompatActivity {
                             isWhiteList = false;
                         }else{
                             WhiteListFragment whiteListFragment = new WhiteListFragment();
-                            Contact contact = whiteListFragment.addContactToFragment(number, name, "white contact", getApplicationContext());
+                            Contact contact = whiteListFragment.addContactToFragment(number, name, getString(R.string.white_type_white), getApplicationContext());
                             finish();
                             Intent intent = new Intent(getApplicationContext(), MainFragmentActivity.class);
                             startActivity(intent);

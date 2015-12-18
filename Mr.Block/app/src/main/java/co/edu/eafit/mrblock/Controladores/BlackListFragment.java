@@ -107,24 +107,15 @@ public class BlackListFragment extends Fragment{
         typesBlock = typeHelper.getAllTypes();
         if(typesBlockString.size()==0) {
             for (int i = 0; i < typesBlock.size(); i++) {
-                if(!typesBlock.get(i).getType().equals("white contact")) {
+                if(!typesBlock.get(i).getType().equals(context.getString(R.string.white_type_white))) {
                     typesBlockString.add(typesBlock.get(i).getType() + ": " + typesBlock.get(i).getId());
                     typesBlockShow.add(typesBlock.get(i));
-                    /*if(typesBlock.get(i).getType().equals("contact")){
-                        imageId.add(R.mipmap.ic_contact);
-                    }else if(typesBlock.get(i).getType().equals("Complete block")){
-                        imageId.add(R.mipmap.ic_all);
-                    }else if(typesBlock.get(i).getType().equals("location")){
-                        imageId.add(R.mipmap.ic_location);
-                    }else{
-                        imageId.add(R.mipmap.ic_date);
-                    }*/
                 }
             }
         }
 
         for(int i = 0; i < typesBlock.size(); i++){
-            if(!typesBlock.get(i).getType().equals("white contact")) {
+            if(!typesBlock.get(i).getType().equals(context.getString(R.string.white_type_white))) {
                 if (typesBlock.get(i).getType().equals("contact")) {
                     imageId.add(R.mipmap.ic_contact);
                 } else if (typesBlock.get(i).getType().equals("Complete block")) {
@@ -280,15 +271,10 @@ public class BlackListFragment extends Fragment{
                         adapter1.notifyDataSetChanged();
 
                         Toast.makeText(context, R.string.deleted, Toast.LENGTH_LONG).show();
-                        //Intent intent = new Intent(getContext(), MainFragmentActivity.class);
-                        //startActivity(intent);
                     }
                 });
                 alertName.show();
 
-       // }catch (Exception e){
-        //    Toast.makeText(context,"error: " + e.getMessage(),Toast.LENGTH_LONG).show();
-        //}
 
     }
 

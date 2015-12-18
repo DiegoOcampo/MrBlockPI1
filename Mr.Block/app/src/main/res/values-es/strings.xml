@@ -92,5 +92,7 @@
     <string name="white_type">"Tipo: "</string>
     <string name="white_name">"Nombre: "</string>
     <string name="white_number">"Numero: "</string>
+    <string name="date_type_date">fecha</string>
+    <string name="white_type_white">lista blanca</string>
 
 </resources>
