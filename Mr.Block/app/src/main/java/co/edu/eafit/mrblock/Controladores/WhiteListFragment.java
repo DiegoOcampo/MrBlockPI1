@@ -56,7 +56,7 @@ public class WhiteListFragment extends Fragment {
         contactInHelper = new ContactInHelper(context);
         typeHelper = new TypeHelper(context);
         //whiteArrayContacts = contactInHelper.getAllContact();
-        whiteContacts = contactInHelper.getWhiteContacts();
+        whiteContacts = contactInHelper.getWhiteContacts(getString(R.string.white_type_white));
         if(whiteArrayString.size()==0) {
             for (int i = 0; i < whiteContacts.size(); i++) {
                 whiteArrayString.add(whiteContacts.get(i).getContact());

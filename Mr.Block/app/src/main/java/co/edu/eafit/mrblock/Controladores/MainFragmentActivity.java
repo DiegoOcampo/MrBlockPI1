@@ -167,7 +167,7 @@ public class MainFragmentActivity extends AppCompatActivity {
                         String number = c.getString(1).replaceAll(" ", "");
                         if(!isWhiteList) {
                             BlackListFragment blackListFragment = new BlackListFragment();
-                            Contact contact = blackListFragment.addContactToFragment(number, name, "contact", getApplicationContext());
+                            Contact contact = blackListFragment.addContactToFragment(number, name, getString(R.string.contact_type_contact), getApplicationContext());
                             finish();
                             Intent intent = new Intent(getApplicationContext(), MainFragmentActivity.class);
                             startActivity(intent);

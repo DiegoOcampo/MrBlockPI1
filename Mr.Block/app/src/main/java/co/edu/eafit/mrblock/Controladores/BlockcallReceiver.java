@@ -185,7 +185,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
                             if (contact!=null && contact.getType().equals(context.getString(R.string.white_type_white))){
 
                             }else {
-                                Call call = new Call(incomingNumber, "contact", "call");
+                                Call call = new Call(incomingNumber, context.getString(R.string.contact_type_contact), "call");
                                 callInHelper.addCall(call);
                                 Block(context);
                             }

@@ -94,5 +94,6 @@
     <string name="white_number">"number: "</string>
     <string name="date_type_date">date</string>
     <string name="white_type_white">white list</string>
+    <string name="contact_type_contact">black list</string>
 
 </resources>

@@ -116,7 +116,7 @@ public class BlackListFragment extends Fragment{
 
         for(int i = 0; i < typesBlock.size(); i++){
             if(!typesBlock.get(i).getType().equals(context.getString(R.string.white_type_white))) {
-                if (typesBlock.get(i).getType().equals("contact")) {
+                if (typesBlock.get(i).getType().equals(context.getString(R.string.contact_type_contact))) {
                     imageId.add(R.mipmap.ic_contact);
                 } else if (typesBlock.get(i).getType().equals("Complete block")) {
                     imageId.add(R.mipmap.ic_all);
@@ -221,7 +221,7 @@ public class BlackListFragment extends Fragment{
         final String blocktype = type.getType();
                 final AlertDialog.Builder alertName = new AlertDialog.Builder(context);
                 alertName.setTitle(R.string.black_details);
-                if (blocktype.equals("contact")) {
+                if (blocktype.equals(context.getString(R.string.contact_type_contact))) {
                     Contact con = contactInHelper.getContact(id);
                     alertName.setMessage(context.getString(R.string.black_type) + con.getType() + "\n" +
                             context.getString(R.string.black_name) + con.getName() + "\n" +
@@ -246,7 +246,7 @@ public class BlackListFragment extends Fragment{
                 alertName.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        if (type.getType().equals("contact")) {
+                        if (type.getType().equals(context.getString(R.string.contact_type_contact))) {
                             Contact contact = contactInHelper.getContact(id);
                             contactInHelper.delete(contact);
                         } else if (type.getType().equals("Complete block")) {
