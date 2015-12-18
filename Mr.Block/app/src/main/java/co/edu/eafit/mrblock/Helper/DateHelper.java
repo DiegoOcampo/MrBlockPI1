@@ -109,18 +109,4 @@ public class DateHelper {
             return -1;
         }
     }
-
-    /*public long delete(DateTime dateTime){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        try {
-            return db.delete(Contract.DateContract.TABLE_NAME, Contract.DateContract.COLUMN_DATENAME + "  =?",
-                    new String[]{dateTime.getDateName()});
-            //db.close();
-        }catch (Exception e){
-            Log.e("DB ERROR", e.toString());
-            e.printStackTrace();
-            return -1;
-        }
-    }*/
 }

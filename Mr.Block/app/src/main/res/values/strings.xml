@@ -48,7 +48,7 @@
     <string name="m_200">200 Meters</string>
     <string name="m_150">150 Meters</string>
     <string name="m_100">100 Meters</string>
-    <string name="m_50"> 50 Meters</string>
+    <string name="m_50"> 50  Meters</string>
     <string name="confirm">Confirm</string>
     <string name="black_empty">The black list is empty</string>
     <string name="incoming_empty">The incoming list is empty</string>
