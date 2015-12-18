@@ -120,7 +120,7 @@ public class BlackListFragment extends Fragment{
                     imageId.add(R.mipmap.ic_contact);
                 } else if (typesBlock.get(i).getType().equals(context.getString(R.string.complete_type_complete))) {
                     imageId.add(R.mipmap.ic_all);
-                } else if (typesBlock.get(i).getType().equals("location")) {
+                } else if (typesBlock.get(i).getType().equals(context.getString(R.string.location_type_location))) {
                     imageId.add(R.mipmap.ic_location);
                 } else {
                     imageId.add(R.mipmap.ic_date);
@@ -230,7 +230,7 @@ public class BlackListFragment extends Fragment{
                     Complete comp = completeHelper.getComplete(id);
                     alertName.setMessage(context.getString(R.string.black_type) + comp.getType() + "\n" +
                             context.getString(R.string.black_name) + comp.getBlockName());
-                } else if(blocktype.equals("location")) {
+                } else if(blocktype.equals(context.getString(R.string.location_type_location))) {
                     Ubicacion ubicacion = ubicationHelper.getUbication(id);
                     alertName.setMessage(context.getString(R.string.black_name) + ubicacion.getName() + "\n" +
                             context.getString(R.string.black_radius) + ubicacion.getRadio());
@@ -251,11 +251,11 @@ public class BlackListFragment extends Fragment{
                             contactInHelper.delete(contact);
                         } else if (type.getType().equals(context.getString(R.string.complete_type_complete))) {
                             completeHelper.delete(id);
-                        } else if (type.getType().equals("location")) {
+                        } else if (type.getType().equals(context.getString(R.string.location_type_location))) {
                             Ubicacion ubicacion = ubicationHelper.getUbication(id);
                             ubicationHelper.delete(ubicacion);
                             transitionInHelper.deleteAll();
-                            TransitionBlock transition = new TransitionBlock("location", 0);
+                            TransitionBlock transition = new TransitionBlock(context.getString(R.string.location_type_location), 0);
                             transitionInHelper.addTransition(transition);
                         } else {
                             DateTime dateTime = dateHelper.getDate(id);

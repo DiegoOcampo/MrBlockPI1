@@ -289,7 +289,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
             ubicacion.setLatlng(ubiclatlng);
             ubicacion.setRadio(radius);
             ubicationHelper.addUbication(ubicacion);
-            Type type = new Type(nombre, "location");
+            Type type = new Type(nombre, getString(R.string.location_type_location));
             typeHelper.addType(type);
 
         }

@@ -55,20 +55,20 @@ public class BlockcallReceiver extends BroadcastReceiver {
             Log.wtf(TAG, "Into a Geofence");
             int block = 1;
             transitionInHelper.deleteAll();
-            TransitionBlock Transition = new TransitionBlock("location",block);
+            TransitionBlock Transition = new TransitionBlock(context.getString(R.string.location_type_location),block);
             transitionInHelper.addTransition(Transition);
             blocked = true;
         }else if (intent.getAction().equals(GeofenceTransitionsIntentService.Transition_Exited)){
             Log.wtf(TAG,"Out of a Geofence");
             int block = 0;
             transitionInHelper.deleteAll();
-            TransitionBlock Transition = new TransitionBlock("location", block);
+            TransitionBlock Transition = new TransitionBlock(context.getString(R.string.location_type_location), block);
             transitionInHelper.addTransition(Transition);
             blocked = false;
         }
 
         try {
-            String typeblock = "location";
+            String typeblock = context.getString(R.string.location_type_location);
             TransitionBlock Transitionblock = transitionInHelper.getTransitionBlocked(typeblock);
             if(Transitionblock!=null && Transitionblock.getBlock() == 1) {
 
@@ -87,7 +87,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
                             if (contact!=null && contact.getType().equals(context.getString(R.string.white_type_white))){
 
                             }else {
-                                Call call = new Call(incomingNumber, "location", "call");
+                                Call call = new Call(incomingNumber, context.getString(R.string.location_type_location), "call");
                                 callInHelper.addCall(call);
                                 Block(context);
                             }

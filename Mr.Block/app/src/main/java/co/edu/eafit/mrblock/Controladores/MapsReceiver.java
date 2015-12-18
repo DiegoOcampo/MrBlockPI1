@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import co.edu.eafit.mrblock.Entidades.Contact;
 import co.edu.eafit.mrblock.Entidades.TransitionBlock;
 import co.edu.eafit.mrblock.Helper.TransitionInHelper;
+import co.edu.eafit.mrblock.R;
 
 /**
  * Created by juan on 12/11/15.
@@ -28,19 +29,19 @@ public class MapsReceiver extends BroadcastReceiver {
             Log.wtf(TAG,"Into a Geofence");
             int block = 1;
             transitionInHelper.deleteAll();
-            TransitionBlock Transition = new TransitionBlock("location",block);
+            TransitionBlock Transition = new TransitionBlock(context.getString(R.string.location_type_location),block);
             transitionInHelper.addTransition(Transition);
             blocked = true;
         }else if (intent.getAction().equals(GeofenceTransitionsIntentService.Transition_Exited)){
             Log.wtf(TAG,"Out of a Geofence");
             int block = 0;
             transitionInHelper.deleteAll();
-            TransitionBlock Transition = new TransitionBlock("location", block);
+            TransitionBlock Transition = new TransitionBlock(context.getString(R.string.location_type_location), block);
             transitionInHelper.addTransition(Transition);
             blocked = false;
         }
         try {
-        String typeblock = "location";
+        String typeblock = context.getString(R.string.location_type_location);
         TransitionBlock Transitionblock = transitionInHelper.getTransitionBlocked(typeblock);
         if(Transitionblock!=null && Transitionblock.getBlock() == 1) {
 

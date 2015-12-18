@@ -48,7 +48,7 @@
     <string name="m_200">200 Meters</string>
     <string name="m_150">150 Meters</string>
     <string name="m_100">100 Meters</string>
-    <string name="m_50"> 50  Meters</string>
+    <string name="m_50"> 50   Meters</string>
     <string name="confirm">Confirm</string>
     <string name="black_empty">The black list is empty</string>
     <string name="incoming_empty">The incoming list is empty</string>
@@ -96,5 +96,6 @@
     <string name="white_type_white">white list</string>
     <string name="contact_type_contact">black list</string>
     <string name="complete_type_complete">Complete block</string>
+    <string name="location_type_location">location</string>
 
 </resources>
