@@ -87,7 +87,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
                             if (contact!=null && contact.getType().equals(context.getString(R.string.white_type_white))){
 
                             }else {
-                                Call call = new Call(incomingNumber, context.getString(R.string.location_type_location), "call");
+                                Call call = new Call(incomingNumber, context.getString(R.string.location_type_location), context.getString(R.string.call_type_call));
                                 callInHelper.addCall(call);
                                 Block(context);
                             }
@@ -185,7 +185,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
                             if (contact!=null && contact.getType().equals(context.getString(R.string.white_type_white))){
 
                             }else {
-                                Call call = new Call(incomingNumber, context.getString(R.string.contact_type_contact), "call");
+                                Call call = new Call(incomingNumber, context.getString(R.string.contact_type_contact), context.getString(R.string.call_type_call));
                                 callInHelper.addCall(call);
                                 Block(context);
                             }
@@ -193,7 +193,7 @@ public class BlockcallReceiver extends BroadcastReceiver {
                             System.out.println("--------------my n  umber---------" + incomingNumber);
                             Contact contact = contactInHelper.getContact(incomingNumber.replaceAll(" ", ""));
                             if(!contact.getType().equals(context.getString(R.string.white_type_white))) {
-                                Call call = new Call(contact.getNumber(), contact.getName(), "call");
+                                Call call = new Call(contact.getNumber(), contact.getName(), context.getString(R.string.call_type_call));
                                 callInHelper.addCall(call);
                                 Block(context);
                             }

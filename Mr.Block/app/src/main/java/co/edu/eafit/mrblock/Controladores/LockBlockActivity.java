@@ -65,9 +65,7 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
         setContentView(R.layout.activity_config_locblock);
         toolbar = (Toolbar) findViewById(R.id.toolbarmaps);
         setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mGeofencePendingIntent = null;
         buildGoogleApiClient();
 
@@ -337,8 +335,9 @@ public class LockBlockActivity extends AppCompatActivity implements GoogleApiCli
             startActivity(intent);
             return true;
         }
-
         return super.onKeyDown(keyCode, event);
     }
+
+
 }
 

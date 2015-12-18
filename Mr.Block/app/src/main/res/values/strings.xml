@@ -89,13 +89,14 @@
     <string name="white_contact_added">Contact added: \n</string>
     <string name="white_contact_already">Contact already exists</string>
     <string name="white_details">Details</string>
-    <string name="white_type">"type: "</string>
-    <string name="white_name">"name: "</string>
-    <string name="white_number">"number: "</string>
+    <string name="white_type">"Type: "</string>
+    <string name="white_name">"Name: "</string>
+    <string name="white_number">"Number: "</string>
     <string name="date_type_date">date</string>
     <string name="white_type_white">white list</string>
     <string name="contact_type_contact">black list</string>
     <string name="complete_type_complete">Complete block</string>
     <string name="location_type_location">location</string>
+    <string name="call_type_call">call</string>
 
 </resources>
